@@ -149,8 +149,8 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
               >
               <span class="material-symbols-outlined">dashboard</span>
             </div>
-            <button
-              type="button"
+            <a
+              href="/Admin/ManageProduct/ManageProducts.aspx"
               class="w-full flex justify-between items-center p-6 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
               <span class="font-bold uppercase tracking-widest text-sm"
@@ -160,7 +160,7 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
                 class="material-symbols-outlined group-hover:translate-x-2 transition-transform"
                 >arrow_forward</span
               >
-            </button>
+            </a>
             <button
               type="button"
               class="w-full flex justify-between items-center p-6 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"

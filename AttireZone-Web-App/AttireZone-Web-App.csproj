@@ -102,8 +102,11 @@
     <Content Include="About.aspx" />
     <Content Include="Admin\AdminLogin.aspx" />
     <Content Include="Admin\Dashboard.aspx" />
+    <Content Include="Admin\ManageProduct\AddProductModal.aspx" />
+    <Content Include="Admin\ManageProduct\ManageProducts.aspx" />
     <Content Include="Assets\CSS\auth-register.css" />
     <Content Include="Assets\CSS\authentication.css" />
+    <Content Include="App_Data\Categories_Setup.sql" />
     <Content Include="App_Data\Database_Setup.sql" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\tailwind-config.css" />
@@ -176,6 +179,20 @@
     <Compile Include="Admin\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageProduct\AddProductModal.aspx.cs">
+      <DependentUpon>AddProductModal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageProduct\AddProductModal.aspx.designer.cs">
+      <DependentUpon>AddProductModal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageProduct\ManageProducts.aspx.cs">
+      <DependentUpon>ManageProducts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageProduct\ManageProducts.aspx.designer.cs">
+      <DependentUpon>ManageProducts.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -185,6 +202,8 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BusinessLogic\CategoryService.cs" />
+    <Compile Include="BusinessLogic\ProductService.cs" />
     <Compile Include="BusinessLogic\UserService.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -233,6 +252,8 @@
     <Compile Include="Auth\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Navbar.aspx.cs">
       <DependentUpon>Navbar.aspx</DependentUpon>
