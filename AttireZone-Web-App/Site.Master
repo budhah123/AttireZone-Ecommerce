@@ -1,0 +1,225 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AttireZone_Web_App.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: string.IsNullOrWhiteSpace(Page.Title) ? "AttireZone" : Page.Title %></title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS (Stitch tokens) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script type="text/javascript" id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#241a00",
+                        "surface": "#131313",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "background": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#6f88ad",
+                        "inverse-primary": "#476083",
+                        "on-secondary-container": "#342800",
+                        "primary": "#afc8f0",
+                        "surface-container-low": "#1b1b1b",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-background": "#e2e2e2",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary": "#c6c6c7",
+                        "on-surface-variant": "#c4c6cf",
+                        "primary-container": "#001f3f",
+                        "on-secondary": "#3c2f00",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#afc8f0",
+                        "outline": "#8e9198",
+                        "secondary": "#e9c349",
+                        "secondary-container": "#af8d11",
+                        "on-surface": "#e2e2e2",
+                        "tertiary-container": "#1d1f1f",
+                        "outline-variant": "#43474e",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#303030",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#353535",
+                        "surface-container": "#1f1f1f",
+                        "inverse-surface": "#e2e2e2",
+                        "on-primary": "#163152",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-dim": "#131313",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-variant": "#353535",
+                        "secondary-fixed": "#ffe088",
+                        "primary-fixed": "#d4e3ff",
+                        "on-secondary-fixed-variant": "#574500",
+                        "secondary-fixed-dim": "#e9c349",
+                        "surface-bright": "#393939",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#858687",
+                        "on-tertiary": "#2f3131"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+
+    <style type="text/css">
+        html {
+            font-size: 85%;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            line-height: 1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #131313;
+        }
+
+        #az-snackbar-host { pointer-events: none; }
+        #az-snackbar {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.98);
+            transition: opacity 220ms cubic-bezier(0.2, 0.9, 0.2, 1), transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+            will-change: opacity, transform;
+        }
+        #az-snackbar[data-state="shown"] {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+    </style>
+
+    <!-- Additional Styles for Child Pages (comes FIRST so child styles can override) -->
+    <asp:ContentPlaceHolder ID="StylesPlaceholder" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary">
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div id="az-snackbar-host" class="fixed top-6 right-6 z-[9999]">
+            <div id="az-snackbar" data-state="hidden" role="status" aria-live="polite"
+                class="pointer-events-auto w-[min(420px,calc(100vw-3rem))] rounded-xl border border-white/10 bg-[#141414]/90 text-[#f5f0e8] shadow-2xl shadow-black/40 backdrop-blur px-4 py-3">
+                <div class="flex items-start gap-3">
+                    <div id="az-snackbar-accent" class="mt-1 h-2.5 w-2.5 rounded-full bg-[#e9c349]"></div>
+                    <div class="min-w-0 flex-1">
+                        <div id="az-snackbar-title" class="text-xs uppercase tracking-[0.18em] text-white/70"></div>
+                        <div id="az-snackbar-message" class="text-sm font-medium leading-5 break-words"></div>
+                    </div>
+                    <button type="button" id="az-snackbar-close" class="text-white/60 hover:text-white transition-colors px-2 -mr-2" aria-label="Close notification">×</button>
+                </div>
+            </div>
+        </div>
+
+        <% Server.Execute("~/Navbar.aspx"); %>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <% Server.Execute("~/Footer.aspx"); %>
+    </form>
+
+    <script type="text/javascript">
+        (function () {
+            var snackbar = document.getElementById('az-snackbar');
+            if (!snackbar) return;
+
+            var titleEl = document.getElementById('az-snackbar-title');
+            var msgEl = document.getElementById('az-snackbar-message');
+            var accentEl = document.getElementById('az-snackbar-accent');
+            var closeBtn = document.getElementById('az-snackbar-close');
+
+            var hideTimer = null;
+
+            function setVariant(variant) {
+                var color = '#e9c349';
+                if (variant === 'success') color = '#22c55e';
+                else if (variant === 'error') color = '#ef4444';
+                else if (variant === 'info') color = '#60a5fa';
+
+                if (accentEl) accentEl.style.backgroundColor = color;
+            }
+
+            function hide() {
+                snackbar.setAttribute('data-state', 'hidden');
+            }
+
+            function show(message, variant, options) {
+                options = options || {};
+                var timeout = typeof options.timeout === 'number' ? options.timeout : 3500;
+                var title = options.title || '';
+
+                if (hideTimer) window.clearTimeout(hideTimer);
+
+                if (titleEl) titleEl.textContent = title;
+                if (msgEl) msgEl.textContent = message || '';
+                setVariant(variant || 'default');
+
+                snackbar.setAttribute('data-state', 'shown');
+
+                if (timeout > 0) {
+                    hideTimer = window.setTimeout(hide, timeout);
+                }
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    if (hideTimer) window.clearTimeout(hideTimer);
+                    hide();
+                });
+            }
+
+            window.azSnackbar = window.azSnackbar || {};
+            window.azSnackbar.show = show;
+            window.azSnackbar.hide = hide;
+        })();
+    </script>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+    </asp:PlaceHolder>
+</body>
+</html>

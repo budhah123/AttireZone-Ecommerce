@@ -1,0 +1,107 @@
+/*
+ * AttireZone Stitch-to-WebForms shared styling
+ * Targets Login, Sign Up, and Order History pages.
+ */
+
+:root {
+  --az-surface: #131313;
+  --az-secondary: #e9c349;
+  --az-secondary-container: #af8d11;
+  --az-outline-variant: #43474e;
+}
+
+.body-content {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.az-editorial-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--az-secondary) 0%,
+    var(--az-secondary-container) 100%
+  );
+}
+
+.az-auth-login-shell {
+  min-height: calc(100vh - 220px);
+}
+
+.az-auth-register-shell {
+  min-height: calc(100vh - 220px);
+}
+
+.az-auth-register-form input:focus {
+  outline: none;
+  border-color: var(--az-secondary) !important;
+  box-shadow: none !important;
+}
+
+.az-order-shell {
+  min-height: calc(100vh - 220px);
+}
+
+.az-order-gridview {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.az-order-gridview > tbody > tr > td {
+  border: 0;
+  padding: 0;
+}
+
+.az-order-row {
+  border-top: 1px solid rgba(67, 71, 78, 0.2);
+  padding-top: 2rem;
+}
+
+.az-order-action-link {
+  background: transparent;
+  border: 0;
+  color: #c4c6cf;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
+  text-transform: uppercase;
+}
+
+.az-order-action-link:hover {
+  color: #e9c349;
+}
+
+.az-order-load-more {
+  background: transparent;
+  border: 0;
+  color: #c4c6cf;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.az-order-load-more:hover {
+  color: #e2e2e2;
+}
+
+@media (max-width: 1024px) {
+  .az-auth-login-shell,
+  .az-auth-register-shell,
+  .az-order-shell {
+    min-height: calc(100vh - 180px);
+  }
+}
+
+@media (max-width: 768px) {
+  .az-auth-login-shell,
+  .az-auth-register-shell,
+  .az-order-shell {
+    min-height: auto;
+  }
+}
