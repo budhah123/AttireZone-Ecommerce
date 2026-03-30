@@ -140,12 +140,33 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
             Management
           </h2>
           <div class="space-y-4">
+            <div
+              class="w-full flex justify-between items-center p-6 border border-secondary/40 bg-secondary text-on-secondary"
+              aria-current="page"
+            >
+              <span class="font-bold uppercase tracking-widest text-sm"
+                >Dashboard</span
+              >
+              <span class="material-symbols-outlined">dashboard</span>
+            </div>
             <button
               type="button"
               class="w-full flex justify-between items-center p-6 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
               <span class="font-bold uppercase tracking-widest text-sm"
                 >Manage Products</span
+              >
+              <span
+                class="material-symbols-outlined group-hover:translate-x-2 transition-transform"
+                >arrow_forward</span
+              >
+            </button>
+            <button
+              type="button"
+              class="w-full flex justify-between items-center p-6 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
+            >
+              <span class="font-bold uppercase tracking-widest text-sm"
+                >Manage Users</span
               >
               <span
                 class="material-symbols-outlined group-hover:translate-x-2 transition-transform"

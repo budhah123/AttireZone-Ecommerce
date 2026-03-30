@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="Admin\AdminLogin.aspx" />
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Assets\CSS\auth-register.css" />
     <Content Include="Assets\CSS\authentication.css" />
@@ -161,6 +162,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\AdminLogin.aspx.cs">
+      <DependentUpon>AdminLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminLogin.aspx.designer.cs">
+      <DependentUpon>AdminLogin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -264,9 +272,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\CSS\" />
     <Folder Include="Assets\JS\" />
-    <Folder Include="Auth\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

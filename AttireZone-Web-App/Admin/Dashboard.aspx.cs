@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using System.Web.UI;
 using AttireZone_Web_App.DataAccess;
+using AttireZone_Web_App.Models;
 
 namespace AttireZone_Web_App.Admin
 {
@@ -12,11 +14,38 @@ namespace AttireZone_Web_App.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!HasAdminAccess())
+            {
+                RedirectToAdminLogin();
+                return;
+            }
 
             if (!IsPostBack)
             {
                 LoadDashboard();
             }
+        }
+
+        private bool HasAdminAccess()
+        {
+            var adminRole = Convert.ToString(Session["AdminRole"]);
+            if (!string.IsNullOrEmpty(adminRole) &&
+                adminRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            var currentUser = Session["CurrentUser"] as User;
+            return currentUser != null &&
+                   !string.IsNullOrEmpty(currentUser.Role) &&
+                   currentUser.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void RedirectToAdminLogin()
+        {
+            var returnUrl = HttpUtility.UrlEncode(Request.RawUrl ?? "/Admin/Dashboard.aspx");
+            Response.Redirect("~/Admin/AdminLogin.aspx?returnUrl=" + returnUrl, false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         private sealed class RecentOrderVm
