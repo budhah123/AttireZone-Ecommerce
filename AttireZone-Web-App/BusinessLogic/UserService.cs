@@ -51,8 +51,8 @@ namespace AttireZone_Web_App.BusinessLogic
                 string hashedPassword = HashPassword(password);
 
                 const string sql = @"
-            INSERT INTO dbo.Users (FullName, Email, Password, CreatedDate, LastModifiedDate)
-            VALUES (@FullName, @Email, @Password, @CreatedDate, @LastModifiedDate)
+            INSERT INTO dbo.Users (FullName, Email, Password, CreatedDate, LastModifiedDate, Role)
+            VALUES (@FullName, @Email, @Password, @CreatedDate, @LastModifiedDate, @Role)
         ";
 
                 SqlParameter[] parameters = new SqlParameter[]
@@ -61,7 +61,8 @@ namespace AttireZone_Web_App.BusinessLogic
             new SqlParameter("@Email", SqlDbType.NVarChar, 150) { Value = email },
             new SqlParameter("@Password", SqlDbType.NVarChar, 256) { Value = hashedPassword },
             new SqlParameter("@CreatedDate", SqlDbType.DateTime) { Value = DateTime.Now },
-            new SqlParameter("@LastModifiedDate", SqlDbType.DateTime) { Value = DateTime.Now }
+            new SqlParameter("@LastModifiedDate", SqlDbType.DateTime) { Value = DateTime.Now },
+            new SqlParameter("@Role", SqlDbType.NVarChar, 20) { Value = "Customer" }
                 };
 
                 int result = DBHelper.ExecuteNonQuery(sql, parameters);
@@ -114,7 +115,7 @@ namespace AttireZone_Web_App.BusinessLogic
                 }
 
                 // Get user from database
-                const string sql = "SELECT UserId, FullName, Email, Password AS PasswordValue, CreatedDate, LastModifiedDate FROM dbo.Users WHERE Email = @Email";
+                const string sql = "SELECT UserId, FullName, Email, Password AS PasswordValue, Role, CreatedDate, LastModifiedDate FROM dbo.Users WHERE Email = @Email";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
@@ -143,6 +144,7 @@ namespace AttireZone_Web_App.BusinessLogic
                     UserId = Convert.ToInt32(row["UserId"]),
                     FullName = row["FullName"].ToString(),
                     Email = row["Email"].ToString(),
+                    Role = row["Role"] == DBNull.Value ? "Customer" : row["Role"].ToString(),
                     CreatedDate = Convert.ToDateTime(row["CreatedDate"]),
                     LastModifiedDate = Convert.ToDateTime(row["LastModifiedDate"])
                 };
@@ -235,16 +237,16 @@ namespace AttireZone_Web_App.BusinessLogic
                 }
 
                 // Verify all required columns exist
-                const string columnCheckSql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Users' AND TABLE_SCHEMA = 'dbo' AND COLUMN_NAME IN ('UserId', 'FullName', 'Email', 'Password', 'CreatedDate', 'LastModifiedDate')";
+                const string columnCheckSql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Users' AND TABLE_SCHEMA = 'dbo' AND COLUMN_NAME IN ('UserId', 'FullName', 'Email', 'Password', 'CreatedDate', 'LastModifiedDate', 'Role')";
                 object columnResult = DBHelper.ExecuteScalar(columnCheckSql);
                 int columnCount = Convert.ToInt32(columnResult ?? 0);
                 
-                if (columnCount < 6)
+                if (columnCount < 7)
                 {
                     return new RegistrationResult
                     {
                         IsSuccess = false,
-                        Message = $"ERROR: Users table missing required columns (found {columnCount}/6)."
+                        Message = $"ERROR: Users table missing required columns (found {columnCount}/7)."
                     };
                 }
 

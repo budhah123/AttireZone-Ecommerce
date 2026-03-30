@@ -87,11 +87,9 @@ Inherits="AttireZone_Web_App.Admin.AdminLogin" %>
     </script>
     <style>
       .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 200,
-          "GRAD" 0,
-          "opsz" 24;
+        font-weight: 200;
+        font-style: normal;
+        line-height: 1;
       }
 
       .luxury-gradient {

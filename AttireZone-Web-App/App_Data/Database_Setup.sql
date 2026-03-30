@@ -26,13 +26,10 @@ CREATE TABLE Users (
     UserId              INT IDENTITY(1,1) PRIMARY KEY,
     FullName            NVARCHAR(100) NOT NULL,
     Email               NVARCHAR(150) NOT NULL UNIQUE,
-    PasswordHash        NVARCHAR(256) NOT NULL,
-    Phone               NVARCHAR(20),
-    Address             NVARCHAR(300),
-    Role                NVARCHAR(20) NOT NULL DEFAULT 'Customer', -- 'Customer' or 'Admin'
-    IsActive            BIT NOT NULL DEFAULT 1,
+    Password            NVARCHAR(256) NOT NULL, -- Should be hashed in production
     CreatedDate         DATETIME NOT NULL DEFAULT GETDATE(),
-    LastModifiedDate    DATETIME DEFAULT GETDATE()
+    LastModifiedDate    DATETIME DEFAULT GETDATE(),
+    Role                NVARCHAR(20) NOT NULL DEFAULT 'Customer' -- 'Customer' or 'Admin'
 );
 
 -- Categories for product organization
@@ -114,11 +111,10 @@ CREATE INDEX IX_Feedback_ProductId ON Feedback(ProductId);
 
 -- Admin user (Password: Admin@123)
 -- SHA256 hash: 0c04a3beb63e7c17c0df15c72a7f4ccedb893d58bccfecc5b1db94a78e37d3a
-INSERT INTO Users (FullName, Email, PasswordHash, Phone, Address, Role, IsActive, CreatedDate)
+INSERT INTO Users (FullName, Email, Password, CreatedDate, LastModifiedDate, Role)
 VALUES ('Admin User', 'admin@attirezone.com',
         '0c04a3beb63e7c17c0df15c72a7f4ccedb893d58bccfecc5b1db94a78e37d3a',
-        '+1-555-0100', '123 Admin Street, New York, NY 10001',
-        'Admin', 1, GETDATE());
+    GETDATE(), GETDATE(), 'Admin');
 
 -- Categories
 INSERT INTO Categories (CategoryName, IsActive) VALUES

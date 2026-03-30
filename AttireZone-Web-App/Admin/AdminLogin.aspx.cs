@@ -67,7 +67,7 @@ namespace AttireZone_Web_App.Admin
             }
         }
 
-        // Supports both legacy [Password] and current [PasswordHash] schemas.
+        // Admin authentication uses the standardized Users schema.
         private User AuthenticateAdmin(string identifier, string password)
         {
             if (string.IsNullOrWhiteSpace(identifier) || string.IsNullOrWhiteSpace(password))
@@ -75,25 +75,24 @@ namespace AttireZone_Web_App.Admin
                 return null;
             }
 
-            string passwordColumnName = ResolvePasswordColumnName();
-            if (string.IsNullOrEmpty(passwordColumnName) || !ColumnExists("Role"))
+            if (!ColumnExists("Password") || !ColumnExists("Role"))
             {
                 return null;
             }
 
-            string sql = string.Format(@"
+            const string sql = @"
 SELECT TOP 1
     UserId,
     FullName,
     Email,
-    {0} AS PasswordValue,
+    [Password] AS PasswordValue,
     Role,
     CreatedDate,
     LastModifiedDate
 FROM dbo.Users
 WHERE (Email = @Identifier
        OR FullName = @Identifier
-       OR LEFT(Email, CHARINDEX('@', Email + '@') - 1) = @Identifier);", passwordColumnName);
+       OR LEFT(Email, CHARINDEX('@', Email + '@') - 1) = @Identifier);";
 
             SqlParameter[] parameters =
             {
@@ -125,25 +124,9 @@ WHERE (Email = @Identifier
                 FullName = Convert.ToString(row["FullName"]),
                 Email = Convert.ToString(row["Email"]),
                 Role = role,
-                IsActive = true,
                 CreatedDate = row["CreatedDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(row["CreatedDate"]),
                 LastModifiedDate = row["LastModifiedDate"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(row["LastModifiedDate"])
             };
-        }
-
-        private static string ResolvePasswordColumnName()
-        {
-            if (ColumnExists("PasswordHash"))
-            {
-                return "[PasswordHash]";
-            }
-
-            if (ColumnExists("Password"))
-            {
-                return "[Password]";
-            }
-
-            return string.Empty;
         }
 
         private static bool ColumnExists(string columnName)

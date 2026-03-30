@@ -62,7 +62,7 @@ namespace AttireZone_Web_App.Admin
             try
             {
                 // Totals
-                var totalUsers = ExecuteInt("SELECT COUNT(*) FROM Users WHERE IsActive = 1;");
+                var totalUsers = ExecuteInt("SELECT COUNT(*) FROM Users;");
                 var totalOrders = ExecuteInt("SELECT COUNT(*) FROM Orders;");
                 var totalProducts = ExecuteInt("SELECT COUNT(*) FROM Products WHERE IsActive = 1;");
                 var totalRevenue = ExecuteDecimal("SELECT ISNULL(SUM(TotalAmount), 0) FROM Orders;");
@@ -74,7 +74,7 @@ namespace AttireZone_Web_App.Admin
 
                 // Period deltas (last 30 days vs previous 30 days)
                 var usersDelta = GetDeltaLabel(
-                    "SELECT\n  SUM(CASE WHEN CreatedDate >= DATEADD(day,-30,GETDATE()) THEN 1 ELSE 0 END) AS CurrentPeriod,\n  SUM(CASE WHEN CreatedDate <  DATEADD(day,-30,GETDATE()) AND CreatedDate >= DATEADD(day,-60,GETDATE()) THEN 1 ELSE 0 END) AS PreviousPeriod\nFROM Users WHERE IsActive = 1;",
+                    "SELECT\n  SUM(CASE WHEN CreatedDate >= DATEADD(day,-30,GETDATE()) THEN 1 ELSE 0 END) AS CurrentPeriod,\n  SUM(CASE WHEN CreatedDate <  DATEADD(day,-30,GETDATE()) AND CreatedDate >= DATEADD(day,-60,GETDATE()) THEN 1 ELSE 0 END) AS PreviousPeriod\nFROM Users;",
                     stableWhenSmall: false);
 
                 var ordersDelta = GetDeltaLabel(

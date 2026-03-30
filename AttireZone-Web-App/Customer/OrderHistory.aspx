@@ -124,7 +124,6 @@ Inherits="AttireZone_Web_App.Customer.OrderHistory" %>
                   <div class="mt-4 flex items-center gap-2">
                     <span
                       class="material-symbols-outlined text-[16px] <%# Eval(&quot;StatusCssClass&quot;) %>"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
                       ><%# Eval("StatusIcon") %></span
                     >
                     <span
