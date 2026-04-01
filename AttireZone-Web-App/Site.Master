@@ -155,12 +155,16 @@
             </div>
         </div>
 
-        <% Server.Execute("~/Navbar.aspx"); %>
-        <div class="container body-content">
+        <% if (!IsHomePage) { %>
+            <% Server.Execute("~/Navbar.aspx"); %>
+        <% } %>
+        <div class="<%: IsHomePage ? "w-full" : "container body-content" %>">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
         </div>
-        <% Server.Execute("~/Footer.aspx"); %>
+        <% if (!IsHomePage) { %>
+            <% Server.Execute("~/Footer.aspx"); %>
+        <% } %>
     </form>
 
     <script type="text/javascript">

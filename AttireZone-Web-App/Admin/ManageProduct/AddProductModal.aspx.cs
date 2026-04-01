@@ -70,6 +70,16 @@ namespace AttireZone_Web_App.Admin.ManageProduct
                 return;
             }
 
+            if (!int.TryParse(
+                    txtStockQuantity.Value,
+                    NumberStyles.Integer,
+                    CultureInfo.InvariantCulture,
+                    out var stockQuantity) || stockQuantity < 0)
+            {
+                ShowError("Stock quantity must be zero or greater.");
+                return;
+            }
+
             if (!int.TryParse(ddlCategory.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var categoryId) || categoryId <= 0)
             {
                 ShowError("Please select a valid category.");
@@ -139,7 +149,7 @@ namespace AttireZone_Web_App.Admin.ManageProduct
                 CategoryId = categoryId,
                 SelectedSize = NormalizeOrDefault(ddlSize.Value, "Medium"),
                 Description = (txtDescription.Value ?? string.Empty).Trim(),
-                StockQuantity = existingProduct != null ? existingProduct.StockQuantity : 0,
+                StockQuantity = stockQuantity,
                 IsPopular = chkIsPopular.Checked,
                 Status = NormalizeOrDefault(ddlStatus.Value, "In Stock"),
                 ImagePath = imagePath
@@ -211,6 +221,7 @@ namespace AttireZone_Web_App.Admin.ManageProduct
             txtPrice.Value = product.Price > 0m
                 ? product.Price.ToString("0.##", CultureInfo.InvariantCulture)
                 : string.Empty;
+            txtStockQuantity.Value = product.StockQuantity.ToString(CultureInfo.InvariantCulture);
             txtDescription.Value = product.Description ?? string.Empty;
 
             SetSelectedValueIfExists(ddlEdition, NormalizeOrDefault(product.Edition, "Standard"));

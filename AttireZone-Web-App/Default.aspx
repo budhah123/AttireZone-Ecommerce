@@ -1,131 +1,194 @@
 ﻿<%@ Page Title="Home" Language="C#" MasterPageFile="~/Site.Master"
 AutoEventWireup="true" CodeBehind="Default.aspx.cs"
 Inherits="AttireZone_Web_App._Default" %>
+<asp:Content ID="StylesContent" ContentPlaceHolderID="StylesPlaceholder" runat="server">
+  <style type="text/css">
+    .container.body-content {
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .az-home-page {
+      background-color: #131313;
+    }
+  </style>
+</asp:Content>
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
-  <!-- HERO SECTION -->
-  <section class="relative w-full min-h-screen bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 opacity-30">
-      <div class="absolute top-20 left-20 w-72 h-72 bg-[#e9c349] rounded-full blur-3xl"></div>
-      <div class="absolute bottom-20 right-20 w-96 h-96 bg-[#e9c349]/30 rounded-full blur-3xl"></div>
-    </div>
-    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
-      <span class="text-xs font-bold uppercase tracking-[0.4em] text-[#e9c349] mb-4 block">Welcome to AttireZone</span>
-      <h1 class="text-6xl md:text-7xl font-black tracking-tighter uppercase leading-tight mb-6 text-[#e2e2e2]">
-        Discover Your <span class="text-[#e9c349]">Style</span>
-      </h1>
-      <p class="text-lg md:text-xl text-[#c4c6cf] max-w-2xl mx-auto mb-10 leading-relaxed">
-        Explore our curated collection of premium fashion and lifestyle products. From timeless classics to cutting-edge trends.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <button class="btn-primary-lg">Shop Now</button>
-        <button class="btn-secondary">Explore Collection</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ESSENTIAL CATEGORIES SECTION -->
-  <section class="py-24 px-6 bg-[#0a0a0a]">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-16">
-        <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-3 block">Our Collections</span>
-        <h2 class="text-5xl font-black tracking-tighter uppercase text-[#e2e2e2]">Essential Categories</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
-        <div class="bg-[#1a1a1a] border border-[#2a2a2a] p-8 rounded-md hover:border-[#e9c349] transition-colors cursor-pointer group">
-          <h3 class="font-bold text-lg mb-2 uppercase text-[#e2e2e2] group-hover:text-[#e9c349] transition-colors">T-Shirts</h3>
-          <p class="text-[#999999] text-sm">Comfortable & Stylish</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#2a2a2a] p-8 rounded-md hover:border-[#e9c349] transition-colors cursor-pointer group">
-          <h3 class="font-bold text-lg mb-2 uppercase text-[#e2e2e2] group-hover:text-[#e9c349] transition-colors">Hoodies</h3>
-          <p class="text-[#999999] text-sm">Warm & Cozy</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#2a2a2a] p-8 rounded-md hover:border-[#e9c349] transition-colors cursor-pointer group">
-          <h3 class="font-bold text-lg mb-2 uppercase text-[#e2e2e2] group-hover:text-[#e9c349] transition-colors">Shoes</h3>
-          <p class="text-[#999999] text-sm">Premium Quality</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#2a2a2a] p-8 rounded-md hover:border-[#e9c349] transition-colors cursor-pointer group">
-          <h3 class="font-bold text-lg mb-2 uppercase text-[#e2e2e2] group-hover:text-[#e9c349] transition-colors">Bags</h3>
-          <p class="text-[#999999] text-sm">Durable & Trendy</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#2a2a2a] p-8 rounded-md hover:border-[#e9c349] transition-colors cursor-pointer group">
-          <h3 class="font-bold text-lg mb-2 uppercase text-[#e2e2e2] group-hover:text-[#e9c349] transition-colors">Watches</h3>
-          <p class="text-[#999999] text-sm">Elegant Timepieces</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#2a2a2a] p-8 rounded-md hover:border-[#e9c349] transition-colors cursor-pointer group">
-          <h3 class="font-bold text-lg mb-2 uppercase text-[#e2e2e2] group-hover:text-[#e9c349] transition-colors">Sunglasses</h3>
-          <p class="text-[#999999] text-sm">Eye Protection</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURED PRODUCTS SECTION -->
-  <main class="flex bg-[#0a0a0a] text-[#f5f0e8] px-6 py-24">
-    <div class="max-w-7xl mx-auto w-full flex gap-8 px-6 py-12">
-      <!-- Sidebar (editorial filters) -->
-      <aside class="hidden lg:flex flex-col w-72 p-8 space-y-10 bg-[#0f0f0f] rounded-md border border-[#1f1f1f]">
-        <section>
-          <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-[#e9c349] mb-6">Category</h3>
-          <ul class="space-y-3">
-            <li><a class="text-sm font-medium text-[#c4c6cf] hover:text-[#e9c349] transition-colors block py-1" href="/Pages/Products.aspx?cat=1">T-shirts</a></li>
-            <li><a class="text-sm font-medium text-[#c4c6cf] hover:text-[#e9c349] transition-colors block py-1" href="/Pages/Products.aspx?cat=2">Hoodies</a></li>
-            <li><a class="text-sm font-medium text-[#c4c6cf] hover:text-[#e9c349] transition-colors block py-1" href="/Pages/Products.aspx?cat=3">Shoes</a></li>
-            <li><a class="text-sm font-medium text-[#c4c6cf] hover:text-[#e9c349] transition-colors block py-1" href="/Pages/Products.aspx?cat=4">Bags</a></li>
-          </ul>
-        </section>
-        <section>
-          <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-[#e9c349] mb-6">Price Range</h3>
-          <ul class="space-y-3">
-            <li><label class="text-sm font-medium text-[#c4c6cf]"><input type="checkbox" /> Under $50</label></li>
-            <li><label class="text-sm font-medium text-[#c4c6cf]"><input type="checkbox" /> $50 - $100</label></li>
-            <li><label class="text-sm font-medium text-[#c4c6cf]"><input type="checkbox" /> $100 - $200</label></li>
-            <li><label class="text-sm font-medium text-[#c4c6cf]"><input type="checkbox" /> Over $200</label></li>
-          </ul>
-        </section>
-      </aside>
-
-      <!-- Main Products Grid -->
-      <div class="flex-1">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Product Card Template -->
-          <div class="card-hover">
-            <div class="w-full h-64 bg-[#0f0f0f] rounded-md mb-4 flex items-center justify-center">
-              <span class="text-[#666666]">Product Image</span>
-            </div>
-            <h3 class="text-lg font-bold text-[#e2e2e2] mb-2">Premium Outfit</h3>
-            <p class="text-sm text-[#999999] mb-4">High-quality fashion item for everyday wear</p>
-            <div class="flex justify-between items-center">
-              <span class="text-xl font-bold text-[#e9c349]">$99.99</span>
-              <button class="btn-primary">Add to Cart</button>
-            </div>
+  <div class="az-home-page">
+    <nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm dark:shadow-none">
+      <div class="flex justify-between items-center px-5 py-3 max-w-[1920px] mx-auto">
+        <div class="flex items-center gap-8">
+          <a class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50" href="#">AttireZone</a>
+          <div class="hidden md:flex gap-6 items-center">
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-amber-500 border-b-2 border-amber-500 pb-1" href="#">Collections</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">New Arrivals</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Sale</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Journal</a>
           </div>
-
-          <!-- Additional Product Cards (repeat structure above) -->
-          <div class="card-hover">
-            <div class="w-full h-64 bg-[#0f0f0f] rounded-md mb-4 flex items-center justify-center">
-              <span class="text-[#666666]">Product Image</span>
-            </div>
-            <h3 class="text-lg font-bold text-[#e2e2e2] mb-2">Casual Wear</h3>
-            <p class="text-sm text-[#999999] mb-4">Comfortable everyday fashion</p>
-            <div class="flex justify-between items-center">
-              <span class="text-xl font-bold text-[#e9c349]">$79.99</span>
-              <button class="btn-primary">Add to Cart</button>
-            </div>
+        </div>
+        <div class="flex-1 max-w-sm mx-6 hidden lg:block">
+          <div class="relative group">
+            <input class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-secondary text-sm px-4 py-2" placeholder="Search curated styles..." type="text" />
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline">search</span>
           </div>
+        </div>
+        <div class="flex items-center gap-5">
+          <button type="button" class="scale-100 active:scale-95 transition-transform hover:opacity-80">
+            <span class="material-symbols-outlined text-on-background">shopping_bag</span>
+          </button>
+          <button type="button" class="scale-100 active:scale-95 transition-transform hover:opacity-80">
+            <span class="material-symbols-outlined text-on-background">person</span>
+          </button>
+        </div>
+      </div>
+      <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
+    </nav>
 
-          <div class="card-hover">
-            <div class="w-full h-64 bg-[#0f0f0f] rounded-md mb-4 flex items-center justify-center">
-              <span class="text-[#666666]">Product Image</span>
-            </div>
-            <h3 class="text-lg font-bold text-[#e2e2e2] mb-2">Elegant Design</h3>
-            <p class="text-sm text-[#999999] mb-4">Sophisticated style for special occasions</p>
-            <div class="flex justify-between items-center">
-              <span class="text-xl font-bold text-[#e9c349]">$129.99</span>
-              <button class="btn-primary">Add to Cart</button>
-            </div>
+    <main>
+    <section class="relative h-[820px] flex items-center overflow-hidden bg-primary-container">
+      <div class="absolute inset-0 z-0">
+        <img alt="Editorial Hero" class="w-full h-full object-cover opacity-60 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1hF2BkMw_Znip9qGTxt9z-FinpyBOi5b7e1j9i9VM9MM8RSfXe8eXNSm-_Lz2G3iU3Ks1zBAq7AOIPnXk3sRufR2zoAeFAH9Y_h3au6hRPgrfz5kHMPqWcje6vqkMXXZm8b-Eq6W7H7utZqRcXBUAHk7Vs6635W_XCY5ns_2wwg5z4zZw-wWUf_g9a2GFJKYojEIC9hSIooOTG-hDA0QXsVm9Qk3jBVNWOXhoktqGLG6FxwyasYPoWibqVpCUSP1IzXNn4-6h7ds" />
+      </div>
+      <div class="relative z-10 px-5 md:px-14 lg:px-20 w-full">
+        <div class="max-w-4xl">
+          <p class="text-secondary font-label tracking-[0.2em] uppercase text-sm mb-3">Autumn / Winter 2024</p>
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-headline font-bold -ml-1 leading-[0.9] tracking-tighter text-on-background">THE SILENT<br />CURATOR</h1>
+          <div class="mt-10 flex flex-col md:flex-row gap-4 items-start">
+            <a class="px-9 py-3 bg-secondary text-on-secondary font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all" href="#">Shop Collection</a>
+            <a class="px-9 py-3 border border-outline-variant/30 text-on-background font-bold text-sm tracking-widest uppercase hover:bg-white/5 transition-all" href="#">View Editorial</a>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </section>
+
+    <section class="py-20 px-5 md:px-14 lg:px-20 bg-surface">
+      <div class="mb-12">
+        <h2 class="text-3xl font-headline font-semibold text-on-background tracking-tight">Essential Categories</h2>
+        <p class="text-on-surface-variant mt-2 max-w-lg">Defining modern silhouettes through premium fabrics and precise tailoring.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-5 h-auto md:h-[740px]">
+        <div class="md:col-span-2 md:row-span-2 group relative overflow-hidden bg-surface-container">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU2dyIFpYOVxXL3iBaH_PozLyXHV_AJnpJ0uWelt6WkIutAwTajnQhRAjxiGR19QNimHc_Pc3ASNkTxh3fsJSZaukT7PnNzDhw3-I5rfn4Isv1ExAidcWlTKryA_2Zs_HLSPpWT-BvP1nKcl8Si4wmrLi44iJtWoWvh_jMKWW9B-DMDCCPYosOG0G3bRd0CsEK-MwPjBbi7Yc5zkIE9YgfV_rj9rBzxlVnBzpIMgp1N5VQgmDOn6Qu-ip1xxQzVey5_PLtIBiDn0A" alt="T-Shirts" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-7">
+            <h3 class="text-2xl font-bold text-white uppercase tracking-tighter">T-Shirts</h3>
+            <p class="text-secondary text-xs tracking-widest mt-2 uppercase">18 Products</p>
+          </div>
+        </div>
+        <div class="md:col-span-2 group relative overflow-hidden bg-surface-container">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChHxaynip_FBBGfHtyWSaEU6v6HYj1ylHc2TyEzuCQ9D0Ux0hd4d-_NteMUmc-xiLUc6Q43r5Ui1eIF7wUiwF56j_U24v3a89hi2TddtpWEkX7wTNabguoBjL_dMYA622VmWqAQiJKlxoXu4VsFjpSkqQg2xvpPHM_Kh5zZv0JX1qM0t91NUCWu5VAtCmUM5F-JJufb7SgeEl-4vVOt9Nz-VGIPu0H6uRjQQgNqUAsyxrnfTSqiolZmVaMwggKFrSc7v6J9BsxCuY" alt="Hoodies" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-7">
+            <h3 class="text-2xl font-bold text-white uppercase tracking-tighter">Hoodies</h3>
+          </div>
+        </div>
+        <div class="md:col-span-2 group relative overflow-hidden bg-surface-container">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAORhMnKpNryu0eYF-IIxL6a5fW4fitFfBhy8512RRq1-hHC2ZGl7nn47f5McPWk9FEIP9vbzJZXcATc76TzdGj7KaU3kyBQtc6_2HFVodjj2aNalmHPou7xgQnY720GpF825hPqnaJSNlpsbVGaE7oyowwlTSC38-Xf-AR2ey2FOLhewtvVBGC43u-8Q1xwPNUbKAcbOwbIANPQygbsep73VPLaDNQtq7OlXJ1spxTwLVzuYiKQAIWbyvuB_uGIEwg8evHbR3tPZA" alt="Shoes" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-7">
+            <h3 class="text-2xl font-bold text-white uppercase tracking-tighter">Shoes</h3>
+          </div>
+        </div>
+        <div class="md:col-span-2 group relative overflow-hidden bg-surface-container">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK3yF5Zm7rpEus41hqnwJ8z0tbcvxfXXPI345vuhZeZwGWDHuJj4buBpwohe5I47a_n9ZsddL8CXdcZjci4FSQT-M3q6uWOeSfrENoSEeqOdrruvTuuilt9lvS5TcK_0ROrURWLY7MDcOp5GmmONJvOvLs58bfmKlERkfS67sNZrSyYkk_HDTAY4DmNhAhV1_mSRAA2aQxfM3NHh92k5wS55OByrewko-F86ORp076sGyAiLlt46KM-zmjJO7nhcOOHDWOIuao8Fc" alt="Bags" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-7">
+            <h3 class="text-2xl font-bold text-white uppercase tracking-tighter">Bags</h3>
+          </div>
+        </div>
+        <div class="md:col-span-1 group relative overflow-hidden bg-surface-container">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZI7o1X4xj09abWekHpsNnQqaJEbTI0CPjuQ9KmCogITxnqsRfgPUnzKXldP4ZF5FSG491V32l9rWyx_MI8EdNTXk5lfyffF_XhbaHAzJwl4HsNH6p9eg8xByaeTyUK8Q_U9JYMUBsKGlT5xQoYpWamAoVcwpQYmIig1nNKvhuEiKkHjBIQNBB-Hy9qy8GO-vz3uNoBSHmQDWcoRhyjRMasbpjGp5_d0OFNXQr2PZ6GGu3P4_TjRNki2a9zoC9l2Guey3hpUYGwlE" alt="Watches" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-5">
+            <h3 class="text-lg font-bold text-white uppercase tracking-tighter">Watches</h3>
+          </div>
+        </div>
+        <div class="md:col-span-1 group relative overflow-hidden bg-surface-container">
+          <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa9OBUc-DD21EKEWN52k1YXGvHotL84JJtyRXoVa2S7t4wQVK6bIRfLxRtwsHHhmbh-QhrdmC0mgklveQ-izlCNST7-22QkRYQOm2GqaBOrD5-xpWpvEMDO1q0y4dXy_leyqAOlLFTAbCLTrh1APahdNysprdVoTLuFzPKUv13VA26QLE9S2pkdp-V8gAdGfYBr6lygqP8IxV92d-b8dLp-Sg3l3Cemv4W4jqmb_sVfSO87AMDoKefvyFfp8XFKXh4rB8Skrq7Fvg" alt="Sunglasses" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-5">
+            <h3 class="text-lg font-bold text-white uppercase tracking-tighter">Sunglasses</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 px-5 md:px-14 lg:px-20 bg-surface-container-lowest">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-3">
+        <div>
+          <h2 class="text-3xl font-headline font-semibold text-on-background tracking-tight">Curated Selection</h2>
+          <p class="text-on-surface-variant mt-2">The season's most-wanted pieces, meticulously crafted.</p>
+        </div>
+        <a class="text-secondary text-sm font-bold tracking-widest uppercase group flex items-center gap-2" href="#">
+          View All Products <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_right_alt</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <asp:Repeater ID="rptCuratedProducts" runat="server">
+          <ItemTemplate>
+            <div class="group cursor-pointer">
+              <div class="relative aspect-[3/4] overflow-hidden bg-surface-container-high mb-5">
+                <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="<%#: Eval("ImageUrl") %>" alt="<%#: Eval("ImageAlt") %>" />
+                <asp:PlaceHolder runat="server" Visible='<%# ShowBadge(Eval("BadgeText")) %>'>
+                  <div class="absolute top-4 left-4">
+                    <span class='<%# Eval("BadgeCssClass") %>'><%#: Eval("BadgeText") %></span>
+                  </div>
+                </asp:PlaceHolder>
+                <button type="button" class="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span class="material-symbols-outlined text-white">shopping_bag</span>
+                </button>
+              </div>
+              <div class="space-y-1">
+                <p class="text-on-surface-variant text-xs uppercase tracking-widest"><%#: Eval("CategoryLabel") %></p>
+                <h3 class="text-lg font-medium text-on-surface group-hover:text-secondary transition-colors"><%#: Eval("ProductName") %></h3>
+                <p class="text-secondary font-bold"><%#: Eval("PriceLabel") %></p>
+              </div>
+            </div>
+          </ItemTemplate>
+        </asp:Repeater>
+
+        <asp:PlaceHolder ID="phNoCuratedProducts" runat="server" Visible="false">
+          <div class="sm:col-span-2 lg:col-span-4 border border-outline-variant/40 bg-surface-container px-8 py-10 text-center">
+            <p class="text-on-surface-variant text-sm tracking-wide">No curated products are available yet. Add products from Admin to populate this section.</p>
+          </div>
+        </asp:PlaceHolder>
+      </div>
+    </section>
+
+    <section class="py-24 px-5 md:px-14 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center bg-surface">
+      <div class="relative">
+        <div class="aspect-square bg-surface-container-high overflow-hidden">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_2U99Fqx15meJX2QS6TzZtdVMiaa4QNFySNdgMthR0_CClC_UaQUktyWxhZif79fwOcut03yVshZVQ8D6vQK10CX191V-1kL8KkkQDTgX_o82_6mJL_xrgpIo5JluvPHyBbQRrU06FmAPRuuwb_lpgHp6ajIEQlyKskrUrI_d43Dnih92fGDB0EGi8zlevSOtoyg27EE8mxTn8Gl3s3bnXDKSIOQTSw9wO5rum_j-ZV26kz6Pbw5-s60nSDZos2qmt68MjYnK-7s" alt="Our Philosophy" />
+        </div>
+        <div class="absolute -bottom-8 -right-8 hidden md:block w-56 aspect-square border-8 border-surface bg-surface-container overflow-hidden">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaV6TDJntECHVok0NuBaoZo7_75YLcE57u5GazRZHCDIwJZoj7qbYT6AUdCO_5gsSWnR8m0CtCErycf6DCuoR1WBu4GXQRpqykik5n6VUvXayZSipEGvoYBRhHSy4PIXZl9ayYx4PqiEmx4Q8s8fiOnxePtjb4hGnFlHIgvCEJF81N4GExAcit03lbu_ZZLkjHt2C6r1P6OgMP2nTMhKbXPfMrthh38WjhiKiwBCpzwRu3Eaaz-bCjn7hsATG3LBthsQHdbN3AkXI" alt="Editorial Detail" />
+        </div>
+      </div>
+      <div class="space-y-6">
+        <span class="text-secondary font-label tracking-[0.2em] uppercase text-xs">Our Philosophy</span>
+        <h2 class="text-4xl font-headline font-bold leading-tight text-on-background tracking-tighter">QUALITY IN THE<br />UNSEEN DETAILS</h2>
+        <p class="text-on-surface-variant text-base leading-relaxed max-w-xl">
+          AttireZone is more than a label. It's an exploration of form, function, and the quiet confidence that comes from impeccably constructed garments. Each piece is curated to exist beyond seasons.
+        </p>
+        <div class="pt-4">
+          <button type="button" class="text-on-background font-bold text-sm tracking-widest uppercase border-b-2 border-secondary pb-1 hover:text-secondary transition-all">Read The Journal</button>
+        </div>
+      </div>
+    </section>
+    </main>
+
+    <footer class="bg-slate-50 dark:bg-slate-950">
+      <div class="bg-slate-200 dark:bg-slate-800 h-[1px]"></div>
+      <div class="flex flex-col md:flex-row justify-between items-center px-10 py-16 w-full gap-6">
+        <div class="flex flex-col items-center md:items-start gap-4">
+          <a class="text-lg font-bold text-slate-900 dark:text-slate-50" href="#">AttireZone</a>
+          <p class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500">Curating the modern silhouette since 2024.</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8">
+          <a class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Sustainability</a>
+          <a class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Shipping</a>
+          <a class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Returns</a>
+          <a class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Privacy Policy</a>
+          <a class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Terms of Service</a>
+        </div>
+        <div class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500">© 2024 AttireZone. All Rights Reserved.</div>
+      </div>
+    </footer>
+  </div>
 </asp:Content>
