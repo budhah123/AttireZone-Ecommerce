@@ -105,6 +105,15 @@ namespace AttireZone_Web_App.Admin.ManageProduct
         protected global::System.Web.UI.HtmlControls.HtmlSelect ddlCategory;
 
         /// <summary>
+        /// chkIsPopular control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox chkIsPopular;
+
+        /// <summary>
         /// ddlSize control.
         /// </summary>
         /// <remarks>

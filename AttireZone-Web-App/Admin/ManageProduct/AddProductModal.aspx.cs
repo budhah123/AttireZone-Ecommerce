@@ -140,6 +140,7 @@ namespace AttireZone_Web_App.Admin.ManageProduct
                 SelectedSize = NormalizeOrDefault(ddlSize.Value, "Medium"),
                 Description = (txtDescription.Value ?? string.Empty).Trim(),
                 StockQuantity = existingProduct != null ? existingProduct.StockQuantity : 0,
+                IsPopular = chkIsPopular.Checked,
                 Status = NormalizeOrDefault(ddlStatus.Value, "In Stock"),
                 ImagePath = imagePath
             };
@@ -215,6 +216,7 @@ namespace AttireZone_Web_App.Admin.ManageProduct
             SetSelectedValueIfExists(ddlEdition, NormalizeOrDefault(product.Edition, "Standard"));
             SetSelectedValueIfExists(ddlSize, NormalizeOrDefault(product.SelectedSize, "Medium"));
             SetSelectedValueIfExists(ddlStatus, NormalizeStatusForSelection(product.Status));
+            chkIsPopular.Checked = product.IsPopular;
 
             if (product.CategoryId.HasValue)
             {

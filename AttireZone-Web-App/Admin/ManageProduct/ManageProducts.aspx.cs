@@ -25,6 +25,12 @@ namespace AttireZone_Web_App.Admin.ManageProduct
 
             public string Category { get; set; }
 
+            public bool IsPopular { get; set; }
+
+            public string PopularLabel { get; set; }
+
+            public string PopularBadgeCssClass { get; set; }
+
             public string PriceFormatted { get; set; }
 
             public int StockQuantity { get; set; }
@@ -140,6 +146,7 @@ namespace AttireZone_Web_App.Admin.ManageProduct
 
             var totalSku = rows.Count;
             var lowStockAlerts = rows.Count(item => item.IsLowStockAlert);
+            var popularProducts = rows.Count(item => item.IsPopular);
             var liveCollections = rows
                 .Select(item => item.Category)
                 .Where(category => !string.IsNullOrWhiteSpace(category))
@@ -148,7 +155,7 @@ namespace AttireZone_Web_App.Admin.ManageProduct
 
             litTotalSku.Text = FormatNumber(totalSku);
             litLowStockAlerts.Text = FormatNumber(lowStockAlerts);
-            litInSeason.Text = "Autumn '24";
+            litInSeason.Text = FormatNumber(popularProducts);
             litLiveCollections.Text = FormatNumber(liveCollections);
 
             litShownFrom.Text = totalSku > 0 ? "1" : "0";
@@ -173,6 +180,9 @@ namespace AttireZone_Web_App.Admin.ManageProduct
                     : (string.IsNullOrWhiteSpace(safeProduct.Edition)
                         ? "General"
                         : safeProduct.Edition.Trim()),
+                IsPopular = safeProduct.IsPopular,
+                PopularLabel = safeProduct.IsPopular ? "Popular" : "Standard",
+                PopularBadgeCssClass = GetPopularBadgeCssClass(safeProduct.IsPopular),
                 PriceFormatted = safeProduct.Price.ToString("C2", UsCulture),
                 StockQuantity = Math.Max(0, safeProduct.StockQuantity),
                 StatusLabel = statusLabel,
@@ -263,6 +273,13 @@ namespace AttireZone_Web_App.Admin.ManageProduct
             }
 
             return "inline-block px-3 py-1 bg-surface-container-highest text-on-surface text-[10px] font-bold uppercase tracking-widest";
+        }
+
+        private static string GetPopularBadgeCssClass(bool isPopular)
+        {
+            return isPopular
+                ? "inline-block px-3 py-1 bg-secondary/20 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/40"
+                : "inline-block px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-widest";
         }
 
         private static string FormatNumber(int value)
@@ -362,13 +379,17 @@ namespace AttireZone_Web_App.Admin.ManageProduct
             string priceFormatted,
             int stockQuantity,
             string statusLabel,
-            string imageUrl)
+            string imageUrl,
+            bool isPopular = false)
         {
             return new ProductRowVm
             {
                 ProductName = productName,
                 Sku = sku,
                 Category = category,
+                IsPopular = isPopular,
+                PopularLabel = isPopular ? "Popular" : "Standard",
+                PopularBadgeCssClass = GetPopularBadgeCssClass(isPopular),
                 PriceFormatted = priceFormatted,
                 StockQuantity = stockQuantity,
                 StatusLabel = statusLabel,

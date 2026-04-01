@@ -274,7 +274,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
             <p
               class="text-on-surface-variant text-xs uppercase tracking-widest mb-1"
             >
-              In Season
+              Popular Products
             </p>
             <p class="text-2xl font-bold text-on-surface">
               <asp:Literal ID="litInSeason" runat="server" />
@@ -304,6 +304,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                 >
                   <th class="px-6 py-5 font-bold">Product Name</th>
                   <th class="px-6 py-5 font-bold">Category</th>
+                  <th class="px-6 py-5 font-bold text-center">Popular</th>
                   <th class="px-6 py-5 font-bold text-right">Price</th>
                   <th class="px-6 py-5 font-bold text-right">Stock</th>
                   <th class="px-6 py-5 font-bold text-center">Status</th>
@@ -343,6 +344,12 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                       </td>
                       <td class="px-6 py-5 text-on-surface-variant text-sm">
                         <%#: Eval("Category") %>
+                      </td>
+                      <td class="px-6 py-5 text-center">
+                        <span
+                          class='<%#: Eval("PopularBadgeCssClass") %>'
+                          ><%#: Eval("PopularLabel") %></span
+                        >
                       </td>
                       <td
                         class="px-6 py-5 text-on-surface text-sm text-right font-medium"
