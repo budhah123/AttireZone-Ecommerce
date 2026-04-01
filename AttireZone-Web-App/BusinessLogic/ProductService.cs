@@ -18,6 +18,7 @@ SELECT
     p.[price],
     p.[edition],
     p.[CategoryId],
+    p.[isPopular],
     p.[selected_size],
     p.[description],
     p.[stock_quantity],
@@ -48,6 +49,7 @@ SELECT
     p.[price],
     p.[edition],
     p.[CategoryId],
+    p.[isPopular],
     p.[selected_size],
     p.[description],
     p.[stock_quantity],
@@ -89,6 +91,7 @@ INSERT INTO [dbo].[Products]
     [selected_size],
     [description],
     [stock_quantity],
+    [isPopular],
     [status],
     [image_path]
 )
@@ -101,6 +104,7 @@ VALUES
     @SelectedSize,
     @Description,
     @StockQuantity,
+    @IsPopular,
     @Status,
     @ImagePath
 );
@@ -130,6 +134,7 @@ SET
     [selected_size] = @SelectedSize,
     [description] = @Description,
     [stock_quantity] = @StockQuantity,
+    [isPopular] = @IsPopular,
     [status] = @Status,
     [image_path] = @ImagePath
 WHERE [id] = @Id;";
@@ -192,6 +197,10 @@ WHERE [id] = @Id;";
                 {
                     Value = product.StockQuantity
                 },
+                new SqlParameter("@IsPopular", SqlDbType.Bit)
+                {
+                    Value = product.IsPopular
+                },
                 new SqlParameter("@Status", SqlDbType.NVarChar, 50)
                 {
                     Value = string.IsNullOrWhiteSpace(product.Status) ? (object)DBNull.Value : product.Status
@@ -227,9 +236,30 @@ WHERE [id] = @Id;";
                 SelectedSize = row["selected_size"] == DBNull.Value ? string.Empty : row["selected_size"].ToString(),
                 Description = row["description"] == DBNull.Value ? string.Empty : row["description"].ToString(),
                 StockQuantity = row["stock_quantity"] == DBNull.Value ? 0 : Convert.ToInt32(row["stock_quantity"]),
+                IsPopular = ReadIsPopular(row),
                 Status = row["status"] == DBNull.Value ? string.Empty : row["status"].ToString(),
                 ImagePath = row["image_path"] == DBNull.Value ? string.Empty : row["image_path"].ToString()
             };
+        }
+
+        private static bool ReadIsPopular(DataRow row)
+        {
+            if (row == null || row.Table == null)
+            {
+                return false;
+            }
+
+            if (row.Table.Columns.Contains("isPopular") && row["isPopular"] != DBNull.Value)
+            {
+                return Convert.ToBoolean(row["isPopular"]);
+            }
+
+            if (row.Table.Columns.Contains("IsPopular") && row["IsPopular"] != DBNull.Value)
+            {
+                return Convert.ToBoolean(row["IsPopular"]);
+            }
+
+            return false;
         }
     }
 }

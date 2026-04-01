@@ -499,6 +499,23 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 </div>
               </div>
 
+              <div class="pt-1">
+                <label
+                  class="inline-flex items-center gap-3 cursor-pointer select-none"
+                >
+                  <input
+                    id="chkIsPopular"
+                    runat="server"
+                    type="checkbox"
+                    class="h-4 w-4 border-outline-variant/40 bg-transparent text-secondary focus:ring-secondary focus:ring-offset-0"
+                  />
+                  <span
+                    class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
+                    >Popular</span
+                  >
+                </label>
+              </div>
+
               <!-- Description -->
               <div class="relative group">
                 <label

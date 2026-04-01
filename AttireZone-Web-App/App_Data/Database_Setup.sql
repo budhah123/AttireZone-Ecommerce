@@ -49,6 +49,7 @@ CREATE TABLE Products (
     StockQty    INT NOT NULL DEFAULT 0,
     ImageUrl    NVARCHAR(300),
     CategoryId  INT NOT NULL FOREIGN KEY REFERENCES Categories(CategoryId),
+    IsPopular   BIT NOT NULL DEFAULT 0,
     IsFeatured  BIT NOT NULL DEFAULT 0,
     IsActive    BIT NOT NULL DEFAULT 1,
     CreatedAt   DATETIME NOT NULL DEFAULT GETDATE()
@@ -126,19 +127,19 @@ INSERT INTO Categories (CategoryName, IsActive) VALUES
 ('Sunglasses',  1);
 
 -- Sample Products
-INSERT INTO Products (Name, Description, Price, StockQty, CategoryId, IsFeatured, IsActive) VALUES
-('Classic White Tee',       'Premium 100% cotton classic fit t-shirt in timeless white',   19.99, 100, 1, 1, 1),
-('Graphic Print Tee',       'Bold graphic street-style t-shirt with contemporary design',    24.99,  80, 1, 0, 1),
-('Urban Pullover Hoodie',   'Heavyweight fleece pullover hoodie, perfect for casual wear',   59.99,  60, 2, 1, 1),
-('Zip-Up Hoodie',           'Full-zip slim-fit hoodie with side pockets',             64.99,  45, 2, 0, 1),
-('Leather Sneakers',        'Premium white leather low-top sneaker with cushioned sole',89.99,  40, 3, 1, 1),
-('Running Shoes',           'Lightweight performance running shoes with breathable mesh',74.99,  55, 3, 0, 1),
-('Canvas Tote Bag',         'Minimalist canvas daily carry bag with interior pocket',    34.99,  70, 4, 0, 1),
-('Leather Crossbody',       'Compact premium leather crossbody bag for on-the-go style',79.99,  30, 4, 1, 1),
-('Classic Steel Watch',     'Minimalist stainless steel timepiece with date window',129.99,  25, 5, 1, 1),
-('Sport Chronograph',       'Multi-function sport chronograph with stopwatch features',    149.99,  20, 5, 0, 1),
-('Aviator Sunglasses',      'UV400 classic aviator sunglasses with polarized lenses',     49.99,  90, 6, 1, 1),
-('Wayfarer Sunglasses',     'Retro square wayfarer frames with UV protection',         44.99,  85, 6, 0, 1);
+INSERT INTO Products (Name, Description, Price, StockQty, CategoryId, IsPopular, IsFeatured, IsActive) VALUES
+('Classic White Tee',       'Premium 100% cotton classic fit t-shirt in timeless white',   19.99, 100, 1, 1, 1, 1),
+('Graphic Print Tee',       'Bold graphic street-style t-shirt with contemporary design',    24.99,  80, 1, 0, 0, 1),
+('Urban Pullover Hoodie',   'Heavyweight fleece pullover hoodie, perfect for casual wear',   59.99,  60, 2, 1, 1, 1),
+('Zip-Up Hoodie',           'Full-zip slim-fit hoodie with side pockets',                    64.99,  45, 2, 0, 0, 1),
+('Leather Sneakers',        'Premium white leather low-top sneaker with cushioned sole',     89.99,  40, 3, 1, 1, 1),
+('Running Shoes',           'Lightweight performance running shoes with breathable mesh',     74.99,  55, 3, 0, 0, 1),
+('Canvas Tote Bag',         'Minimalist canvas daily carry bag with interior pocket',         34.99,  70, 4, 0, 0, 1),
+('Leather Crossbody',       'Compact premium leather crossbody bag for on-the-go style',     79.99,  30, 4, 1, 1, 1),
+('Classic Steel Watch',     'Minimalist stainless steel timepiece with date window',         129.99,  25, 5, 1, 1, 1),
+('Sport Chronograph',       'Multi-function sport chronograph with stopwatch features',      149.99,  20, 5, 0, 0, 1),
+('Aviator Sunglasses',      'UV400 classic aviator sunglasses with polarized lenses',         49.99,  90, 6, 1, 1, 1),
+('Wayfarer Sunglasses',     'Retro square wayfarer frames with UV protection',                44.99,  85, 6, 0, 0, 1);
 
 GO
 
