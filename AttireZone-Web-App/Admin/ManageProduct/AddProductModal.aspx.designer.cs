@@ -78,6 +78,15 @@ namespace AttireZone_Web_App.Admin.ManageProduct
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtPrice;
 
         /// <summary>
+        /// txtStockQuantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtStockQuantity;
+
+        /// <summary>
         /// ddlStatus control.
         /// </summary>
         /// <remarks>

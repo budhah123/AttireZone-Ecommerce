@@ -381,7 +381,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 />
               </div>
 
-              <div class="grid grid-cols-2 gap-3 sm:gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <!-- Price -->
                 <div class="relative group">
                   <label
@@ -395,6 +395,23 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                     min="0"
                     placeholder="0.00"
                     step="0.01"
+                    type="number"
+                  />
+                </div>
+
+                <!-- Stock Quantity -->
+                <div class="relative group">
+                  <label
+                    class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 transition-colors group-focus-within:text-secondary"
+                    >Stock Quantity</label
+                  >
+                  <input
+                    id="txtStockQuantity"
+                    runat="server"
+                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all"
+                    min="0"
+                    placeholder="0"
+                    step="1"
                     type="number"
                   />
                 </div>
