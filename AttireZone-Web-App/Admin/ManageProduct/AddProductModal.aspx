@@ -270,27 +270,29 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
 
       <!-- Modal Overlay -->
       <div
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-1.5 sm:p-3"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-1 sm:p-2.5"
       >
         <!-- Modal Container -->
         <div
-          class="bg-surface-dim w-full max-w-[min(96vw,64rem)] max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-2rem)] overflow-y-auto border border-outline-variant/20 relative shadow-2xl flex flex-col md:flex-row no-scrollbar origin-center scale-[0.96] sm:scale-[0.94]"
+          class="bg-surface-dim w-full max-w-[min(95vw,60rem)] max-h-[calc(100vh-1rem)] sm:max-h-[calc(100vh-1.5rem)] overflow-y-auto border border-outline-variant/20 relative shadow-2xl flex flex-col md:flex-row no-scrollbar origin-center scale-[0.94] sm:scale-[0.92]"
         >
           <!-- Close Button -->
           <a
-            class="absolute top-4 right-4 sm:top-5 sm:right-5 text-on-surface-variant hover:text-secondary transition-colors z-10"
+            class="absolute top-3 right-3 sm:top-4 sm:right-4 text-on-surface-variant hover:text-secondary transition-colors z-10"
             href="/Admin/ManageProduct/ManageProducts.aspx"
           >
-            <span class="material-symbols-outlined text-2xl">close</span>
+            <span class="material-symbols-outlined text-xl sm:text-2xl"
+              >close</span
+            >
           </a>
 
           <!-- Image/Preview Section -->
           <div
-            class="w-full md:w-2/5 bg-surface-container-lowest p-4 sm:p-5 lg:p-6 flex flex-col justify-between border-r border-outline-variant/10"
+            class="w-full md:w-2/5 bg-surface-container-lowest p-3 sm:p-4 lg:p-5 flex flex-col justify-between border-r border-outline-variant/10"
           >
             <div>
               <h2
-                class="text-xs font-bold tracking-[0.2em] text-secondary uppercase mb-6"
+                class="text-xs font-bold tracking-[0.2em] text-secondary uppercase mb-4"
               >
                 Visual Asset
               </h2>
@@ -298,14 +300,14 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 class="aspect-[4/5] bg-surface border border-dashed border-outline-variant/30 flex flex-col items-center justify-center group cursor-pointer hover:border-secondary transition-colors relative overflow-hidden"
               >
                 <div
-                  class="flex flex-col items-center gap-3 p-6 sm:p-8 text-center pointer-events-none"
+                  class="flex flex-col items-center gap-2.5 p-4 sm:p-6 text-center pointer-events-none"
                 >
                   <span
-                    class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-secondary transition-colors"
+                    class="material-symbols-outlined text-3xl text-on-surface-variant group-hover:text-secondary transition-colors"
                     >cloud_upload</span
                   >
                   <span
-                    class="text-sm text-on-surface-variant uppercase tracking-widest"
+                    class="text-xs text-on-surface-variant uppercase tracking-widest"
                     >Upload Master Shot</span
                   >
                 </div>
@@ -321,13 +323,13 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 ></div>
               </div>
               <p
-                class="text-[11px] text-on-surface-variant mt-4 uppercase tracking-tighter leading-relaxed"
+                class="text-[10px] text-on-surface-variant mt-3 uppercase tracking-tighter leading-relaxed"
               >
                 Recommended: 2400x3200px, Minimalist background, RAW or
                 high-quality JPEG.
               </p>
             </div>
-            <div class="mt-6 space-y-3">
+            <div class="mt-4 space-y-2">
               <div class="h-[1px] bg-outline-variant/20 w-full"></div>
               <div
                 class="flex justify-between items-center text-[10px] uppercase tracking-widest text-on-surface-variant"
@@ -339,10 +341,10 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
           </div>
 
           <!-- Form Section -->
-          <div class="w-full md:w-3/5 p-4 sm:p-5 lg:p-7 xl:p-8">
-            <header class="mb-6">
+          <div class="w-full md:w-3/5 p-3 sm:p-4 lg:p-5 xl:p-6">
+            <header class="mb-4">
               <h1
-                class="text-xl md:text-2xl font-headline font-semibold tracking-tight uppercase"
+                class="text-lg md:text-xl font-headline font-semibold tracking-tight uppercase"
               >
                 <asp:Literal
                   ID="litFormHeading"
@@ -350,19 +352,19 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                   Text="Add New Product"
                 />
               </h1>
-              <div class="w-12 h-1 bg-secondary mt-4"></div>
+              <div class="w-12 h-1 bg-secondary mt-3"></div>
             </header>
 
             <asp:Panel
               ID="pnlMessage"
               runat="server"
               Visible="false"
-              CssClass="mb-6 border border-error/40 bg-error-container/30 px-4 py-3 text-xs uppercase tracking-widest text-error"
+              CssClass="mb-4 border border-error/40 bg-error-container/30 px-3 py-2.5 text-xs uppercase tracking-widest text-error"
             >
               <asp:Literal ID="litMessage" runat="server" />
             </asp:Panel>
 
-            <div class="space-y-5 sm:space-y-6">
+            <div class="space-y-4 sm:space-y-5">
               <!-- Product Name -->
               <div class="relative group">
                 <label
@@ -372,14 +374,14 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 <input
                   id="txtProductName"
                   runat="server"
-                  class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all uppercase tracking-wide"
+                  class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all uppercase tracking-wide"
                   maxlength="200"
                   placeholder="e.g., LITHIC SHELL JACKET"
                   type="text"
                 />
               </div>
 
-              <div class="grid grid-cols-2 gap-4 sm:gap-5">
+              <div class="grid grid-cols-2 gap-3 sm:gap-4">
                 <!-- Price -->
                 <div class="relative group">
                   <label
@@ -389,7 +391,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                   <input
                     id="txtPrice"
                     runat="server"
-                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all"
+                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all"
                     min="0"
                     placeholder="0.00"
                     step="0.01"
@@ -406,7 +408,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                   <select
                     id="ddlStatus"
                     runat="server"
-                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
+                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
                   >
                     <option class="bg-surface-container" value="In Stock">
                       In Stock
@@ -424,7 +426,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-4 sm:gap-5">
+              <div class="grid grid-cols-2 gap-3 sm:gap-4">
                 <!-- Edition -->
                 <div class="relative group">
                   <label
@@ -434,7 +436,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                   <select
                     id="ddlEdition"
                     runat="server"
-                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
+                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
                   >
                     <option class="bg-surface-container" value="Standard">
                       Standard
@@ -460,7 +462,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                   <select
                     id="ddlSize"
                     runat="server"
-                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
+                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
                   >
                     <option class="bg-surface-container" value="Small">
                       Small
@@ -478,7 +480,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-4 sm:gap-5">
+              <div class="grid grid-cols-2 gap-3 sm:gap-4">
                 <!-- Category -->
                 <div class="relative group col-span-2">
                   <label
@@ -488,7 +490,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                   <select
                     id="ddlCategory"
                     runat="server"
-                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
+                    class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface appearance-none cursor-pointer uppercase text-xs tracking-widest"
                   >
                     <option class="bg-surface-container" value="">
                       Select Category
@@ -506,7 +508,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
                 <textarea
                   id="txtDescription"
                   runat="server"
-                  class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2.5 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all resize-none"
+                  class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all resize-none"
                   maxlength="4000"
                   placeholder="Describe the silhouette, materiality, and craftsmanship..."
                   rows="3"
@@ -514,18 +516,18 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.AddProductModal" %>
               </div>
 
               <!-- Action Buttons -->
-              <div class="flex flex-col sm:flex-row gap-4 pt-2">
+              <div class="flex flex-col sm:flex-row gap-3 pt-1">
                 <button
                   id="btnAddProduct"
                   runat="server"
                   onserverclick="btnAddProduct_ServerClick"
-                  class="flex-1 bg-secondary text-on-secondary py-2.5 px-8 text-xs font-bold tracking-[0.2em] uppercase transition-all hover:bg-secondary-container active:scale-[0.98]"
+                  class="flex-1 bg-secondary text-on-secondary py-2 px-6 text-xs font-bold tracking-[0.2em] uppercase transition-all hover:bg-secondary-container active:scale-[0.98]"
                   type="submit"
                 >
                   Add Product
                 </button>
                 <a
-                  class="flex-1 border border-secondary text-secondary py-2.5 px-8 text-xs font-bold tracking-[0.2em] uppercase transition-all hover:bg-secondary/5 active:scale-[0.98] text-center"
+                  class="flex-1 border border-secondary text-secondary py-2 px-6 text-xs font-bold tracking-[0.2em] uppercase transition-all hover:bg-secondary/5 active:scale-[0.98] text-center"
                   href="/Admin/ManageProduct/ManageProducts.aspx"
                 >
                   Cancel
