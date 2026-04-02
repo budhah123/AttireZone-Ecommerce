@@ -40,13 +40,69 @@ namespace AttireZone_Web_App.Auth
                 Session["UserName"] = user.FullName;
                 Session["UserEmail"] = user.Email;
 
-                Response.Redirect("~/Default.aspx", false);
+                Response.Redirect(ResolvePostLoginUrl(), false);
                 Context.ApplicationInstance.CompleteRequest();
             }
             catch
             {
                 ShowSnackbar("Something went wrong while signing you in.", "error");
             }
+        }
+
+        private string ResolvePostLoginUrl()
+        {
+            var returnUrl = Request.QueryString["returnUrl"];
+            if (TryNormalizeReturnUrl(returnUrl, out var normalizedReturnUrl))
+            {
+                return normalizedReturnUrl;
+            }
+
+            return "~/Default.aspx";
+        }
+
+        private bool TryNormalizeReturnUrl(string rawReturnUrl, out string normalizedReturnUrl)
+        {
+            normalizedReturnUrl = null;
+
+            if (string.IsNullOrWhiteSpace(rawReturnUrl))
+            {
+                return false;
+            }
+
+            var trimmedReturnUrl = rawReturnUrl.Trim();
+
+            if (trimmedReturnUrl.StartsWith("~/", StringComparison.Ordinal))
+            {
+                normalizedReturnUrl = trimmedReturnUrl;
+                return true;
+            }
+
+            if (trimmedReturnUrl.StartsWith("/", StringComparison.Ordinal) &&
+                !trimmedReturnUrl.StartsWith("//", StringComparison.Ordinal))
+            {
+                normalizedReturnUrl = "~" + trimmedReturnUrl;
+                return true;
+            }
+
+            if (!Uri.TryCreate(trimmedReturnUrl, UriKind.Absolute, out var absoluteReturnUrl))
+            {
+                return false;
+            }
+
+            if (!string.Equals(absoluteReturnUrl.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(absoluteReturnUrl.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            if (Request.Url == null ||
+                !string.Equals(absoluteReturnUrl.Authority, Request.Url.Authority, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            normalizedReturnUrl = "~" + absoluteReturnUrl.PathAndQuery + absoluteReturnUrl.Fragment;
+            return true;
         }
 
         private void ShowSnackbar(string message, string type)

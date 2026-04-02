@@ -22,6 +22,34 @@ namespace AttireZone_Web_App.Pages
             }
         }
 
+        protected void btnAddToCart_Click(object sender, EventArgs e)
+        {
+            if (!TryReadLoggedInUserId(out var userId))
+            {
+                RedirectToLoginWithReturnUrl();
+                return;
+            }
+
+            if (!TryReadProductId(out var productId))
+            {
+                ShowSnackbar("Unable to add this item right now.", "error");
+                return;
+            }
+
+            var selectedSize = ddlSelectedSize == null ? "M" : ddlSelectedSize.SelectedValue;
+            var selectedQuantity = ParseSelectedQuantity(txtSelectedQuantity == null ? null : txtSelectedQuantity.Text);
+
+            try
+            {
+                CartService.AddToCart(userId, productId, selectedQuantity, selectedSize);
+                ShowSnackbar("Item added to cart!", "success");
+            }
+            catch
+            {
+                ShowSnackbar("Unable to add item to cart right now.", "error");
+            }
+        }
+
         private void BindProductDetails()
         {
             if (!TryReadProductId(out var productId))
@@ -187,6 +215,54 @@ namespace AttireZone_Web_App.Pages
             }
 
             return ResolveUrl("~/" + normalizedPath.TrimStart('/'));
+        }
+
+        private static int ParseSelectedQuantity(string rawQuantity)
+        {
+            if (!int.TryParse(rawQuantity, NumberStyles.Integer, CultureInfo.InvariantCulture, out var quantity) || quantity <= 0)
+            {
+                return 1;
+            }
+
+            return quantity;
+        }
+
+        private bool TryReadLoggedInUserId(out int userId)
+        {
+            userId = 0;
+
+            var userIdFromSession = Session["UserId"];
+            if (userIdFromSession == null)
+            {
+                return false;
+            }
+
+            if (userIdFromSession is int directUserId && directUserId > 0)
+            {
+                userId = directUserId;
+                return true;
+            }
+
+            return int.TryParse(Convert.ToString(userIdFromSession, CultureInfo.InvariantCulture), NumberStyles.Integer, CultureInfo.InvariantCulture, out userId) && userId > 0;
+        }
+
+        private void RedirectToLoginWithReturnUrl()
+        {
+            var returnUrl = HttpUtility.UrlEncode(Request.RawUrl ?? ResolveUrl("~/Pages/ProductDetails.aspx"));
+            Response.Redirect("~/Auth/Login.aspx?returnUrl=" + returnUrl, false);
+            Context.ApplicationInstance.CompleteRequest();
+        }
+
+        private void ShowSnackbar(string message, string type)
+        {
+            var safeMessage = HttpUtility.JavaScriptStringEncode(message ?? string.Empty);
+            var safeType = HttpUtility.JavaScriptStringEncode(type ?? "info");
+            var script = string.Format(
+                "window.setTimeout(function(){{ if (window.azSnackbar && window.azSnackbar.show) {{ window.azSnackbar.show('{0}', '{1}'); }} else {{ alert('{0}'); }} }}, 0);",
+                safeMessage,
+                safeType);
+
+            ClientScript.RegisterStartupScript(GetType(), "productDetailsSnackbar_" + Guid.NewGuid().ToString("N"), script, true);
         }
 
         private void ShowProductNotFound()

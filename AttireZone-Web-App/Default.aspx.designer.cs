@@ -15,6 +15,24 @@ namespace AttireZone_Web_App
     {
 
         /// <summary>
+        /// txtHomeSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHomeSearch;
+
+        /// <summary>
+        /// btnHomeSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnHomeSearch;
+
+        /// <summary>
         /// rptCuratedProducts control.
         /// </summary>
         /// <remarks>

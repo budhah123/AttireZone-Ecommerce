@@ -7,30 +7,31 @@ Inherits="AttireZone_Web_App.Navbar" %>
   <div
     class="flex justify-between items-center px-6 py-4 max-w-[1920px] mx-auto"
   >
-    <div
+    <a
       class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50 uppercase"
+      href="<%= ResolveUrl("~/Default.aspx") %>"
     >
       AttireZone
-    </div>
+    </a>
     <div class="hidden md:flex items-center space-x-8">
       <a
         class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors"
-        href="#"
+        href="<%= ResolveUrl("~/Default.aspx#essential-categories") %>"
         >Collections</a
       >
       <a
         class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors"
-        href="#"
+        href="<%= ResolveUrl("~/Default.aspx#curated-section") %>"
         >New Arrivals</a
       >
       <a
         class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors"
-        href="#"
+        href="<%= ResolveUrl("~/Default.aspx#curated-section") %>"
         >Sale</a
       >
       <a
         class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors"
-        href="#"
+        href="<%= ResolveUrl("~/Default.aspx#journal-section") %>"
         >Journal</a
       >
     </div>

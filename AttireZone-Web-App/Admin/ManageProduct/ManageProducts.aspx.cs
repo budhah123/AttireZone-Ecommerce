@@ -56,9 +56,21 @@ namespace AttireZone_Web_App.Admin.ManageProduct
 
             if (!IsPostBack)
             {
+                ApplyFiltersFromQueryString();
+                BindCategoryFilter();
                 HandleActionMessage();
                 LoadProducts();
             }
+        }
+
+        protected void txtProductSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadProducts();
+        }
+
+        protected void ddlCategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadProducts();
         }
 
         protected void rptProducts_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -131,14 +143,17 @@ namespace AttireZone_Web_App.Admin.ManageProduct
         private void LoadProducts()
         {
             List<ProductRowVm> rows;
+            var selectedCategoryId = ParseSelectedCategoryId();
+            var searchTerm = NormalizeSearch(txtProductSearch == null ? null : txtProductSearch.Text);
+
             try
             {
-                var products = ProductService.GetAllProducts() ?? new List<Product>();
+                var products = ProductService.SearchProducts(searchTerm, selectedCategoryId, "featured") ?? new List<Product>();
                 rows = products.Select(MapProduct).ToList();
             }
             catch
             {
-                rows = GetFallbackRows();
+                rows = FilterFallbackRows(GetFallbackRows(), searchTerm, selectedCategoryId);
             }
 
             rptProducts.DataSource = rows;
@@ -161,6 +176,97 @@ namespace AttireZone_Web_App.Admin.ManageProduct
             litShownFrom.Text = totalSku > 0 ? "1" : "0";
             litShownTo.Text = FormatNumber(totalSku);
             litShownTotal.Text = FormatNumber(totalSku);
+        }
+
+        private void ApplyFiltersFromQueryString()
+        {
+            if (txtProductSearch != null)
+            {
+                txtProductSearch.Text = NormalizeSearch(Request.QueryString["q"]) ?? string.Empty;
+            }
+        }
+
+        private void BindCategoryFilter()
+        {
+            if (ddlCategoryFilter == null)
+            {
+                return;
+            }
+
+            ddlCategoryFilter.Items.Clear();
+            ddlCategoryFilter.Items.Add(new ListItem("All Categories", string.Empty));
+
+            try
+            {
+                var categories = CategoryService.GetAllCategories() ?? new List<Category>();
+                foreach (var category in categories
+                    .Where(item => item != null && item.Id > 0 && !string.IsNullOrWhiteSpace(item.Name))
+                    .OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase))
+                {
+                    ddlCategoryFilter.Items.Add(new ListItem(category.Name.Trim(), category.Id.ToString(CultureInfo.InvariantCulture)));
+                }
+            }
+            catch
+            {
+            }
+
+            var requestedCategory = Request.QueryString["category"];
+            if (!string.IsNullOrWhiteSpace(requestedCategory))
+            {
+                var requestedItem = ddlCategoryFilter.Items.FindByValue(requestedCategory.Trim());
+                if (requestedItem != null)
+                {
+                    ddlCategoryFilter.ClearSelection();
+                    requestedItem.Selected = true;
+                }
+            }
+        }
+
+        private int? ParseSelectedCategoryId()
+        {
+            var selectedValue = ddlCategoryFilter == null ? string.Empty : ddlCategoryFilter.SelectedValue;
+            if (string.IsNullOrWhiteSpace(selectedValue))
+            {
+                return null;
+            }
+
+            if (!int.TryParse(selectedValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var categoryId) || categoryId <= 0)
+            {
+                return null;
+            }
+
+            return categoryId;
+        }
+
+        private static string NormalizeSearch(string rawSearch)
+        {
+            if (string.IsNullOrWhiteSpace(rawSearch))
+            {
+                return null;
+            }
+
+            return rawSearch.Trim();
+        }
+
+        private static List<ProductRowVm> FilterFallbackRows(List<ProductRowVm> rows, string searchTerm, int? selectedCategoryId)
+        {
+            _ = selectedCategoryId;
+            var filteredRows = rows ?? new List<ProductRowVm>();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                filteredRows = filteredRows
+                    .Where(item =>
+                        item != null &&
+                        (
+                            item.ProductName.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            item.Category.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            item.Sku.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0
+                        ))
+                    .ToList();
+            }
+
+            return filteredRows;
         }
 
         private ProductRowVm MapProduct(Product product)

@@ -125,8 +125,11 @@
                 </div>
                 <div class="flex items-center gap-6">
                     <div class="relative hidden lg:block">
-                        <input class="bg-transparent border-b border-outline-variant focus:border-secondary py-1 px-2 text-xs transition-all w-48 focus:w-64 outline-none" placeholder="Search curated items..." type="text" />
-                        <span class="material-symbols-outlined absolute right-0 top-1 text-on-surface-variant scale-75">search</span>
+                        <asp:TextBox ID="txtSearchProducts" runat="server" AutoPostBack="true" OnTextChanged="txtSearchProducts_TextChanged" CssClass="bg-transparent border-b border-outline-variant focus:border-secondary py-1 px-2 text-xs transition-all w-48 focus:w-64 outline-none" placeholder="Search curated items..."></asp:TextBox>
+                        <asp:LinkButton ID="btnSearchProducts" runat="server" OnClick="btnSearchProducts_Click" CausesValidation="false" CssClass="absolute right-0 top-1 text-on-surface-variant scale-75">
+                            <span class="material-symbols-outlined">search</span>
+                        </asp:LinkButton>
+                        <div id="productSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
                     </div>
                     <div class="flex gap-4">
                         <button class="scale-100 active:scale-95 transition-transform hover:opacity-80" type="button">
@@ -148,7 +151,7 @@
                     <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-secondary mb-8">Category</h3>
                     <ul class="space-y-4">
                         <li>
-                            <a href="<%= ResolveUrl("~/Pages/Product.aspx") %>" class="<%= AllCategoryCssClass %>">All</a>
+                            <a href="<%= AllCategoryUrl %>" class="<%= AllCategoryCssClass %>">All</a>
                         </li>
                         <asp:Repeater ID="rptCategories" runat="server">
                             <ItemTemplate>
@@ -191,7 +194,16 @@
                             </h1>
                         </div>
                         <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
-                            <button class="flex items-center gap-2 hover:text-secondary transition-colors" type="button">Sort: Featured <span class="material-symbols-outlined !text-sm">expand_more</span></button>
+                            <div class="relative">
+                                <asp:DropDownList ID="ddlSortProducts" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlSortProducts_SelectedIndexChanged" CssClass="appearance-none bg-transparent border-none text-[10px] font-bold uppercase tracking-widest pr-5 cursor-pointer hover:text-secondary transition-colors focus:ring-0">
+                                    <asp:ListItem Value="featured">Sort: Featured</asp:ListItem>
+                                    <asp:ListItem Value="newest">Sort: Newest</asp:ListItem>
+                                    <asp:ListItem Value="price_asc">Sort: Price Low-High</asp:ListItem>
+                                    <asp:ListItem Value="price_desc">Sort: Price High-Low</asp:ListItem>
+                                    <asp:ListItem Value="name_asc">Sort: Name A-Z</asp:ListItem>
+                                </asp:DropDownList>
+                                <span class="material-symbols-outlined !text-sm absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+                            </div>
                             <button class="flex items-center gap-2 hover:text-secondary transition-colors" type="button">Layout: Grid <span class="material-symbols-outlined !text-sm">grid_view</span></button>
                         </div>
                     </div>
@@ -204,7 +216,7 @@
                     </div>
                 </asp:PlaceHolder>
 
-                <asp:Repeater ID="rptProducts" runat="server">
+                <asp:Repeater ID="rptProducts" runat="server" OnItemCommand="rptProducts_ItemCommand">
                     <HeaderTemplate>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-14 gap-x-8">
                     </HeaderTemplate>
@@ -214,9 +226,16 @@
                                 <img alt="<%#: Eval("ImageAlt") %>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="<%#: Eval("ImageUrl") %>" />
                                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-500 flex items-center justify-center">
                                     <div class="opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 flex flex-col gap-3 px-4 w-full max-w-[12rem]">
-                                        <button class="bg-secondary text-on-secondary px-4 py-2 text-[11px] font-bold uppercase tracking-widest w-full" type="button">
+                                        <asp:DropDownList ID="ddlSelectedSize" runat="server" CssClass="w-full bg-surface-container-high/80 text-on-surface border border-white/20 text-[10px] font-bold uppercase tracking-widest py-1.5 px-2">
+                                            <asp:ListItem Value="S">Size S</asp:ListItem>
+                                            <asp:ListItem Value="M" Selected="True">Size M</asp:ListItem>
+                                            <asp:ListItem Value="L">Size L</asp:ListItem>
+                                            <asp:ListItem Value="XL">Size XL</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:TextBox ID="txtSelectedQuantity" runat="server" TextMode="Number" Text="1" min="1" CssClass="w-full bg-surface-container-high/80 text-on-surface border border-white/20 text-[10px] font-bold tracking-widest py-1.5 px-2"></asp:TextBox>
+                                        <asp:LinkButton ID="btnAddToCart" runat="server" CssClass="bg-secondary text-on-secondary px-4 py-2 text-[11px] font-bold uppercase tracking-widest w-full text-center" CommandName="AddToCart" CommandArgument='<%# Eval("ProductId") %>'>
                                             Add to Cart
-                                        </button>
+                                        </asp:LinkButton>
                                         <a href="<%# Eval("ViewDetailsUrl") %>" class="bg-white/85 text-slate-900 px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-center w-full hover:bg-white transition-colors">
                                             View Details
                                         </a>
@@ -270,6 +289,133 @@
                 </div>
             </div>
         </footer>
+
+        <script type="text/javascript">
+            (function () {
+                var input = document.getElementById('<%= txtSearchProducts.ClientID %>');
+                var suggestionBox = document.getElementById('productSearchSuggestions');
+                if (!input || !suggestionBox) {
+                    return;
+                }
+
+                var endpoint = '<%= ResolveUrl("~/Pages/Product.aspx/GetSearchSuggestions") %>';
+                var debounceHandle = 0;
+                var activeRequestId = 0;
+
+                function hideSuggestions() {
+                    suggestionBox.classList.add('hidden');
+                    suggestionBox.innerHTML = '';
+                }
+
+                function renderSuggestions(items) {
+                    suggestionBox.innerHTML = '';
+
+                    if (!items || !items.length) {
+                        hideSuggestions();
+                        return;
+                    }
+
+                    var fragment = document.createDocumentFragment();
+                    for (var i = 0; i < items.length; i++) {
+                        var text = items[i];
+                        if (!text) {
+                            continue;
+                        }
+
+                        var option = document.createElement('button');
+                        option.type = 'button';
+                        option.className = 'w-full text-left px-4 py-2 text-xs uppercase tracking-wide text-on-surface border-b border-outline-variant/20 last:border-b-0 hover:bg-surface-container-high transition-colors';
+                        option.textContent = text;
+
+                        option.addEventListener('mousedown', function (event) {
+                            event.preventDefault();
+                        });
+
+                        option.addEventListener('click', function (event) {
+                            input.value = event.currentTarget.textContent || '';
+                            hideSuggestions();
+                        });
+
+                        fragment.appendChild(option);
+                    }
+
+                    if (!fragment.childNodes.length) {
+                        hideSuggestions();
+                        return;
+                    }
+
+                    suggestionBox.appendChild(fragment);
+                    suggestionBox.classList.remove('hidden');
+                }
+
+                function fetchSuggestions(query) {
+                    var requestId = ++activeRequestId;
+
+                    fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        body: JSON.stringify({ term: query })
+                    })
+                        .then(function (response) {
+                            if (!response.ok) {
+                                throw new Error('Unable to fetch suggestions.');
+                            }
+
+                            return response.json();
+                        })
+                        .then(function (payload) {
+                            if (requestId !== activeRequestId) {
+                                return;
+                            }
+
+                            var suggestions = payload && Array.isArray(payload.d) ? payload.d : [];
+                            renderSuggestions(suggestions);
+                        })
+                        .catch(function () {
+                            if (requestId === activeRequestId) {
+                                hideSuggestions();
+                            }
+                        });
+                }
+
+                input.addEventListener('input', function () {
+                    var query = (input.value || '').trim();
+                    window.clearTimeout(debounceHandle);
+
+                    if (query.length < 2) {
+                        hideSuggestions();
+                        return;
+                    }
+
+                    debounceHandle = window.setTimeout(function () {
+                        fetchSuggestions(query);
+                    }, 180);
+                });
+
+                input.addEventListener('focus', function () {
+                    var query = (input.value || '').trim();
+                    if (query.length >= 2) {
+                        fetchSuggestions(query);
+                    }
+                });
+
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        hideSuggestions();
+                    }
+                });
+
+                document.addEventListener('click', function (event) {
+                    if (event.target === input || suggestionBox.contains(event.target)) {
+                        return;
+                    }
+
+                    hideSuggestions();
+                });
+            })();
+        </script>
     </form>
 </body>
 </html>

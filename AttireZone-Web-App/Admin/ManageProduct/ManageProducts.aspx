@@ -73,11 +73,14 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
             data-icon="search"
             >search</span
           >
-          <input
+          <asp:TextBox
+            ID="txtProductSearch"
+            runat="server"
+            AutoPostBack="true"
+            OnTextChanged="txtProductSearch_TextChanged"
             class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-outline text-on-surface"
             placeholder="Search product catalogue..."
-            type="text"
-          />
+          ></asp:TextBox>
         </div>
       </div>
       <div class="flex items-center gap-6">
@@ -205,15 +208,15 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
 
           <div class="flex flex-wrap items-center gap-4">
             <div class="relative group">
-              <select
+              <asp:DropDownList
+                ID="ddlCategoryFilter"
+                runat="server"
+                AutoPostBack="true"
+                OnSelectedIndexChanged="ddlCategoryFilter_SelectedIndexChanged"
                 class="appearance-none bg-surface-container-low border-b border-outline-variant/30 text-on-surface-variant text-sm py-2.5 pl-4 pr-10 focus:outline-none focus:border-secondary transition-colors cursor-pointer min-w-[160px]"
               >
-                <option>All Categories</option>
-                <option>Outerwear</option>
-                <option>Tailored Suits</option>
-                <option>Footwear</option>
-                <option>Accessories</option>
-              </select>
+                <asp:ListItem Value="">All Categories</asp:ListItem>
+              </asp:DropDownList>
               <span
                 class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm pointer-events-none"
                 data-icon="expand_more"
@@ -227,7 +230,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
               <span
                 class="material-symbols-outlined text-sm"
                 data-icon="add"
-                style="font-variation-settings: 'wght' 600;"
+                style="font-variation-settings: &quot;wght&quot; 600"
                 >add</span
               >
               Add Product
@@ -347,7 +350,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                       </td>
                       <td class="px-6 py-5 text-center">
                         <span
-                          class='<%#: Eval("PopularBadgeCssClass") %>'
+                          class="<%#: Eval(&quot;PopularBadgeCssClass&quot;) %>"
                           ><%#: Eval("PopularLabel") %></span
                         >
                       </td>
@@ -361,7 +364,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                       </td>
                       <td class="px-6 py-5 text-center">
                         <span
-                          class='<%#: Eval("StatusBadgeCssClass") %>'
+                          class="<%#: Eval(&quot;StatusBadgeCssClass&quot;) %>"
                           ><%#: Eval("StatusLabel") %></span
                         >
                       </td>

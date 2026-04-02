@@ -105,6 +105,33 @@ namespace AttireZone_Web_App.Pages
         protected global::System.Web.UI.WebControls.Literal litDescription;
 
         /// <summary>
+        /// ddlSelectedSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSelectedSize;
+
+        /// <summary>
+        /// txtSelectedQuantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSelectedQuantity;
+
+        /// <summary>
+        /// btnAddToCart control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddToCart;
+
+        /// <summary>
         /// rptSimilarProducts control.
         /// </summary>
         /// <remarks>

@@ -69,11 +69,14 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
             data-icon="search"
             >search</span
           >
-          <input
+          <asp:TextBox
+            ID="txtUserSearch"
+            runat="server"
+            AutoPostBack="true"
+            OnTextChanged="txtUserSearch_TextChanged"
             class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-on-surface-variant/50 text-on-surface"
             placeholder="Search users, roles or activity..."
-            type="text"
-          />
+          ></asp:TextBox>
         </div>
       </div>
       <div class="flex items-center gap-4">
@@ -277,30 +280,40 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
       <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div class="flex items-center gap-6">
           <div class="relative group">
-            <button
-              type="button"
-              class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-on-surface hover:text-secondary transition-colors"
+            <asp:DropDownList
+              ID="ddlRoleFilter"
+              runat="server"
+              AutoPostBack="true"
+              OnSelectedIndexChanged="ddlRoleFilter_SelectedIndexChanged"
+              CssClass="appearance-none bg-transparent pr-6 text-xs font-bold uppercase tracking-widest text-on-surface hover:text-secondary transition-colors focus:outline-none"
             >
-              Role: All Roles
-              <span
-                class="material-symbols-outlined text-sm"
-                data-icon="expand_more"
-                >expand_more</span
-              >
-            </button>
+              <asp:ListItem Value="">Role: All Roles</asp:ListItem>
+              <asp:ListItem Value="Admin">Role: Admin</asp:ListItem>
+              <asp:ListItem Value="Customer">Role: Customer</asp:ListItem>
+            </asp:DropDownList>
+            <span
+              class="material-symbols-outlined text-sm absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
+              data-icon="expand_more"
+              >expand_more</span
+            >
           </div>
           <div class="relative group">
-            <button
-              type="button"
-              class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-on-surface hover:text-secondary transition-colors"
+            <asp:DropDownList
+              ID="ddlStatusFilter"
+              runat="server"
+              AutoPostBack="true"
+              OnSelectedIndexChanged="ddlStatusFilter_SelectedIndexChanged"
+              CssClass="appearance-none bg-transparent pr-6 text-xs font-bold uppercase tracking-widest text-on-surface hover:text-secondary transition-colors focus:outline-none"
             >
-              Status: All
-              <span
-                class="material-symbols-outlined text-sm"
-                data-icon="expand_more"
-                >expand_more</span
-              >
-            </button>
+              <asp:ListItem Value="">Status: All</asp:ListItem>
+              <asp:ListItem Value="Active">Status: Active</asp:ListItem>
+              <asp:ListItem Value="Inactive">Status: Inactive</asp:ListItem>
+            </asp:DropDownList>
+            <span
+              class="material-symbols-outlined text-sm absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
+              data-icon="expand_more"
+              >expand_more</span
+            >
           </div>
         </div>
         <p class="text-xs text-on-surface-variant font-medium">
@@ -374,7 +387,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
                     <%#: Eval("LastModifiedDateDisplay") %>
                   </td>
                   <td class="px-6 py-5">
-                    <span class='<%#: Eval("RoleBadgeCssClass") %>'
+                    <span class="<%#: Eval(&quot;RoleBadgeCssClass&quot;) %>"
                       ><%#: Eval("Role") %></span
                     >
                   </td>

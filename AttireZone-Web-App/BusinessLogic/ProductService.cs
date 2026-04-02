@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.Linq;
 using AttireZone_Web_App.DataAccess;
 using AttireZone_Web_App.Models;
 
@@ -9,6 +11,129 @@ namespace AttireZone_Web_App.BusinessLogic
 {
     public class ProductService
     {
+        public static List<string> GetSearchSuggestions(string searchTerm, int take = 8)
+        {
+            var normalizedSearch = NormalizeSearch(searchTerm);
+            if (string.IsNullOrWhiteSpace(normalizedSearch))
+            {
+                return new List<string>();
+            }
+
+            var safeTake = take <= 0 ? 8 : Math.Min(take, 20);
+
+            const string sql = @"
+SELECT TOP (@Take)
+    p.[product_name],
+    c.[name] AS [category_name],
+    p.[edition]
+FROM [dbo].[Products] p
+LEFT JOIN [dbo].[Categories] c ON c.[id] = p.[CategoryId]
+WHERE
+    p.[product_name] LIKE '%' + @SearchTerm + '%'
+    OR c.[name] LIKE '%' + @SearchTerm + '%'
+    OR p.[edition] LIKE '%' + @SearchTerm + '%'
+ORDER BY
+    CASE WHEN p.[product_name] LIKE @SearchPrefix THEN 0 ELSE 1 END,
+    p.[isPopular] DESC,
+    p.[id] DESC;";
+
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@Take", SqlDbType.Int) { Value = safeTake },
+                new SqlParameter("@SearchTerm", SqlDbType.NVarChar, 200) { Value = normalizedSearch },
+                new SqlParameter("@SearchPrefix", SqlDbType.NVarChar, 200) { Value = normalizedSearch + "%" }
+            };
+
+            var dt = DBHelper.ExecuteDataTable(sql, parameters);
+            var suggestions = new List<string>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var tokens = normalizedSearch.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                var row = dt.Rows[i];
+                var productName = row["product_name"] == DBNull.Value ? string.Empty : Convert.ToString(row["product_name"], CultureInfo.InvariantCulture);
+                if (string.IsNullOrWhiteSpace(productName))
+                {
+                    continue;
+                }
+
+                var normalizedProductName = productName.Trim();
+                if (tokens.Length > 0 && !tokens.All(token => normalizedProductName.IndexOf(token, StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    continue;
+                }
+
+                if (!seen.Add(normalizedProductName))
+                {
+                    continue;
+                }
+
+                suggestions.Add(normalizedProductName);
+                if (suggestions.Count >= safeTake)
+                {
+                    break;
+                }
+            }
+
+            return suggestions;
+        }
+
+        public static List<Product> SearchProducts(string searchTerm, int? categoryId, string sortOption)
+        {
+            var normalizedSearch = NormalizeSearch(searchTerm);
+            var normalizedSort = NormalizeSort(sortOption);
+
+            const string sqlTemplate = @"
+SELECT
+    p.[id],
+    p.[product_name],
+    p.[price],
+    p.[edition],
+    p.[CategoryId],
+    p.[isPopular],
+    p.[selected_size],
+    p.[description],
+    p.[stock_quantity],
+    p.[status],
+    p.[image_path],
+    c.[name] AS [category_name]
+FROM [dbo].[Products] p
+LEFT JOIN [dbo].[Categories] c ON c.[id] = p.[CategoryId]
+WHERE
+    (@SearchTerm IS NULL
+        OR p.[product_name] LIKE '%' + @SearchTerm + '%'
+        OR p.[edition] LIKE '%' + @SearchTerm + '%'
+        OR p.[status] LIKE '%' + @SearchTerm + '%'
+        OR c.[name] LIKE '%' + @SearchTerm + '%')
+    AND (@CategoryId IS NULL OR p.[CategoryId] = @CategoryId)
+ORDER BY {0};";
+
+            var sql = string.Format(CultureInfo.InvariantCulture, sqlTemplate, BuildSortClause(normalizedSort));
+
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@SearchTerm", SqlDbType.NVarChar, 200)
+                {
+                    Value = string.IsNullOrWhiteSpace(normalizedSearch) ? (object)DBNull.Value : normalizedSearch
+                },
+                new SqlParameter("@CategoryId", SqlDbType.Int)
+                {
+                    Value = categoryId.HasValue && categoryId.Value > 0 ? (object)categoryId.Value : DBNull.Value
+                }
+            };
+
+            DataTable dt = DBHelper.ExecuteDataTable(sql, parameters);
+            var products = new List<Product>(dt.Rows.Count);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                products.Add(MapProduct(dt.Rows[i]));
+            }
+
+            return products;
+        }
+
         public static List<Product> GetAllProducts()
         {
             const string sql = @"
@@ -260,6 +385,59 @@ WHERE [id] = @Id;";
             }
 
             return false;
+        }
+
+        private static string NormalizeSearch(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return null;
+            }
+
+            return searchTerm.Trim();
+        }
+
+        private static string NormalizeSort(string sortOption)
+        {
+            if (string.IsNullOrWhiteSpace(sortOption))
+            {
+                return "featured";
+            }
+
+            var normalized = sortOption.Trim().ToLowerInvariant();
+
+            switch (normalized)
+            {
+                case "featured":
+                case "newest":
+                case "price_asc":
+                case "price_desc":
+                case "name_asc":
+                case "name_desc":
+                    return normalized;
+                default:
+                    return "featured";
+            }
+        }
+
+        private static string BuildSortClause(string sortOption)
+        {
+            switch (sortOption)
+            {
+                case "newest":
+                    return "p.[id] DESC";
+                case "price_asc":
+                    return "p.[price] ASC, p.[id] DESC";
+                case "price_desc":
+                    return "p.[price] DESC, p.[id] DESC";
+                case "name_asc":
+                    return "p.[product_name] ASC, p.[id] DESC";
+                case "name_desc":
+                    return "p.[product_name] DESC, p.[id] DESC";
+                case "featured":
+                default:
+                    return "p.[isPopular] DESC, p.[id] DESC";
+            }
         }
     }
 }

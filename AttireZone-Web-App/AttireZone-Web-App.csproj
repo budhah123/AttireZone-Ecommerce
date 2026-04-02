@@ -221,6 +221,7 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BusinessLogic\CartService.cs" />
     <Compile Include="BusinessLogic\CategoryService.cs" />
     <Compile Include="BusinessLogic\ProductService.cs" />
     <Compile Include="BusinessLogic\UserService.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Auth\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\User.cs" />

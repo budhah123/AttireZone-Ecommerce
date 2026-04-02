@@ -25,6 +25,16 @@
             backdrop-filter: blur(12px);
         }
 
+        .az-size-select {
+            background-color: #131313 !important;
+            color: #e2e2e2 !important;
+        }
+
+        .az-size-select option {
+            background-color: #1b1b1b !important;
+            color: #e2e2e2 !important;
+        }
+
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -129,7 +139,7 @@
             <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
         </nav>
 
-        <main class="max-w-[1440px] mx-auto px-6 lg:px-12 py-12">
+        <main class="max-w-[1320px] mx-auto px-5 lg:px-10 py-10">
             <asp:PlaceHolder ID="phProductNotFound" runat="server" Visible="false">
                 <section class="border border-outline-variant/20 bg-surface-container-low px-8 py-16 text-center">
                     <h1 class="text-3xl font-semibold tracking-tight mb-4">Product Not Found</h1>
@@ -149,9 +159,9 @@
                     </ol>
                 </nav>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">
                     <div class="lg:col-span-7 grid grid-cols-1 gap-8">
-                        <div class="relative group overflow-hidden lg:max-w-[88%] xl:max-w-[84%] mx-auto">
+                        <div class="relative group overflow-hidden lg:max-w-[78%] xl:max-w-[74%] mx-auto">
                             <asp:Image ID="imgProductMain" runat="server" AlternateText="Product Main View" CssClass="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" />
                             <asp:PlaceHolder ID="phLimitedBadge" runat="server" Visible="false">
                                 <div class="absolute top-6 left-6 bg-secondary text-on-secondary px-4 py-1 text-[10px] tracking-widest font-bold uppercase">
@@ -161,7 +171,7 @@
                         </div>
                     </div>
 
-                    <div class="lg:col-span-5 lg:sticky lg:top-32 lg:scale-[0.9] lg:origin-top">
+                    <div class="lg:col-span-5 lg:sticky lg:top-28 lg:scale-[0.84] lg:origin-top">
                         <div class="space-y-7">
                             <div>
                                 <h1 class="text-4xl xl:text-5xl font-semibold tracking-tighter text-on-background mb-3"><asp:Literal ID="litProductName" runat="server"></asp:Literal></h1>
@@ -179,18 +189,21 @@
                                     <span class="text-[10px] tracking-widest uppercase font-bold text-on-surface">Select Size</span>
                                     <a class="text-[10px] tracking-widest uppercase text-on-surface-variant hover:text-secondary underline decoration-secondary/30 underline-offset-4" href="#">Size Guide</a>
                                 </div>
-                                <div class="grid grid-cols-4 gap-2" id="sizeSelector">
-                                    <button class="size-option py-4 text-xs font-medium border border-outline-variant hover:border-secondary transition-all" type="button" data-size-option="S" aria-pressed="false">S</button>
-                                    <button class="size-option py-4 text-xs font-medium border border-outline-variant hover:border-secondary transition-all" type="button" data-size-option="M" aria-pressed="false">M</button>
-                                    <button class="size-option py-4 text-xs font-medium border border-outline-variant hover:border-secondary transition-all" type="button" data-size-option="L" aria-pressed="false">L</button>
-                                    <button class="size-option py-4 text-xs font-medium border border-outline-variant hover:border-secondary transition-all" type="button" data-size-option="XL" aria-pressed="false">XL</button>
-                                </div>
+                                <asp:DropDownList ID="ddlSelectedSize" runat="server" CssClass="w-full py-4 text-xs font-medium border border-outline-variant bg-transparent hover:border-secondary focus:border-secondary transition-all az-size-select">
+                                    <asp:ListItem Value="S">S</asp:ListItem>
+                                    <asp:ListItem Value="M" Selected="True">M</asp:ListItem>
+                                    <asp:ListItem Value="L">L</asp:ListItem>
+                                    <asp:ListItem Value="XL">XL</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+
+                            <div class="space-y-2">
+                                <span class="text-[10px] tracking-widest uppercase font-bold text-on-surface">Quantity</span>
+                                <asp:TextBox ID="txtSelectedQuantity" runat="server" TextMode="Number" Text="1" min="1" CssClass="w-full max-w-32 py-3 px-3 text-xs font-medium border border-outline-variant bg-transparent hover:border-secondary focus:border-secondary transition-all"></asp:TextBox>
                             </div>
 
                             <div class="pt-4 flex flex-col gap-4">
-                                <button class="w-full py-5 bg-gradient-to-tr from-secondary to-secondary-container text-on-secondary font-bold uppercase tracking-[0.2em] text-xs transition-transform active:scale-[0.98]" type="button">
-                                    Add to Shopping Bag
-                                </button>
+                                <asp:Button ID="btnAddToCart" runat="server" Text="Add to Shopping Bag" CssClass="w-full py-5 bg-gradient-to-tr from-secondary to-secondary-container text-on-secondary font-bold uppercase tracking-[0.2em] text-xs transition-transform active:scale-[0.98]" OnClick="btnAddToCart_Click" />
                                 <button class="w-full py-5 border border-outline-variant text-on-surface font-bold uppercase tracking-[0.2em] text-xs hover:bg-on-surface/5 transition-colors" type="button">
                                     Wishlist
                                 </button>
@@ -331,30 +344,6 @@
                 </div>
             </div>
         </footer>
-
-        <script type="text/javascript">
-            (function () {
-                var sizeButtons = document.querySelectorAll('.size-option');
-                if (!sizeButtons || sizeButtons.length === 0) {
-                    return;
-                }
-
-                function clearSelection() {
-                    for (var i = 0; i < sizeButtons.length; i++) {
-                        sizeButtons[i].classList.remove('border-secondary', 'bg-secondary', 'text-on-secondary');
-                        sizeButtons[i].setAttribute('aria-pressed', 'false');
-                    }
-                }
-
-                for (var j = 0; j < sizeButtons.length; j++) {
-                    sizeButtons[j].addEventListener('click', function () {
-                        clearSelection();
-                        this.classList.add('border-secondary', 'bg-secondary', 'text-on-secondary');
-                        this.setAttribute('aria-pressed', 'true');
-                    });
-                }
-            })();
-        </script>
     </form>
 </body>
 </html>
