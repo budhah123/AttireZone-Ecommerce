@@ -40,9 +40,8 @@ namespace AttireZone_Web_App
             }
 
             List<CuratedProductCardViewModel> curatedProducts = allProducts
-                .Where(product => product != null && !string.IsNullOrWhiteSpace(product.ProductName))
-                .OrderByDescending(product => product.IsPopular)
-                .ThenByDescending(product => product.Id)
+                .Where(product => product != null && !string.IsNullOrWhiteSpace(product.ProductName) && product.IsPopular)
+                .OrderByDescending(product => product.Id)
                 .Take(CuratedProductCount)
                 .Select(BuildCuratedProductCard)
                 .ToList();
