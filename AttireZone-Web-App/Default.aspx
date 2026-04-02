@@ -115,7 +115,7 @@ Inherits="AttireZone_Web_App._Default" %>
           <h2 class="text-3xl font-headline font-semibold text-on-background tracking-tight">Curated Selection</h2>
           <p class="text-on-surface-variant mt-2">The season's most-wanted pieces, meticulously crafted.</p>
         </div>
-        <a class="text-secondary text-sm font-bold tracking-widest uppercase group flex items-center gap-2" href="#">
+        <a class="text-secondary text-sm font-bold tracking-widest uppercase group flex items-center gap-2" href="<%= ResolveUrl("~/Pages/Product.aspx") %>">
           View All Products <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_right_alt</span>
         </a>
       </div>

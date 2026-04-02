@@ -1,0 +1,275 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Product.aspx.cs" Inherits="AttireZone_Web_App.Pages.Product" %>
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AttireZone | Curated Collections</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <style>
+        html {
+            font-size: 15px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e9c349;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#241a00",
+                        "surface": "#131313",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "background": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#6f88ad",
+                        "inverse-primary": "#476083",
+                        "on-secondary-container": "#342800",
+                        "primary": "#afc8f0",
+                        "surface-container-low": "#1b1b1b",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-background": "#e2e2e2",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary": "#c6c6c7",
+                        "on-surface-variant": "#c4c6cf",
+                        "primary-container": "#001f3f",
+                        "on-secondary": "#3c2f00",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#afc8f0",
+                        "outline": "#8e9198",
+                        "secondary": "#e9c349",
+                        "secondary-container": "#af8d11",
+                        "on-surface": "#e2e2e2",
+                        "tertiary-container": "#1d1f1f",
+                        "outline-variant": "#43474e",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#303030",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#353535",
+                        "surface-container": "#1f1f1f",
+                        "inverse-surface": "#e2e2e2",
+                        "on-primary": "#163152",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-dim": "#131313",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-variant": "#353535",
+                        "secondary-fixed": "#ffe088",
+                        "primary-fixed": "#d4e3ff",
+                        "on-secondary-fixed-variant": "#574500",
+                        "secondary-fixed-dim": "#e9c349",
+                        "surface-bright": "#393939",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#858687",
+                        "on-tertiary": "#2f3131"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary">
+    <form id="form1" runat="server">
+        <nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm dark:shadow-none transition-transform duration-300">
+            <div class="flex justify-between items-center px-6 py-4 max-w-[1920px] mx-auto">
+                <div class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50 uppercase">
+                    AttireZone
+                </div>
+                <div class="hidden md:flex items-center gap-8 font-sans tracking-tight text-sm uppercase font-semibold">
+                    <a class="text-amber-500 border-b-2 border-amber-500 pb-1" href="#">Collections</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">New Arrivals</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Sale</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Journal</a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative hidden lg:block">
+                        <input class="bg-transparent border-b border-outline-variant focus:border-secondary py-1 px-2 text-xs transition-all w-48 focus:w-64 outline-none" placeholder="Search curated items..." type="text" />
+                        <span class="material-symbols-outlined absolute right-0 top-1 text-on-surface-variant scale-75">search</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="scale-100 active:scale-95 transition-transform hover:opacity-80" type="button">
+                            <span class="material-symbols-outlined text-slate-900 dark:text-slate-50">person</span>
+                        </button>
+                        <button class="scale-100 active:scale-95 transition-transform hover:opacity-80 relative" type="button">
+                            <span class="material-symbols-outlined text-slate-900 dark:text-slate-50">shopping_bag</span>
+                            <span class="absolute -top-1 -right-1 bg-secondary text-on-secondary text-[8px] px-1 font-bold rounded-full">3</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
+        </nav>
+
+        <main class="flex min-h-screen">
+            <aside class="hidden lg:flex flex-col w-72 p-10 space-y-12 border-r border-outline-variant/10 bg-surface-container-lowest">
+                <section>
+                    <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-secondary mb-8">Category</h3>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="<%= ResolveUrl("~/Pages/Product.aspx") %>" class="<%= AllCategoryCssClass %>">All</a>
+                        </li>
+                        <asp:Repeater ID="rptCategories" runat="server">
+                            <ItemTemplate>
+                                <li>
+                                    <a href="<%# Eval("Url") %>" class="<%# Eval("CssClass") %>"><%#: Eval("Name") %></a>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-secondary mb-8">Refinement</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">Material</span>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="px-3 py-1 text-[10px] border border-outline-variant/30 uppercase tracking-tighter hover:border-secondary transition-all" type="button">Organic Cotton</button>
+                                <button class="px-3 py-1 text-[10px] border border-secondary uppercase tracking-tighter text-secondary" type="button">Recycled Polyester</button>
+                                <button class="px-3 py-1 text-[10px] border border-outline-variant/30 uppercase tracking-tighter hover:border-secondary transition-all" type="button">Italian Leather</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="mt-auto">
+                        <img alt="Editorial Fashion" class="w-full opacity-60 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt80FpDUQbjsEYrfW1ysAkXbBVWnqSu-kj7YxEDHAzdd2fMDydL5S9QMomNqUsh_V9c6cKJ4i3Lf_8TW0ENOFnCzwen8rjLmF2SF124lZn7zlqLYT1bkLsCsExgrgqJPieVlVNyVBzD0iylFmr0OmCpXor9S1XUKoLH9QX_LS3y-fnz3tff1Es7Pcayxhne4tU1Ti1OsbowwfDlN85sPTg3BqpX86wtiIZeH8eGrz8XNGtuMqMm9GeT3BKZpODxFKDOye7wwyJQG4" />
+                    </div>
+                </section>
+            </aside>
+
+            <section class="flex-1 bg-surface p-6 md:p-12">
+                <header class="mb-16">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-on-surface-variant mb-4 block">Curated Selection</span>
+                            <h1 class="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">The Autumn <br />
+                                <span class="text-secondary">Collective</span>
+                            </h1>
+                        </div>
+                        <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
+                            <button class="flex items-center gap-2 hover:text-secondary transition-colors" type="button">Sort: Featured <span class="material-symbols-outlined !text-sm">expand_more</span></button>
+                            <button class="flex items-center gap-2 hover:text-secondary transition-colors" type="button">Layout: Grid <span class="material-symbols-outlined !text-sm">grid_view</span></button>
+                        </div>
+                    </div>
+                </header>
+
+                <asp:PlaceHolder ID="phNoProducts" runat="server" Visible="false">
+                    <div class="border border-outline-variant/20 bg-surface-container-low px-8 py-16 text-center mb-12">
+                        <h2 class="text-xl font-semibold tracking-tight uppercase mb-3">No Products Found</h2>
+                        <p class="text-on-surface-variant text-sm uppercase tracking-widest">Try another category to explore curated pieces.</p>
+                    </div>
+                </asp:PlaceHolder>
+
+                <asp:Repeater ID="rptProducts" runat="server">
+                    <HeaderTemplate>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-14 gap-x-8">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <article class="group relative w-full max-w-[18rem] mx-auto">
+                            <div class="aspect-[4/5] overflow-hidden bg-surface-container-low mb-5 relative">
+                                <img alt="<%#: Eval("ImageAlt") %>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="<%#: Eval("ImageUrl") %>" />
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-500 flex items-center justify-center">
+                                    <div class="opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 flex flex-col gap-3 px-4 w-full max-w-[12rem]">
+                                        <button class="bg-secondary text-on-secondary px-4 py-2 text-[11px] font-bold uppercase tracking-widest w-full" type="button">
+                                            Add to Cart
+                                        </button>
+                                        <a href="<%# Eval("ViewDetailsUrl") %>" class="bg-white/85 text-slate-900 px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-center w-full hover:bg-white transition-colors">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                                <span class="<%# Eval("BadgeCssClass") %>">New</span>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant"><%#: Eval("CategoryLabel") %></p>
+                                <div class="flex justify-between items-start gap-3">
+                                    <h2 class="text-base font-bold tracking-tight uppercase group-hover:text-secondary transition-colors"><%#: Eval("ProductName") %></h2>
+                                    <p class="text-base font-light whitespace-nowrap"><%#: Eval("PriceLabel") %></p>
+                                </div>
+                            </div>
+                        </article>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </div>
+                    </FooterTemplate>
+                </asp:Repeater>
+
+                <div class="mt-24 flex items-center justify-between border-t border-outline-variant/10 pt-12">
+                    <p class="text-xs uppercase tracking-widest text-on-surface-variant">
+                        <asp:Literal ID="litShowingSummary" runat="server"></asp:Literal>
+                    </p>
+                    <div class="flex gap-4">
+                        <button class="w-10 h-10 border border-secondary text-secondary flex items-center justify-center font-bold" type="button">1</button>
+                        <button class="w-10 h-10 border border-outline-variant/30 hover:border-secondary transition-all flex items-center justify-center" type="button">2</button>
+                        <button class="w-10 h-10 border border-outline-variant/30 hover:border-secondary transition-all flex items-center justify-center" type="button">3</button>
+                        <button class="px-6 border border-outline-variant/30 hover:border-secondary transition-all flex items-center justify-center text-[10px] uppercase font-bold tracking-widest" type="button">Next</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="w-full border-t-0 rounded-none bg-slate-50 dark:bg-slate-950">
+            <div class="bg-slate-200 dark:bg-slate-800 h-[1px]"></div>
+            <div class="flex flex-col md:flex-row justify-between items-center px-12 py-20 w-full gap-8">
+                <div class="text-lg font-bold text-slate-900 dark:text-slate-50 uppercase tracking-tighter">
+                    AttireZone
+                </div>
+                <div class="flex flex-wrap justify-center gap-8 font-sans text-xs uppercase tracking-widest">
+                    <a class="text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Sustainability</a>
+                    <a class="text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Shipping</a>
+                    <a class="text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Returns</a>
+                    <a class="text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Privacy Policy</a>
+                    <a class="text-slate-500 dark:text-slate-500 hover:text-amber-500 transition-colors duration-200" href="#">Terms of Service</a>
+                </div>
+                <div class="font-sans text-xs uppercase tracking-widest text-slate-500 dark:text-slate-500">
+                    © 2024 AttireZone. All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+    </form>
+</body>
+</html>
