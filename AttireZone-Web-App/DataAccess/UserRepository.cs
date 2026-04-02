@@ -87,6 +87,54 @@ namespace AttireZone_Web_App.DataAccess
                 "SELECT UserId, FullName, Email, Role, CreatedDate, LastModifiedDate FROM Users ORDER BY CreatedDate DESC");
         }
 
+        public DataTable SearchUsers(string searchTerm, string roleFilter, string statusFilter)
+        {
+            var normalizedSearch = string.IsNullOrWhiteSpace(searchTerm) ? null : searchTerm.Trim();
+            var normalizedRole = string.IsNullOrWhiteSpace(roleFilter) ? null : roleFilter.Trim();
+            var normalizedStatus = string.IsNullOrWhiteSpace(statusFilter) ? null : statusFilter.Trim();
+
+            const string sql = @"
+SELECT
+    UserId,
+    FullName,
+    Email,
+    Role,
+    CreatedDate,
+    LastModifiedDate
+FROM Users
+WHERE
+    (@SearchTerm IS NULL
+        OR FullName LIKE '%' + @SearchTerm + '%'
+        OR Email LIKE '%' + @SearchTerm + '%'
+        OR Role LIKE '%' + @SearchTerm + '%'
+        OR CAST(UserId AS NVARCHAR(20)) = @SearchTerm)
+    AND (@RoleFilter IS NULL OR Role = @RoleFilter)
+    AND (
+        @StatusFilter IS NULL
+        OR (@StatusFilter = 'Active' AND LastModifiedDate >= DATEADD(HOUR, -24, GETDATE()))
+        OR (@StatusFilter = 'Inactive' AND (LastModifiedDate < DATEADD(HOUR, -24, GETDATE()) OR LastModifiedDate IS NULL))
+    )
+ORDER BY CreatedDate DESC;";
+
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@SearchTerm", SqlDbType.NVarChar, 150)
+                {
+                    Value = (object)normalizedSearch ?? DBNull.Value
+                },
+                new SqlParameter("@RoleFilter", SqlDbType.NVarChar, 20)
+                {
+                    Value = (object)normalizedRole ?? DBNull.Value
+                },
+                new SqlParameter("@StatusFilter", SqlDbType.NVarChar, 20)
+                {
+                    Value = (object)normalizedStatus ?? DBNull.Value
+                }
+            };
+
+            return DBHelper.ExecuteDataTable(sql, parameters);
+        }
+
         public void SetUserStatus(int userId, bool isActive)
         {
             _ = isActive;

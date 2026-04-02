@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
 using System.Web.UI;
 using AttireZone_Web_App.BusinessLogic;
 using AttireZone_Web_App.Models;
@@ -13,12 +16,54 @@ namespace AttireZone_Web_App
         private const int CuratedProductCount = 4;
         private const string FallbackProductImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuCM4rF3A9mZIXTnaNLjx8FVr6etfOJ1uYxaYUzobhic4vXZiCaHNs82pcY8AlzglFNTd2Gi-JzJoUKw_tLSv1wghUhmfrJATuY_3WMFerO8bcoCXwBXU07d96pNKxxvR8o_MEyT_5-AVAa80HpLjmXmQgcBFxeCzrZkN-s7OUBUImRQOxyAHAHhfo7cJ55qflBYnG3TxwmckCPJHUQkvYTlK4sRiJsznvPejL5ifgCnMTfoC-docqGUWsw46AXNnkxh_LBVNaiSZPQ";
 
+        public string ProfileNavigationUrl => ResolveUrl(GetProfileNavigationPath());
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 BindCuratedProducts();
             }
+        }
+
+        protected void txtHomeSearch_TextChanged(object sender, EventArgs e)
+        {
+            RedirectToCatalogueSearch(txtHomeSearch == null ? null : txtHomeSearch.Text);
+        }
+
+        protected void btnHomeSearch_Click(object sender, EventArgs e)
+        {
+            RedirectToCatalogueSearch(txtHomeSearch == null ? null : txtHomeSearch.Text);
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public static List<string> GetSearchSuggestions(string term)
+        {
+            try
+            {
+                return ProductService.GetSearchSuggestions(term, 8);
+            }
+            catch
+            {
+                return new List<string>();
+            }
+        }
+
+        private string GetProfileNavigationPath()
+        {
+            var currentUser = Session["CurrentUser"] as User;
+            if (currentUser == null)
+            {
+                return "~/Auth/Login.aspx";
+            }
+
+            if (string.Equals(currentUser.Role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return "~/Admin/Dashboard.aspx";
+            }
+
+            return "~/Customer/OrderHistory.aspx";
         }
 
         protected bool ShowBadge(object badgeText)
@@ -72,6 +117,20 @@ namespace AttireZone_Web_App
                         ? "bg-secondary text-on-secondary px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
                         : string.Empty)
             };
+        }
+
+        private void RedirectToCatalogueSearch(string rawSearch)
+        {
+            var searchTerm = string.IsNullOrWhiteSpace(rawSearch) ? string.Empty : rawSearch.Trim();
+            var targetUrl = ResolveUrl("~/Pages/Product.aspx");
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                targetUrl = string.Concat(targetUrl, "?q=", HttpUtility.UrlEncode(searchTerm));
+            }
+
+            Response.Redirect(targetUrl, false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         private string BuildImageAltText(Product product)

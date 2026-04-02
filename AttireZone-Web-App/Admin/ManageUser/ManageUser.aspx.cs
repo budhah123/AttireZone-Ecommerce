@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using AttireZone_Web_App.DataAccess;
 using AttireZone_Web_App.Models;
 
@@ -43,9 +44,25 @@ namespace AttireZone_Web_App.Admin.ManageUser
 
             if (!IsPostBack)
             {
+                ApplyFiltersFromQueryString();
                 HandleActionMessage();
                 LoadUsers();
             }
+        }
+
+        protected void txtUserSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadUsers();
+        }
+
+        protected void ddlRoleFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadUsers();
+        }
+
+        protected void ddlStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadUsers();
         }
 
         private bool HasAdminAccess()
@@ -73,11 +90,14 @@ namespace AttireZone_Web_App.Admin.ManageUser
         private void LoadUsers()
         {
             var users = new List<UserRowVm>();
+            var searchTerm = NormalizeSearch(txtUserSearch == null ? null : txtUserSearch.Text);
+            var roleFilter = NormalizeFilter(ddlRoleFilter == null ? null : ddlRoleFilter.SelectedValue);
+            var statusFilter = NormalizeFilter(ddlStatusFilter == null ? null : ddlStatusFilter.SelectedValue);
 
             try
             {
                 var repository = new UserRepository();
-                var table = repository.GetAllUsers() ?? new DataTable();
+                var table = repository.SearchUsers(searchTerm, roleFilter, statusFilter) ?? new DataTable();
 
                 foreach (DataRow row in table.Rows)
                 {
@@ -105,6 +125,55 @@ namespace AttireZone_Web_App.Admin.ManageUser
 
             litShown.Text = FormatNumber(totalUsers);
             litTotal.Text = FormatNumber(totalUsers);
+        }
+
+        private void ApplyFiltersFromQueryString()
+        {
+            if (txtUserSearch != null)
+            {
+                txtUserSearch.Text = NormalizeSearch(Request.QueryString["q"]) ?? string.Empty;
+            }
+
+            SetSelectedValue(ddlRoleFilter, NormalizeFilter(Request.QueryString["role"]));
+            SetSelectedValue(ddlStatusFilter, NormalizeFilter(Request.QueryString["status"]));
+        }
+
+        private static void SetSelectedValue(DropDownList dropDown, string value)
+        {
+            if (dropDown == null)
+            {
+                return;
+            }
+
+            var normalizedValue = value ?? string.Empty;
+            var item = dropDown.Items.FindByValue(normalizedValue);
+            if (item == null)
+            {
+                return;
+            }
+
+            dropDown.ClearSelection();
+            item.Selected = true;
+        }
+
+        private static string NormalizeSearch(string rawSearch)
+        {
+            if (string.IsNullOrWhiteSpace(rawSearch))
+            {
+                return null;
+            }
+
+            return rawSearch.Trim();
+        }
+
+        private static string NormalizeFilter(string rawValue)
+        {
+            if (string.IsNullOrWhiteSpace(rawValue))
+            {
+                return null;
+            }
+
+            return rawValue.Trim();
         }
 
         private static UserRowVm MapRow(DataRow row)

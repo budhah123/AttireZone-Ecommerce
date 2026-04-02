@@ -3,6 +3,10 @@ AutoEventWireup="true" CodeBehind="Default.aspx.cs"
 Inherits="AttireZone_Web_App._Default" %>
 <asp:Content ID="StylesContent" ContentPlaceHolderID="StylesPlaceholder" runat="server">
   <style type="text/css">
+    html {
+      scroll-behavior: smooth;
+    }
+
     .container.body-content {
       max-width: 100% !important;
       width: 100% !important;
@@ -13,6 +17,10 @@ Inherits="AttireZone_Web_App._Default" %>
     .az-home-page {
       background-color: #131313;
     }
+
+    .az-scroll-target {
+      scroll-margin-top: 96px;
+    }
   </style>
 </asp:Content>
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
@@ -20,27 +28,30 @@ Inherits="AttireZone_Web_App._Default" %>
     <nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm dark:shadow-none">
       <div class="flex justify-between items-center px-5 py-3 max-w-[1920px] mx-auto">
         <div class="flex items-center gap-8">
-          <a class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50" href="#">AttireZone</a>
+          <a class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50" href="<%= ResolveUrl("~/Default.aspx") %>">AttireZone</a>
           <div class="hidden md:flex gap-6 items-center">
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-amber-500 border-b-2 border-amber-500 pb-1" href="#">Collections</a>
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">New Arrivals</a>
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Sale</a>
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Journal</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-amber-500 border-b-2 border-amber-500 pb-1" href="#essential-categories">Collections</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#curated-section">New Arrivals</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#curated-section">Sale</a>
+            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#journal-section">Journal</a>
           </div>
         </div>
         <div class="flex-1 max-w-sm mx-6 hidden lg:block">
           <div class="relative group">
-            <input class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-secondary text-sm px-4 py-2" placeholder="Search curated styles..." type="text" />
-            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+            <asp:TextBox ID="txtHomeSearch" runat="server" AutoPostBack="true" OnTextChanged="txtHomeSearch_TextChanged" CssClass="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-secondary text-sm px-4 py-2" placeholder="Search curated styles..."></asp:TextBox>
+            <asp:LinkButton ID="btnHomeSearch" runat="server" OnClick="btnHomeSearch_Click" CausesValidation="false" CssClass="absolute right-3 top-1/2 -translate-y-1/2 text-outline" aria-label="Search catalogue">
+              <span class="material-symbols-outlined">search</span>
+            </asp:LinkButton>
+            <div id="homeSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
           </div>
         </div>
         <div class="flex items-center gap-5">
           <button type="button" class="scale-100 active:scale-95 transition-transform hover:opacity-80">
             <span class="material-symbols-outlined text-on-background">shopping_bag</span>
           </button>
-          <button type="button" class="scale-100 active:scale-95 transition-transform hover:opacity-80">
+          <a href="<%= ProfileNavigationUrl %>" class="scale-100 active:scale-95 transition-transform hover:opacity-80" aria-label="Open profile">
             <span class="material-symbols-outlined text-on-background">person</span>
-          </button>
+          </a>
         </div>
       </div>
       <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
@@ -63,7 +74,7 @@ Inherits="AttireZone_Web_App._Default" %>
       </div>
     </section>
 
-    <section class="py-20 px-5 md:px-14 lg:px-20 bg-surface">
+    <section id="essential-categories" class="py-20 px-5 md:px-14 lg:px-20 bg-surface az-scroll-target">
       <div class="mb-12">
         <h2 class="text-3xl font-headline font-semibold text-on-background tracking-tight">Essential Categories</h2>
         <p class="text-on-surface-variant mt-2 max-w-lg">Defining modern silhouettes through premium fabrics and precise tailoring.</p>
@@ -109,7 +120,7 @@ Inherits="AttireZone_Web_App._Default" %>
       </div>
     </section>
 
-    <section class="py-20 px-5 md:px-14 lg:px-20 bg-surface-container-lowest">
+    <section id="curated-section" class="py-20 px-5 md:px-14 lg:px-20 bg-surface-container-lowest az-scroll-target">
       <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-3">
         <div>
           <h2 class="text-3xl font-headline font-semibold text-on-background tracking-tight">Curated Selection</h2>
@@ -151,7 +162,7 @@ Inherits="AttireZone_Web_App._Default" %>
       </div>
     </section>
 
-    <section class="py-24 px-5 md:px-14 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center bg-surface">
+    <section id="journal-section" class="py-24 px-5 md:px-14 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center bg-surface az-scroll-target">
       <div class="relative">
         <div class="aspect-square bg-surface-container-high overflow-hidden">
           <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_2U99Fqx15meJX2QS6TzZtdVMiaa4QNFySNdgMthR0_CClC_UaQUktyWxhZif79fwOcut03yVshZVQ8D6vQK10CX191V-1kL8KkkQDTgX_o82_6mJL_xrgpIo5JluvPHyBbQRrU06FmAPRuuwb_lpgHp6ajIEQlyKskrUrI_d43Dnih92fGDB0EGi8zlevSOtoyg27EE8mxTn8Gl3s3bnXDKSIOQTSw9wO5rum_j-ZV26kz6Pbw5-s60nSDZos2qmt68MjYnK-7s" alt="Our Philosophy" />
@@ -167,7 +178,7 @@ Inherits="AttireZone_Web_App._Default" %>
           AttireZone is more than a label. It's an exploration of form, function, and the quiet confidence that comes from impeccably constructed garments. Each piece is curated to exist beyond seasons.
         </p>
         <div class="pt-4">
-          <button type="button" class="text-on-background font-bold text-sm tracking-widest uppercase border-b-2 border-secondary pb-1 hover:text-secondary transition-all">Read The Journal</button>
+          <a class="inline-block text-on-background font-bold text-sm tracking-widest uppercase border-b-2 border-secondary pb-1 hover:text-secondary transition-all" href="#journal-section">Read The Journal</a>
         </div>
       </div>
     </section>
@@ -191,4 +202,131 @@ Inherits="AttireZone_Web_App._Default" %>
       </div>
     </footer>
   </div>
+
+  <script type="text/javascript">
+    (function () {
+      var input = document.getElementById('<%= txtHomeSearch.ClientID %>');
+      var suggestionBox = document.getElementById('homeSearchSuggestions');
+      if (!input || !suggestionBox) {
+        return;
+      }
+
+      var endpoint = '<%= ResolveUrl("~/Default.aspx/GetSearchSuggestions") %>';
+      var debounceHandle = 0;
+      var activeRequestId = 0;
+
+      function hideSuggestions() {
+        suggestionBox.classList.add('hidden');
+        suggestionBox.innerHTML = '';
+      }
+
+      function renderSuggestions(items) {
+        suggestionBox.innerHTML = '';
+
+        if (!items || !items.length) {
+          hideSuggestions();
+          return;
+        }
+
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < items.length; i++) {
+          var text = items[i];
+          if (!text) {
+            continue;
+          }
+
+          var option = document.createElement('button');
+          option.type = 'button';
+          option.className = 'w-full text-left px-4 py-2 text-sm text-on-surface border-b border-outline-variant/20 last:border-b-0 hover:bg-surface-container-high transition-colors';
+          option.textContent = text;
+
+          option.addEventListener('mousedown', function (event) {
+            event.preventDefault();
+          });
+
+          option.addEventListener('click', function (event) {
+            input.value = event.currentTarget.textContent || '';
+            hideSuggestions();
+          });
+
+          fragment.appendChild(option);
+        }
+
+        if (!fragment.childNodes.length) {
+          hideSuggestions();
+          return;
+        }
+
+        suggestionBox.appendChild(fragment);
+        suggestionBox.classList.remove('hidden');
+      }
+
+      function fetchSuggestions(query) {
+        var requestId = ++activeRequestId;
+
+        fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({ term: query })
+        })
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error('Unable to fetch suggestions.');
+            }
+
+            return response.json();
+          })
+          .then(function (payload) {
+            if (requestId !== activeRequestId) {
+              return;
+            }
+
+            var suggestions = payload && Array.isArray(payload.d) ? payload.d : [];
+            renderSuggestions(suggestions);
+          })
+          .catch(function () {
+            if (requestId === activeRequestId) {
+              hideSuggestions();
+            }
+          });
+      }
+
+      input.addEventListener('input', function () {
+        var query = (input.value || '').trim();
+        window.clearTimeout(debounceHandle);
+
+        if (query.length < 2) {
+          hideSuggestions();
+          return;
+        }
+
+        debounceHandle = window.setTimeout(function () {
+          fetchSuggestions(query);
+        }, 180);
+      });
+
+      input.addEventListener('focus', function () {
+        var query = (input.value || '').trim();
+        if (query.length >= 2) {
+          fetchSuggestions(query);
+        }
+      });
+
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          hideSuggestions();
+        }
+      });
+
+      document.addEventListener('click', function (event) {
+        if (event.target === input || suggestionBox.contains(event.target)) {
+          return;
+        }
+
+        hideSuggestions();
+      });
+    })();
+  </script>
 </asp:Content>
