@@ -99,7 +99,7 @@ AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="AttireZone_Web_App.Cu
                 <span class="text-3xl font-bold text-secondary tracking-tighter"><asp:Literal ID="litGrandTotal" runat="server"></asp:Literal></span>
               </div>
               <div class="space-y-3">
-                <asp:Button ID="btnProceedToCheckout" runat="server" Text="Proceed to Checkout" CssClass="w-full bg-secondary text-on-secondary py-5 font-bold uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-all" CausesValidation="false" UseSubmitBehavior="false" OnClientClick="return false;" />
+                <asp:Button ID="btnProceedToCheckout" runat="server" Text="Proceed to Checkout" CssClass="w-full bg-secondary text-on-secondary py-5 font-bold uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-all" CausesValidation="false" UseSubmitBehavior="false" PostBackUrl="~/Customer/Checkout.aspx" />
                 <div class="flex items-center gap-2 justify-center py-4 text-[10px] text-on-surface-variant uppercase tracking-widest">
                   <span class="material-symbols-outlined !text-[14px]">lock</span>
                   Secure checkout with SSL encryption

@@ -110,16 +110,27 @@
     <Content Include="Assets\CSS\authentication.css" />
     <Content Include="App_Data\Categories_Setup.sql" />
     <Content Include="App_Data\Database_Setup.sql" />
+    <Content Include="App_Data\Payments_Setup.sql" />
     <Content Include="App_Data\Products_IsPopular_Migration.sql" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\tailwind-config.css" />
     <Content Include="Customer\Cart.aspx" />
+    <Content Include="Customer\Checkout.aspx" />
     <Content Include="Customer\OrderHistory.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Footer.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Customer\Payment\EsewaPayment\EsewaFailure.aspx" />
+    <Content Include="Customer\Payment\EsewaPayment\EsewaPayment.aspx" />
+    <Content Include="Customer\Payment\EsewaPayment\EsewaSuccess.aspx" />
+    <Content Include="Customer\Payment\KhaltiPayment\KhaltiCallBack.aspx" />
+    <Content Include="Customer\Payment\KhaltiPayment\KhaltiFailure.aspx" />
+    <Content Include="Customer\Payment\KhaltiPayment\KhaltiPayment.aspx" />
+    <Content Include="Customer\Payment\KhaltiPayment\KhaltiSuccess.aspx" />
     <Content Include="Auth\Login.aspx" />
+    <Content Include="OrderFailed.aspx" />
+    <Content Include="OrderSuccess.aspx" />
     <Content Include="Auth\Register.aspx" />
     <Content Include="Navbar.aspx" />
     <Content Include="Pages\Product.aspx" />
@@ -223,6 +234,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BusinessLogic\CartService.cs" />
     <Compile Include="BusinessLogic\CategoryService.cs" />
+    <Compile Include="BusinessLogic\OrderItemsService.cs" />
+    <Compile Include="BusinessLogic\OrdersService.cs" />
     <Compile Include="BusinessLogic\ProductService.cs" />
     <Compile Include="BusinessLogic\UserService.cs" />
     <Compile Include="Contact.aspx.cs">
@@ -239,6 +252,13 @@
     <Compile Include="Customer\Cart.aspx.designer.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Customer\Checkout.aspx.cs">
+      <DependentUpon>Checkout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Checkout.aspx.designer.cs">
+      <DependentUpon>Checkout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Customer\OrderHistory.aspx.cs">
       <DependentUpon>OrderHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -247,7 +267,29 @@
       <DependentUpon>OrderHistory.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\DBHelper.cs" />
+    <Compile Include="DataAccess\EsewaHelper.cs" />
     <Compile Include="DataAccess\UserRepository.cs" />
+    <Compile Include="Customer\Payment\EsewaPayment\EsewaFailure.aspx.cs">
+      <DependentUpon>EsewaFailure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\EsewaPayment\EsewaFailure.aspx.designer.cs">
+      <DependentUpon>EsewaFailure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Payment\EsewaPayment\EsewaPayment.aspx.cs">
+      <DependentUpon>EsewaPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\EsewaPayment\EsewaPayment.aspx.designer.cs">
+      <DependentUpon>EsewaPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Payment\EsewaPayment\EsewaSuccess.aspx.cs">
+      <DependentUpon>EsewaSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\EsewaPayment\EsewaSuccess.aspx.designer.cs">
+      <DependentUpon>EsewaSuccess.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -258,6 +300,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EsewaHelper.cs" />
+    <Compile Include="Helpers\KhaltiHelper.cs" />
+    <Compile Include="Helpers\PaymentDbHelper.cs" />
     <Compile Include="Footer.aspx.cs">
       <DependentUpon>Footer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -272,8 +317,38 @@
     <Compile Include="Auth\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiCallBack.aspx.cs">
+      <DependentUpon>KhaltiCallBack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiCallBack.aspx.designer.cs">
+      <DependentUpon>KhaltiCallBack.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiFailure.aspx.cs">
+      <DependentUpon>KhaltiFailure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiFailure.aspx.designer.cs">
+      <DependentUpon>KhaltiFailure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiPayment.aspx.cs">
+      <DependentUpon>KhaltiPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiPayment.aspx.designer.cs">
+      <DependentUpon>KhaltiPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiSuccess.aspx.cs">
+      <DependentUpon>KhaltiSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Payment\KhaltiPayment\KhaltiSuccess.aspx.designer.cs">
+      <DependentUpon>KhaltiSuccess.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\OrderItems.cs" />
+    <Compile Include="Models\Orders.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Navbar.aspx.cs">
@@ -298,6 +373,20 @@
       <DependentUpon>ProductDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OrderFailed.aspx.cs">
+      <DependentUpon>OrderFailed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrderFailed.aspx.designer.cs">
+      <DependentUpon>OrderFailed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OrderSuccess.aspx.cs">
+      <DependentUpon>OrderSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrderSuccess.aspx.designer.cs">
+      <DependentUpon>OrderSuccess.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Auth\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

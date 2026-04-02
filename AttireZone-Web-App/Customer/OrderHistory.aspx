@@ -123,11 +123,11 @@ Inherits="AttireZone_Web_App.Customer.OrderHistory" %>
                   </div>
                   <div class="mt-4 flex items-center gap-2">
                     <span
-                      class="material-symbols-outlined text-[16px] <%# Eval(&quot;StatusCssClass&quot;) %>"
+                      class='material-symbols-outlined text-[16px] <%# Eval("StatusCssClass") %>'
                       ><%# Eval("StatusIcon") %></span
                     >
                     <span
-                      class="text-xs uppercase font-bold tracking-widest <%# Eval(&quot;StatusCssClass&quot;) %>"
+                      class='text-xs uppercase font-bold tracking-widest <%# Eval("StatusCssClass") %>'
                       ><%# Eval("StatusLabel") %></span
                     >
                   </div>

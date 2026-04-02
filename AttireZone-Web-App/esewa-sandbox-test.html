@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eSewa Sandbox Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      .card {
+        max-width: 640px;
+        padding: 24px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      button {
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      code {
+        background: #f6f6f6;
+        padding: 2px 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>eSewa Test Payment</h2>
+      <p>
+        This sends a valid sandbox payment request to eSewa using
+        <code>EPAYTEST</code>.
+      </p>
+
+      <form
+        action="https://rc-epay.esewa.com.np/api/epay/main/v2/form"
+        method="POST"
+      >
+        <input type="hidden" name="amount" value="100" />
+        <input type="hidden" name="tax_amount" value="0" />
+        <input type="hidden" name="total_amount" value="100" />
+        <input type="hidden" name="transaction_uuid" value="test-001" />
+        <input type="hidden" name="product_code" value="EPAYTEST" />
+        <input type="hidden" name="product_service_charge" value="0" />
+        <input type="hidden" name="product_delivery_charge" value="0" />
+        <input
+          type="hidden"
+          name="success_url"
+          value="https://developer.esewa.com.np/success"
+        />
+        <input
+          type="hidden"
+          name="failure_url"
+          value="https://developer.esewa.com.np/failure"
+        />
+        <input
+          type="hidden"
+          name="signed_field_names"
+          value="total_amount,transaction_uuid,product_code"
+        />
+        <input
+          type="hidden"
+          name="signature"
+          value="JukUv2ExQoPvj2QtuLYhpSIKGvT6mVJ15UUxpxz6L6E="
+        />
+
+        <button type="submit">Pay Rs. 100 with eSewa</button>
+      </form>
+
+      <p style="margin-top: 16px; color: #555; font-size: 14px">
+        Sandbox wallet login: eSewa ID 9806800001, Password Nepal@123, OTP
+        123456.
+      </p>
+    </div>
+  </body>
+</html>
