@@ -112,38 +112,7 @@
 </head>
 <body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary">
     <form id="form1" runat="server">
-        <nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm dark:shadow-none transition-transform duration-300">
-            <div class="flex justify-between items-center px-6 py-4 max-w-[1920px] mx-auto">
-                <div class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50 uppercase">
-                    AttireZone
-                </div>
-                <div class="hidden md:flex items-center gap-8 font-sans tracking-tight text-sm uppercase font-semibold">
-                    <a class="text-amber-500 border-b-2 border-amber-500 pb-1" href="#">Collections</a>
-                    <a class="text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">New Arrivals</a>
-                    <a class="text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Sale</a>
-                    <a class="text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Journal</a>
-                </div>
-                <div class="flex items-center gap-6">
-                    <div class="relative hidden lg:block">
-                        <asp:TextBox ID="txtSearchProducts" runat="server" AutoPostBack="true" OnTextChanged="txtSearchProducts_TextChanged" CssClass="bg-transparent border-b border-outline-variant focus:border-secondary py-1 px-2 text-xs transition-all w-48 focus:w-64 outline-none" placeholder="Search curated items..."></asp:TextBox>
-                        <asp:LinkButton ID="btnSearchProducts" runat="server" OnClick="btnSearchProducts_Click" CausesValidation="false" CssClass="absolute right-0 top-1 text-on-surface-variant scale-75">
-                            <span class="material-symbols-outlined">search</span>
-                        </asp:LinkButton>
-                        <div id="productSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
-                    </div>
-                    <div class="flex gap-4">
-                        <button class="scale-100 active:scale-95 transition-transform hover:opacity-80" type="button">
-                            <span class="material-symbols-outlined text-slate-900 dark:text-slate-50">person</span>
-                        </button>
-                        <button class="scale-100 active:scale-95 transition-transform hover:opacity-80 relative" type="button">
-                            <span class="material-symbols-outlined text-slate-900 dark:text-slate-50">shopping_bag</span>
-                            <span class="absolute -top-1 -right-1 bg-secondary text-on-secondary text-[8px] px-1 font-bold rounded-full">3</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
-        </nav>
+        <% Server.Execute("~/Navbar.aspx"); %>
 
         <main class="flex min-h-screen">
             <aside class="hidden lg:flex flex-col w-72 p-10 space-y-12 border-r border-outline-variant/10 bg-surface-container-lowest">
@@ -193,7 +162,14 @@
                                 <span class="text-secondary">Collective</span>
                             </h1>
                         </div>
-                        <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
+                        <div class="flex flex-wrap items-center gap-4 text-[10px] font-bold uppercase tracking-widest">
+                            <div class="relative w-full sm:w-auto sm:min-w-[16rem]">
+                                <asp:TextBox ID="txtSearchProducts" runat="server" AutoPostBack="true" OnTextChanged="txtSearchProducts_TextChanged" CssClass="w-full bg-transparent border border-outline-variant/30 focus:border-secondary py-2 pl-3 pr-10 text-xs transition-colors outline-none placeholder:text-on-surface-variant/70" placeholder="Search curated items..."></asp:TextBox>
+                                <asp:LinkButton ID="btnSearchProducts" runat="server" OnClick="btnSearchProducts_Click" CausesValidation="false" CssClass="absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-secondary transition-colors" aria-label="Search products">
+                                    <span class="material-symbols-outlined !text-base">search</span>
+                                </asp:LinkButton>
+                                <div id="productSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
+                            </div>
                             <div class="relative">
                                 <asp:DropDownList ID="ddlSortProducts" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlSortProducts_SelectedIndexChanged" CssClass="appearance-none bg-transparent border-none text-[10px] font-bold uppercase tracking-widest pr-5 cursor-pointer hover:text-secondary transition-colors focus:ring-0">
                                     <asp:ListItem Value="featured">Sort: Featured</asp:ListItem>

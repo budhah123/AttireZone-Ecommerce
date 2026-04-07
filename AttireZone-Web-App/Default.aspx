@@ -25,38 +25,6 @@ Inherits="AttireZone_Web_App._Default" %>
 </asp:Content>
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
   <div class="az-home-page">
-    <nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm dark:shadow-none">
-      <div class="flex justify-between items-center px-5 py-3 max-w-[1920px] mx-auto">
-        <div class="flex items-center gap-8">
-          <a class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50" href="<%= ResolveUrl("~/Default.aspx") %>">AttireZone</a>
-          <div class="hidden md:flex gap-6 items-center">
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-amber-500 border-b-2 border-amber-500 pb-1" href="#essential-categories">Collections</a>
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#curated-section">New Arrivals</a>
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#curated-section">Sale</a>
-            <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#journal-section">Journal</a>
-          </div>
-        </div>
-        <div class="flex-1 max-w-sm mx-6 hidden lg:block">
-          <div class="relative group">
-            <asp:TextBox ID="txtHomeSearch" runat="server" AutoPostBack="true" OnTextChanged="txtHomeSearch_TextChanged" CssClass="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-secondary text-sm px-4 py-2" placeholder="Search curated styles..."></asp:TextBox>
-            <asp:LinkButton ID="btnHomeSearch" runat="server" OnClick="btnHomeSearch_Click" CausesValidation="false" CssClass="absolute right-3 top-1/2 -translate-y-1/2 text-outline" aria-label="Search catalogue">
-              <span class="material-symbols-outlined">search</span>
-            </asp:LinkButton>
-            <div id="homeSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
-          </div>
-        </div>
-        <div class="flex items-center gap-5">
-          <button type="button" class="scale-100 active:scale-95 transition-transform hover:opacity-80">
-            <span class="material-symbols-outlined text-on-background">shopping_bag</span>
-          </button>
-          <a href="<%= ProfileNavigationUrl %>" class="scale-100 active:scale-95 transition-transform hover:opacity-80" aria-label="Open profile">
-            <span class="material-symbols-outlined text-on-background">person</span>
-          </a>
-        </div>
-      </div>
-      <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
-    </nav>
-
     <main>
     <section class="relative h-[820px] flex items-center overflow-hidden bg-primary-container">
       <div class="absolute inset-0 z-0">
@@ -67,8 +35,17 @@ Inherits="AttireZone_Web_App._Default" %>
           <p class="text-secondary font-label tracking-[0.2em] uppercase text-sm mb-3">Autumn / Winter 2024</p>
           <h1 class="text-5xl md:text-7xl lg:text-8xl font-headline font-bold -ml-1 leading-[0.9] tracking-tighter text-on-background">THE SILENT<br />CURATOR</h1>
           <div class="mt-10 flex flex-col md:flex-row gap-4 items-start">
-            <a class="px-9 py-3 bg-secondary text-on-secondary font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all" href="#">Shop Collection</a>
+            <a class="px-9 py-3 bg-secondary text-on-secondary font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all" href="<%= ResolveUrl("~/Pages/Product.aspx") %>">Shop Collection</a>
             <a class="px-9 py-3 border border-outline-variant/30 text-on-background font-bold text-sm tracking-widest uppercase hover:bg-white/5 transition-all" href="#">View Editorial</a>
+          </div>
+          <div class="mt-8 max-w-md">
+            <div class="relative group">
+              <asp:TextBox ID="txtHomeSearch" runat="server" AutoPostBack="true" OnTextChanged="txtHomeSearch_TextChanged" CssClass="w-full bg-surface-container-low/80 border border-outline-variant/30 focus:border-secondary focus:ring-1 focus:ring-secondary text-sm px-4 py-3 placeholder:text-on-surface-variant/70" placeholder="Search curated styles..."></asp:TextBox>
+              <asp:LinkButton ID="btnHomeSearch" runat="server" OnClick="btnHomeSearch_Click" CausesValidation="false" CssClass="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-secondary transition-colors" aria-label="Search catalogue">
+                <span class="material-symbols-outlined">search</span>
+              </asp:LinkButton>
+              <div id="homeSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
+            </div>
           </div>
         </div>
       </div>

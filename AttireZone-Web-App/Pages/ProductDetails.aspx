@@ -119,25 +119,7 @@
 </head>
 <body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary">
     <form id="form1" runat="server">
-        <nav class="sticky top-0 w-full z-50 glass-nav shadow-sm dark:shadow-none">
-            <div class="flex justify-between items-center px-6 py-4 max-w-[1920px] mx-auto">
-                <div class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50 uppercase">
-                    AttireZone
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="<%= ResolveUrl("~/Pages/Product.aspx") %>">Collections</a>
-                    <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">New Arrivals</a>
-                    <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Sale</a>
-                    <a class="font-sans tracking-tight text-sm uppercase font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" href="#">Journal</a>
-                </div>
-                <div class="flex items-center space-x-5">
-                    <button class="material-symbols-outlined text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" type="button">shopping_bag</button>
-                    <button class="material-symbols-outlined text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors" type="button">person</button>
-                    <button class="md:hidden material-symbols-outlined text-slate-600 dark:text-slate-400" type="button">menu</button>
-                </div>
-            </div>
-            <div class="bg-slate-100 dark:bg-slate-900 h-[1px]"></div>
-        </nav>
+        <% Server.Execute("~/Navbar.aspx"); %>
 
         <main class="max-w-[1320px] mx-auto px-5 lg:px-10 py-10">
             <asp:PlaceHolder ID="phProductNotFound" runat="server" Visible="false">
