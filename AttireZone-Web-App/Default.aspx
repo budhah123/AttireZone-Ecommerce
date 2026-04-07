@@ -30,6 +30,15 @@ Inherits="AttireZone_Web_App._Default" %>
       <div class="absolute inset-0 z-0">
         <img alt="Editorial Hero" class="w-full h-full object-cover opacity-60 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1hF2BkMw_Znip9qGTxt9z-FinpyBOi5b7e1j9i9VM9MM8RSfXe8eXNSm-_Lz2G3iU3Ks1zBAq7AOIPnXk3sRufR2zoAeFAH9Y_h3au6hRPgrfz5kHMPqWcje6vqkMXXZm8b-Eq6W7H7utZqRcXBUAHk7Vs6635W_XCY5ns_2wwg5z4zZw-wWUf_g9a2GFJKYojEIC9hSIooOTG-hDA0QXsVm9Qk3jBVNWOXhoktqGLG6FxwyasYPoWibqVpCUSP1IzXNn4-6h7ds" />
       </div>
+      <div id="az-home-search-source" class="hidden">
+        <div class="relative group">
+          <asp:TextBox ID="txtHomeSearch" runat="server" AutoPostBack="true" OnTextChanged="txtHomeSearch_TextChanged" CssClass="w-full bg-surface-container-low/80 border border-outline-variant/30 focus:border-secondary focus:ring-1 focus:ring-secondary text-sm px-4 py-3 placeholder:text-on-surface-variant/70" placeholder="Search curated styles..."></asp:TextBox>
+          <asp:LinkButton ID="btnHomeSearch" runat="server" OnClick="btnHomeSearch_Click" CausesValidation="false" CssClass="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-secondary transition-colors" aria-label="Search catalogue">
+            <span class="material-symbols-outlined">search</span>
+          </asp:LinkButton>
+          <div id="homeSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
+        </div>
+      </div>
       <div class="relative z-10 px-5 md:px-14 lg:px-20 w-full">
         <div class="max-w-4xl">
           <p class="text-secondary font-label tracking-[0.2em] uppercase text-sm mb-3">Autumn / Winter 2024</p>
@@ -37,15 +46,6 @@ Inherits="AttireZone_Web_App._Default" %>
           <div class="mt-10 flex flex-col md:flex-row gap-4 items-start">
             <a class="px-9 py-3 bg-secondary text-on-secondary font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-all" href="<%= ResolveUrl("~/Pages/Product.aspx") %>">Shop Collection</a>
             <a class="px-9 py-3 border border-outline-variant/30 text-on-background font-bold text-sm tracking-widest uppercase hover:bg-white/5 transition-all" href="#">View Editorial</a>
-          </div>
-          <div class="mt-8 max-w-md">
-            <div class="relative group">
-              <asp:TextBox ID="txtHomeSearch" runat="server" AutoPostBack="true" OnTextChanged="txtHomeSearch_TextChanged" CssClass="w-full bg-surface-container-low/80 border border-outline-variant/30 focus:border-secondary focus:ring-1 focus:ring-secondary text-sm px-4 py-3 placeholder:text-on-surface-variant/70" placeholder="Search curated styles..."></asp:TextBox>
-              <asp:LinkButton ID="btnHomeSearch" runat="server" OnClick="btnHomeSearch_Click" CausesValidation="false" CssClass="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-secondary transition-colors" aria-label="Search catalogue">
-                <span class="material-symbols-outlined">search</span>
-              </asp:LinkButton>
-              <div id="homeSearchSuggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-surface-container border border-outline-variant/30 shadow-2xl z-50 max-h-64 overflow-auto"></div>
-            </div>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ Inherits="AttireZone_Web_App._Default" %>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <asp:Repeater ID="rptCuratedProducts" runat="server">
           <ItemTemplate>
-            <div class="group cursor-pointer">
+            <a href="<%#: Eval("ProductDetailsUrl") %>" class="group block cursor-pointer">
               <div class="relative aspect-[3/4] overflow-hidden bg-surface-container-high mb-5">
                 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="<%#: Eval("ImageUrl") %>" alt="<%#: Eval("ImageAlt") %>" />
                 <asp:PlaceHolder runat="server" Visible='<%# ShowBadge(Eval("BadgeText")) %>'>
@@ -118,16 +118,16 @@ Inherits="AttireZone_Web_App._Default" %>
                     <span class='<%# Eval("BadgeCssClass") %>'><%#: Eval("BadgeText") %></span>
                   </div>
                 </asp:PlaceHolder>
-                <button type="button" class="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <span class="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                   <span class="material-symbols-outlined text-white">shopping_bag</span>
-                </button>
+                </span>
               </div>
               <div class="space-y-1">
                 <p class="text-on-surface-variant text-xs uppercase tracking-widest"><%#: Eval("CategoryLabel") %></p>
                 <h3 class="text-lg font-medium text-on-surface group-hover:text-secondary transition-colors"><%#: Eval("ProductName") %></h3>
                 <p class="text-secondary font-bold"><%#: Eval("PriceLabel") %></p>
               </div>
-            </div>
+            </a>
           </ItemTemplate>
         </asp:Repeater>
 
@@ -182,6 +182,14 @@ Inherits="AttireZone_Web_App._Default" %>
 
   <script type="text/javascript">
     (function () {
+      var searchSource = document.getElementById('az-home-search-source');
+      var searchSlot = document.getElementById('az-home-search-slot');
+
+      if (searchSource && searchSlot) {
+        searchSlot.appendChild(searchSource);
+        searchSource.classList.remove('hidden');
+      }
+
       var input = document.getElementById('<%= txtHomeSearch.ClientID %>');
       var suggestionBox = document.getElementById('homeSearchSuggestions');
       if (!input || !suggestionBox) {

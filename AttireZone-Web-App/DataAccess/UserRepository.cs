@@ -41,6 +41,19 @@ namespace AttireZone_Web_App.DataAccess
             return Convert.ToInt32(result) > 0;
         }
 
+        public bool EmailExistsForAnotherUser(int userId, string email)
+        {
+            var result = DBHelper.ExecuteScalar(
+                "SELECT COUNT(1) FROM Users WHERE Email=@Email AND UserId<>@UserId",
+                new[]
+                {
+                    new SqlParameter("@Email", email),
+                    new SqlParameter("@UserId", userId)
+                });
+
+            return Convert.ToInt32(result) > 0;
+        }
+
         public int Register(User user, string password)
         {
             const string sql = @"INSERT INTO Users (FullName, Email, Password, Role, CreatedDate, LastModifiedDate)
@@ -63,9 +76,10 @@ namespace AttireZone_Web_App.DataAccess
 
         public void UpdateProfile(User user)
         {
-            const string sql = "UPDATE Users SET FullName=@Name, LastModifiedDate=GETDATE() WHERE UserId=@Id";
+            const string sql = "UPDATE Users SET FullName=@Name, Email=@Email, LastModifiedDate=GETDATE() WHERE UserId=@Id";
             DBHelper.ExecuteNonQuery(sql, new[] {
                 new SqlParameter("@Name",    user.FullName),
+                new SqlParameter("@Email",   user.Email),
                 new SqlParameter("@Id",      user.UserId)
             });
         }

@@ -106,6 +106,7 @@ namespace AttireZone_Web_App
                 PriceLabel = product.Price.ToString("$0.00", CultureInfo.InvariantCulture),
                 ImageUrl = ResolveProductImageUrl(product.ImagePath),
                 ImageAlt = BuildImageAltText(product),
+                ProductDetailsUrl = BuildProductDetailsUrl(product.Id),
                 BadgeText = isLimitedEdition ? "Limited Edition" : (product.IsPopular ? "New Arrival" : string.Empty),
                 BadgeCssClass = isLimitedEdition
                     ? "bg-error-container text-on-error-container px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
@@ -113,6 +114,17 @@ namespace AttireZone_Web_App
                         ? "bg-secondary text-on-secondary px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
                         : string.Empty)
             };
+        }
+
+        private string BuildProductDetailsUrl(int productId)
+        {
+            var baseUrl = ResolveUrl("~/Pages/ProductDetails.aspx");
+            if (productId <= 0)
+            {
+                return baseUrl;
+            }
+
+            return string.Concat(baseUrl, "?id=", productId.ToString(CultureInfo.InvariantCulture));
         }
 
         private void RedirectToCatalogueSearch(string rawSearch)
@@ -175,6 +187,8 @@ namespace AttireZone_Web_App
             public string ImageUrl { get; set; }
 
             public string ImageAlt { get; set; }
+
+            public string ProductDetailsUrl { get; set; }
 
             public string BadgeText { get; set; }
 

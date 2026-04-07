@@ -53,7 +53,7 @@ namespace AttireZone_Web_App.Customer
             {
                 CartService.RemoveFromCart(cartId);
                 BindCart(userId);
-                ShowSnackbar("Item removed from cart.", "info");
+                ShowSnackbar("Item removed from shopping bag.", "info");
             }
             catch
             {
@@ -212,10 +212,40 @@ namespace AttireZone_Web_App.Customer
         {
             var safeMessage = HttpUtility.JavaScriptStringEncode(message ?? string.Empty);
             var safeType = HttpUtility.JavaScriptStringEncode(type ?? "info");
-            var script = string.Format(
-                "window.setTimeout(function(){{ if (window.azSnackbar && window.azSnackbar.show) {{ window.azSnackbar.show('{0}', '{1}'); }} else {{ alert('{0}'); }} }}, 0);",
+            var script = string.Concat(
+                "window.setTimeout(function(){",
+                "var showInlineSnackbar=function(message,variant){",
+                "var host=document.getElementById('az-inline-snackbar-host');",
+                "var toast=document.getElementById('az-inline-snackbar');",
+                "if(!host||!toast){",
+                "host=document.createElement('div');",
+                "host.id='az-inline-snackbar-host';",
+                "host.style.cssText='position:fixed;top:1.25rem;right:1.25rem;z-index:9999;pointer-events:none;';",
+                "toast=document.createElement('div');",
+                "toast.id='az-inline-snackbar';",
+                "toast.style.cssText='min-width:280px;max-width:420px;padding:0.85rem 1rem;border:1px solid rgba(255,255,255,0.1);background:rgba(20,20,20,0.92);color:#f5f0e8;font-size:0.82rem;letter-spacing:0.03em;box-shadow:0 12px 26px rgba(0,0,0,0.35);backdrop-filter:blur(8px);transform:translateY(-10px);opacity:0;transition:transform 220ms ease,opacity 220ms ease;';",
+                "host.appendChild(toast);",
+                "document.body.appendChild(host);",
+                "}",
+                "var accent='#e9c349';",
+                "if(variant==='success'){accent='#22c55e';}else if(variant==='error'){accent='#ef4444';}else if(variant==='info'){accent='#60a5fa';}",
+                "toast.style.borderColor=accent;",
+                "toast.textContent=message||'';",
+                "toast.style.opacity='1';",
+                "toast.style.transform='translateY(0)';",
+                "window.clearTimeout(window.__azInlineSnackbarTimer);",
+                "window.__azInlineSnackbarTimer=window.setTimeout(function(){toast.style.opacity='0';toast.style.transform='translateY(-10px)';},3400);",
+                "};",
+                "if(window.azSnackbar&&typeof window.azSnackbar.show==='function'){window.azSnackbar.show('",
                 safeMessage,
-                safeType);
+                "','",
+                safeType,
+                "');}else{showInlineSnackbar('",
+                safeMessage,
+                "','",
+                safeType,
+                "');}",
+                "},0);");
 
             ScriptManager.RegisterStartupScript(this, GetType(), "cartSnackbar_" + Guid.NewGuid().ToString("N"), script, true);
         }

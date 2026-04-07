@@ -141,10 +141,10 @@
                     </ol>
                 </nav>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">
-                    <div class="lg:col-span-7 grid grid-cols-1 gap-8">
-                        <div class="relative group overflow-hidden lg:max-w-[78%] xl:max-w-[74%] mx-auto">
-                            <asp:Image ID="imgProductMain" runat="server" AlternateText="Product Main View" CssClass="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-start">
+                    <div class="lg:col-span-6 grid grid-cols-1">
+                        <div class="relative group overflow-hidden mx-auto w-full max-w-[20rem] sm:max-w-[24rem] md:max-w-[26rem] lg:max-w-[30rem] xl:max-w-[32rem] 2xl:max-w-[34rem]">
+                            <asp:Image ID="imgProductMain" runat="server" AlternateText="Product Main View" CssClass="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105" />
                             <asp:PlaceHolder ID="phLimitedBadge" runat="server" Visible="false">
                                 <div class="absolute top-6 left-6 bg-secondary text-on-secondary px-4 py-1 text-[10px] tracking-widest font-bold uppercase">
                                     Limited Edition
@@ -153,7 +153,7 @@
                         </div>
                     </div>
 
-                    <div class="lg:col-span-5 lg:sticky lg:top-28 lg:scale-[0.84] lg:origin-top">
+                    <div class="lg:col-span-6 lg:sticky lg:top-28">
                         <div class="space-y-7">
                             <div>
                                 <h1 class="text-4xl xl:text-5xl font-semibold tracking-tighter text-on-background mb-3"><asp:Literal ID="litProductName" runat="server"></asp:Literal></h1>
@@ -206,36 +206,6 @@
                 </div>
 
                 <section class="mt-24 pt-16 border-t border-outline-variant/20">
-                    <div class="flex flex-col md:flex-row justify-between items-baseline mb-10 gap-6">
-                        <div>
-                            <h2 class="text-3xl font-semibold tracking-tight mb-2">Similar Products</h2>
-                            <p class="text-on-surface-variant text-sm">You might also like these curated picks.</p>
-                        </div>
-                    </div>
-                    <asp:Repeater ID="rptSimilarProducts" runat="server">
-                        <HeaderTemplate>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <article class="bg-surface-container border border-outline-variant/15 overflow-hidden group">
-                                <a href='<%# Eval("DetailsUrl") %>' class="block">
-                                    <img src='<%# Eval("ImageUrl") %>' alt='<%# Eval("ProductName") %>' class="w-full aspect-[4/4.6] object-cover transition-transform duration-500 group-hover:scale-105" />
-                                </a>
-                                <div class="p-4 space-y-1.5">
-                                    <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant"><%# Eval("Category") %></p>
-                                    <h3 class="text-base font-medium tracking-tight"><%# Eval("ProductName") %></h3>
-                                    <p class="text-secondary text-xs font-semibold"><%# Eval("Price") %></p>
-                                    <p class="text-on-surface-variant text-[10px] uppercase tracking-widest"><%# Eval("Status") %></p>
-                                </div>
-                            </article>
-                        </ItemTemplate>
-                        <FooterTemplate>
-                            </div>
-                        </FooterTemplate>
-                    </asp:Repeater>
-                </section>
-
-                <section class="mt-32 pt-24 border-t border-outline-variant/20">
                     <div class="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-8">
                         <div>
                             <h2 class="text-3xl font-semibold tracking-tight mb-2">Curated Feedback</h2>
