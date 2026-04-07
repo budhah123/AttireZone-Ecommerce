@@ -55,15 +55,11 @@ namespace AttireZone_Web_App
             var currentUser = Session["CurrentUser"] as User;
             if (currentUser == null)
             {
-                return "~/Auth/Login.aspx";
+                var encodedReturnUrl = HttpUtility.UrlEncode(ResolveUrl("~/Customer/Profile.aspx"));
+                return "~/Auth/Login.aspx?returnUrl=" + encodedReturnUrl;
             }
 
-            if (string.Equals(currentUser.Role, "Admin", StringComparison.OrdinalIgnoreCase))
-            {
-                return "~/Admin/Dashboard.aspx";
-            }
-
-            return "~/Customer/OrderHistory.aspx";
+            return "~/Customer/Profile.aspx";
         }
 
         protected bool ShowBadge(object badgeText)

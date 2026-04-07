@@ -387,7 +387,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
                     <%#: Eval("LastModifiedDateDisplay") %>
                   </td>
                   <td class="px-6 py-5">
-                    <span class="<%#: Eval(&quot;RoleBadgeCssClass&quot;) %>"
+                    <span class='<%#: Eval("RoleBadgeCssClass") %>'
                       ><%#: Eval("Role") %></span
                     >
                   </td>

@@ -350,7 +350,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                       </td>
                       <td class="px-6 py-5 text-center">
                         <span
-                          class="<%#: Eval(&quot;PopularBadgeCssClass&quot;) %>"
+                          class='<%#: Eval("PopularBadgeCssClass") %>'
                           ><%#: Eval("PopularLabel") %></span
                         >
                       </td>
@@ -364,7 +364,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                       </td>
                       <td class="px-6 py-5 text-center">
                         <span
-                          class="<%#: Eval(&quot;StatusBadgeCssClass&quot;) %>"
+                          class='<%#: Eval("StatusBadgeCssClass") %>'
                           ><%#: Eval("StatusLabel") %></span
                         >
                       </td>
