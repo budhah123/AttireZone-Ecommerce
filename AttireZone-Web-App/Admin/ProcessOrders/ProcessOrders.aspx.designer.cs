@@ -13,14 +13,144 @@ namespace AttireZone_Web_App.Admin.ProcessOrders
 
     public partial class ProcessOrders
     {
+        /// <summary>
+        /// btnLogoutTop control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnLogoutTop;
 
         /// <summary>
-        /// form1 control.
+        /// btnLogoutSide control.
         /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.LinkButton btnLogoutSide;
+
+        /// <summary>
+        /// btnFilterAll control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnFilterAll;
+
+        /// <summary>
+        /// btnFilterPending control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnFilterPending;
+
+        /// <summary>
+        /// btnFilterShipped control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnFilterShipped;
+
+        /// <summary>
+        /// btnFilterDelivered control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnFilterDelivered;
+
+        /// <summary>
+        /// litOpenOrders control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litOpenOrders;
+
+        /// <summary>
+        /// litPendingShipment control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litPendingShipment;
+
+        /// <summary>
+        /// litProcessingDelay control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litProcessingDelay;
+
+        /// <summary>
+        /// litRevenue24h control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litRevenue24h;
+
+        /// <summary>
+        /// rptOrders control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Repeater rptOrders;
+
+        /// <summary>
+        /// pnlOrderDetails control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Panel pnlOrderDetails;
+
+        /// <summary>
+        /// litSelectedOrderNumber control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedOrderNumber;
+
+        /// <summary>
+        /// btnCloseDetails control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnCloseDetails;
+
+        /// <summary>
+        /// litSelectedCustomer control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedCustomer;
+
+        /// <summary>
+        /// litSelectedPlacedDate control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedPlacedDate;
+
+        /// <summary>
+        /// litSelectedStatus control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedStatus;
+
+        /// <summary>
+        /// litSelectedPaymentStatus control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedPaymentStatus;
+
+        /// <summary>
+        /// litSelectedAddress control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedAddress;
+
+        /// <summary>
+        /// litSelectedNotes control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litSelectedNotes;
+
+        /// <summary>
+        /// rptOrderItems control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Repeater rptOrderItems;
+
+        /// <summary>
+        /// litShowingFrom control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litShowingFrom;
+
+        /// <summary>
+        /// litShowingTo control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litShowingTo;
+
+        /// <summary>
+        /// litShowingTotal control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litShowingTotal;
+
+        /// <summary>
+        /// btnPrevPage control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnPrevPage;
+
+        /// <summary>
+        /// litCurrentPage control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litCurrentPage;
+
+        /// <summary>
+        /// litTotalPages control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litTotalPages;
+
+        /// <summary>
+        /// btnNextPage control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnNextPage;
     }
 }

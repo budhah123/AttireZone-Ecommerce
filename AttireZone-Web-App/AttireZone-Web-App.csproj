@@ -106,6 +106,7 @@
     <Content Include="Admin\ManageUser\ManageUser.aspx" />
     <Content Include="Admin\ManageProduct\AddProductModal.aspx" />
     <Content Include="Admin\ManageProduct\ManageProducts.aspx" />
+    <Content Include="Admin\ProcessOrders\ProcessOrders.aspx" />
     <Content Include="Assets\CSS\auth-register.css" />
     <Content Include="Assets\CSS\authentication.css" />
     <Content Include="App_Data\Categories_Setup.sql" />
@@ -223,6 +224,13 @@
     </Compile>
     <Compile Include="Admin\ManageProduct\ManageProducts.aspx.designer.cs">
       <DependentUpon>ManageProducts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ProcessOrders\ProcessOrders.aspx.cs">
+      <DependentUpon>ProcessOrders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ProcessOrders\ProcessOrders.aspx.designer.cs">
+      <DependentUpon>ProcessOrders.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
