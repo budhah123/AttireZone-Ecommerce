@@ -112,6 +112,7 @@
     <Content Include="Assets\CSS\auth-register.css" />
     <Content Include="Assets\CSS\authentication.css" />
     <Content Include="App_Data\Categories_Setup.sql" />
+    <Content Include="App_Data\CustomerWishlists_Setup.sql" />
     <Content Include="App_Data\Database_Setup.sql" />
     <Content Include="App_Data\Feedback_Setup.sql" />
     <Content Include="App_Data\Payments_Setup.sql" />
@@ -123,6 +124,7 @@
     <Content Include="Customer\Feedback.aspx" />
     <Content Include="Customer\OrderHistory.aspx" />
     <Content Include="Customer\Profile.aspx" />
+    <Content Include="Customer\Wishlist.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Footer.aspx" />
     <Content Include="favicon.ico" />
@@ -266,6 +268,7 @@
     <Compile Include="BusinessLogic\OrdersService.cs" />
     <Compile Include="BusinessLogic\ProductService.cs" />
     <Compile Include="BusinessLogic\UserService.cs" />
+    <Compile Include="BusinessLogic\WishlistService.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -307,6 +310,13 @@
     </Compile>
     <Compile Include="Customer\Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Wishlist.aspx.cs">
+      <DependentUpon>Wishlist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Wishlist.aspx.designer.cs">
+      <DependentUpon>Wishlist.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\DBHelper.cs" />
     <Compile Include="DataAccess\EsewaHelper.cs" />
@@ -394,6 +404,7 @@
     <Compile Include="Models\Orders.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Wishlist.cs" />
     <Compile Include="Navbar.aspx.cs">
       <DependentUpon>Navbar.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
