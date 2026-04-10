@@ -209,71 +209,41 @@
                     <div class="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-8">
                         <div>
                             <h2 class="text-3xl font-semibold tracking-tight mb-2">Curated Feedback</h2>
-                            <p class="text-on-surface-variant text-sm">4.9 Average Rating based on 124 verified purchasers.</p>
+                            <p class="text-on-surface-variant text-sm"><asp:Literal ID="litFeedbackSummary" runat="server"></asp:Literal></p>
                         </div>
-                        <button class="text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-secondary pb-1 hover:text-secondary transition-colors" type="button">Write a Review</button>
+                        <asp:HyperLink ID="lnkWriteReview" runat="server" CssClass="text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-secondary pb-1 hover:text-secondary transition-colors">Write a Review</asp:HyperLink>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-surface-container p-10 flex flex-col justify-between group">
-                            <div>
-                                <div class="flex text-secondary mb-6 space-x-1">
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                </div>
-                                <h3 class="text-lg font-medium mb-4">"Exceptional Drape"</h3>
-                                <p class="text-on-surface-variant text-sm leading-relaxed italic">
-                                    The weight of the wool is perfect. It holds its shape beautifully throughout the day. A truly architectural piece for my wardrobe.
-                                </p>
-                            </div>
-                            <div class="mt-8 pt-8 border-t border-outline-variant/10 flex items-center justify-between">
-                                <span class="text-[10px] tracking-widest uppercase font-bold">Julian V.</span>
-                                <span class="text-[10px] tracking-widest uppercase text-on-surface-variant/50">March 2024</span>
-                            </div>
-                        </div>
 
-                        <div class="bg-surface-container p-10 flex flex-col justify-between md:col-span-2 lg:col-span-1 border-l-4 border-secondary">
-                            <div>
-                                <div class="flex text-secondary mb-6 space-x-1">
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                </div>
-                                <h3 class="text-lg font-medium mb-4">"A Lifetime Investment"</h3>
-                                <p class="text-on-surface-variant text-sm leading-relaxed">
-                                    I was hesitant about the price point but the craftsmanship justifies every cent. The silk lining is incredibly soft and the tailoring is pinpoint accurate.
-                                </p>
-                            </div>
-                            <div class="mt-8 pt-8 border-t border-outline-variant/10 flex items-center justify-between">
-                                <span class="text-[10px] tracking-widest uppercase font-bold">Marcus Chen</span>
-                                <span class="text-[10px] tracking-widest uppercase text-on-surface-variant/50">Feb 2024</span>
-                            </div>
+                    <asp:PlaceHolder ID="phNoFeedback" runat="server" Visible="false">
+                        <div class="border border-outline-variant/20 bg-surface-container-low px-8 py-10 text-center">
+                            <p class="text-on-surface-variant text-sm uppercase tracking-widest">No reviews available</p>
                         </div>
+                    </asp:PlaceHolder>
 
-                        <div class="bg-surface-container-low p-10 flex flex-col justify-between opacity-80">
-                            <div>
-                                <div class="flex text-secondary mb-6 space-x-1">
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined text-sm">star_half</span>
+                    <asp:Repeater ID="rptProductFeedback" runat="server">
+                        <HeaderTemplate>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <div class="bg-surface-container p-10 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex text-secondary mb-6 space-x-1">
+                                        <%# BuildStarMarkup(Eval("Rating")) %>
+                                    </div>
+                                    <p class="text-on-surface-variant text-sm leading-relaxed">
+                                        <%#: Eval("Comment") %>
+                                    </p>
                                 </div>
-                                <h3 class="text-lg font-medium mb-4">"Sophisticated Utility"</h3>
-                                <p class="text-on-surface-variant text-sm leading-relaxed">
-                                    Warm, stylish, and durable. The deep navy is almost black, which I love. Slightly larger than expected, but ideal for layering.
-                                </p>
+                                <div class="mt-8 pt-8 border-t border-outline-variant/10 flex items-center justify-between">
+                                    <span class="text-[10px] tracking-widest uppercase font-bold"><%#: Eval("ReviewerName") %></span>
+                                    <span class="text-[10px] tracking-widest uppercase text-on-surface-variant/50"><%#: Eval("CreatedAtLabel") %></span>
+                                </div>
                             </div>
-                            <div class="mt-8 pt-8 border-t border-outline-variant/10 flex items-center justify-between">
-                                <span class="text-[10px] tracking-widest uppercase font-bold">Elena S.</span>
-                                <span class="text-[10px] tracking-widest uppercase text-on-surface-variant/50">Jan 2024</span>
+                        </ItemTemplate>
+                        <FooterTemplate>
                             </div>
-                        </div>
-                    </div>
+                        </FooterTemplate>
+                    </asp:Repeater>
                 </section>
             </asp:PlaceHolder>
         </main>
