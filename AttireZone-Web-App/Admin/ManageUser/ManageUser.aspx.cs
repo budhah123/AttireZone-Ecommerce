@@ -65,6 +65,51 @@ namespace AttireZone_Web_App.Admin.ManageUser
             LoadUsers();
         }
 
+        protected void rptUsers_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(Convert.ToString(e.CommandArgument, InvariantCulture), NumberStyles.Integer, InvariantCulture, out var userId) || userId <= 0)
+            {
+                ShowActionMessage("Invalid user selection.", true);
+                return;
+            }
+
+            var commandName = e.CommandName ?? string.Empty;
+            if (commandName.Equals("EditUser", StringComparison.OrdinalIgnoreCase))
+            {
+                Response.Redirect("~/Admin/ManageUser/AddUserModal.aspx?id=" + userId, false);
+                Context.ApplicationInstance.CompleteRequest();
+                return;
+            }
+
+            if (commandName.Equals("DeleteUser", StringComparison.OrdinalIgnoreCase))
+            {
+                DeleteUserById(userId);
+            }
+        }
+
+        protected void btnDeleteUserConfirmed_Click(object sender, EventArgs e)
+        {
+            if (!HasAdminAccess())
+            {
+                RedirectToAdminLogin();
+                return;
+            }
+
+            if (!int.TryParse(hfDeleteUserId.Value, NumberStyles.Integer, InvariantCulture, out var userId) || userId <= 0)
+            {
+                ShowActionMessage("Invalid user selection.", true);
+                LoadUsers();
+                return;
+            }
+
+            DeleteUserById(userId);
+        }
+
         private bool HasAdminAccess()
         {
             var adminRole = Convert.ToString(Session["AdminRole"]);
@@ -236,10 +281,78 @@ namespace AttireZone_Web_App.Admin.ManageUser
                 return;
             }
 
+            var updated = Request.QueryString["updated"];
+            if (string.Equals(updated, "1", StringComparison.Ordinal))
+            {
+                ShowActionMessage("User updated successfully.", false);
+                return;
+            }
+
+            var deleted = Request.QueryString["deleted"];
+            if (string.Equals(deleted, "1", StringComparison.Ordinal))
+            {
+                ShowActionMessage("User deleted successfully.", false);
+                return;
+            }
+
+            var cannotDelete = Request.QueryString["cannotdelete"];
+            if (string.Equals(cannotDelete, "1", StringComparison.Ordinal))
+            {
+                ShowActionMessage("You cannot delete your own active admin account.", true);
+                return;
+            }
+
+            if (string.Equals(deleted, "0", StringComparison.Ordinal))
+            {
+                ShowActionMessage("User could not be deleted.", true);
+                return;
+            }
+
             if (string.Equals(created, "0", StringComparison.Ordinal))
             {
                 ShowActionMessage("User could not be invited.", true);
             }
+        }
+
+        private void DeleteUserById(int userId)
+        {
+            if (TryReadCurrentUserId(out var currentUserId) && currentUserId == userId)
+            {
+                Response.Redirect("~/Admin/ManageUser/ManageUser.aspx?cannotdelete=1", false);
+                Context.ApplicationInstance.CompleteRequest();
+                return;
+            }
+
+            bool deleted;
+            try
+            {
+                var repository = new UserRepository();
+                deleted = repository.DeleteUser(userId);
+            }
+            catch
+            {
+                deleted = false;
+            }
+
+            Response.Redirect(deleted
+                ? "~/Admin/ManageUser/ManageUser.aspx?deleted=1"
+                : "~/Admin/ManageUser/ManageUser.aspx?deleted=0", false);
+            Context.ApplicationInstance.CompleteRequest();
+        }
+
+        private bool TryReadCurrentUserId(out int userId)
+        {
+            userId = 0;
+
+            var sessionUserId = Session["UserId"];
+            if (sessionUserId is int directUserId && directUserId > 0)
+            {
+                userId = directUserId;
+                return true;
+            }
+
+            var rawUserId = Convert.ToString(sessionUserId, InvariantCulture);
+            return int.TryParse(rawUserId, NumberStyles.Integer, InvariantCulture, out userId) && userId > 0;
         }
 
         private void ShowActionMessage(string message, bool isError)

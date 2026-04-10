@@ -135,6 +135,17 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
           Manage Products
         </a>
         <a
+          class="flex items-center px-6 py-4 text-[#c4c6cf] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 font-['Inter'] text-sm font-medium uppercase tracking-[0.1em] group"
+          href="/Admin/ManageCategories/ManageCategory.aspx"
+        >
+          <span
+            class="material-symbols-outlined mr-4 group-hover:translate-x-1 transition-transform"
+            data-icon="category"
+            >category</span
+          >
+          Manage Categories
+        </a>
+        <a
           class="flex items-center px-6 py-4 text-[#e9c349] border-r-2 border-[#e9c349] bg-[#1f1f1f] font-['Inter'] text-sm font-medium uppercase tracking-[0.1em] group"
           href="/Admin/ProcessOrders/ProcessOrders.aspx"
         >

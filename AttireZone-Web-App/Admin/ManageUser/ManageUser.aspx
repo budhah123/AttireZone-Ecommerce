@@ -42,6 +42,14 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+    .az-manage-user .az-confirm-modal {
+      backdrop-filter: blur(4px);
+    }
+
+    .az-manage-user .az-confirm-panel {
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+    }
   </style>
 </asp:Content>
 
@@ -135,6 +143,17 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
             >inventory_2</span
           >
           <span>Manage Products</span>
+        </a>
+        <a
+          class="flex items-center gap-4 px-6 py-4 text-[#c4c6cf] font-['Inter'] text-sm font-medium uppercase tracking-[0.1em] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 group"
+          href="/Admin/ManageCategories/ManageCategory.aspx"
+        >
+          <span
+            class="material-symbols-outlined group-hover:scale-110 transition-transform"
+            data-icon="category"
+            >category</span
+          >
+          <span>Manage Categories</span>
         </a>
         <a
           class="flex items-center gap-4 px-6 py-4 text-[#c4c6cf] font-['Inter'] text-sm font-medium uppercase tracking-[0.1em] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 group"
@@ -363,10 +382,19 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
               >
                 Role
               </th>
+              <th
+                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right"
+              >
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-outline-variant/5">
-            <asp:Repeater ID="rptUsers" runat="server">
+            <asp:Repeater
+              ID="rptUsers"
+              runat="server"
+              OnItemCommand="rptUsers_ItemCommand"
+            >
               <ItemTemplate>
                 <tr
                   class="hover:bg-surface-container-high transition-colors group"
@@ -390,6 +418,42 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
                     <span class='<%#: Eval("RoleBadgeCssClass") %>'
                       ><%#: Eval("Role") %></span
                     >
+                  </td>
+                  <td class="px-6 py-5 text-right">
+                    <div
+                      class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <asp:LinkButton
+                        ID="btnEditUser"
+                        runat="server"
+                        CommandName="EditUser"
+                        CommandArgument='<%#: Eval("UserId") %>'
+                        CausesValidation="false"
+                        CssClass="text-on-surface-variant hover:text-secondary"
+                      >
+                        <span
+                          class="material-symbols-outlined text-lg"
+                          data-icon="edit"
+                          >edit</span
+                        >
+                      </asp:LinkButton>
+                      <asp:LinkButton
+                        ID="btnDeleteUser"
+                        runat="server"
+                        CommandName="DeleteUser"
+                        CommandArgument='<%#: Eval("UserId") %>'
+                        CausesValidation="false"
+                        data-user-id='<%#: Eval("UserId") %>'
+                        OnClientClick="return showDeleteUserDialog(this.getAttribute('data-user-id'));"
+                        CssClass="text-on-surface-variant hover:text-error"
+                      >
+                        <span
+                          class="material-symbols-outlined text-lg"
+                          data-icon="delete"
+                          >delete</span
+                        >
+                      </asp:LinkButton>
+                    </div>
                   </td>
                 </tr>
               </ItemTemplate>
@@ -496,6 +560,109 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
           </div>
         </div>
       </section>
+
+      <asp:HiddenField ID="hfDeleteUserId" runat="server" />
+      <asp:Button
+        ID="btnDeleteUserConfirmed"
+        runat="server"
+        OnClick="btnDeleteUserConfirmed_Click"
+        CausesValidation="false"
+        UseSubmitBehavior="false"
+        Style="display: none"
+      />
+
+      <div
+        id="userDeleteDialog"
+        class="az-confirm-modal fixed inset-0 z-[80] bg-black/70 hidden items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="userDeleteDialogTitle"
+        onclick="
+          if (event.target === this) {
+            closeDeleteUserDialog();
+          }
+        "
+      >
+        <div
+          class="az-confirm-panel w-full max-w-md border border-outline-variant/20 bg-surface-container px-6 py-6"
+        >
+          <h2
+            id="userDeleteDialogTitle"
+            class="text-lg font-bold tracking-tight text-on-surface"
+          >
+            Delete User
+          </h2>
+          <p class="mt-3 text-sm text-on-surface-variant leading-relaxed">
+            Are you sure you want to delete this item? This action cannot be
+            undone.
+          </p>
+          <div class="mt-6 flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onclick="closeDeleteUserDialog()"
+              class="px-4 py-2 border border-outline-variant/30 text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-on-surface hover:border-on-surface/40 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onclick="confirmDeleteUser()"
+              class="px-5 py-2 bg-error text-on-error text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
+
+  <script type="text/javascript">
+    (function () {
+      var dialog = document.getElementById("userDeleteDialog");
+      var hiddenId = document.getElementById("<%= hfDeleteUserId.ClientID %>");
+      var confirmButton = document.getElementById(
+        "<%= btnDeleteUserConfirmed.ClientID %>",
+      );
+
+      window.showDeleteUserDialog = function (userId) {
+        if (!dialog || !hiddenId) {
+          return false;
+        }
+
+        hiddenId.value = userId;
+        dialog.classList.remove("hidden");
+        dialog.classList.add("flex");
+        return false;
+      };
+
+      window.closeDeleteUserDialog = function () {
+        if (!dialog || !hiddenId) {
+          return;
+        }
+
+        hiddenId.value = "";
+        dialog.classList.add("hidden");
+        dialog.classList.remove("flex");
+      };
+
+      window.confirmDeleteUser = function () {
+        if (!confirmButton) {
+          return;
+        }
+
+        confirmButton.click();
+      };
+
+      document.addEventListener("keydown", function (event) {
+        if (
+          event.key === "Escape" &&
+          dialog &&
+          !dialog.classList.contains("hidden")
+        ) {
+          closeDeleteUserDialog();
+        }
+      });
+    })();
+  </script>
 </asp:Content>

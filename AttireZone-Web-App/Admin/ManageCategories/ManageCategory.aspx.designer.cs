@@ -7,39 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AttireZone_Web_App.Admin.ManageUser
+namespace AttireZone_Web_App.Admin.ManageCategories
 {
 
 
-    public partial class ManageUser
+    public partial class ManageCategory
     {
 
         /// <summary>
-        /// txtUserSearch control.
+        /// txtCategorySearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUserSearch;
-
-        /// <summary>
-        /// ddlRoleFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlRoleFilter;
-
-        /// <summary>
-        /// ddlStatusFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStatusFilter;
+        protected global::System.Web.UI.WebControls.TextBox txtCategorySearch;
 
         /// <summary>
         /// pnlActionMessage control.
@@ -60,67 +42,49 @@ namespace AttireZone_Web_App.Admin.ManageUser
         protected global::System.Web.UI.WebControls.Literal litActionMessage;
 
         /// <summary>
-        /// litTotalUsers control.
+        /// litTotalCategories control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalUsers;
+        protected global::System.Web.UI.WebControls.Literal litTotalCategories;
 
         /// <summary>
-        /// litActiveNow control.
+        /// litCategoriesInUse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litActiveNow;
+        protected global::System.Web.UI.WebControls.Literal litCategoriesInUse;
 
         /// <summary>
-        /// litAdmins control.
+        /// litUnusedCategories control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAdmins;
+        protected global::System.Web.UI.WebControls.Literal litUnusedCategories;
 
         /// <summary>
-        /// litPendingInvitations control.
+        /// litCreatedThisMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPendingInvitations;
+        protected global::System.Web.UI.WebControls.Literal litCreatedThisMonth;
 
         /// <summary>
-        /// litShown control.
+        /// rptCategories control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litShown;
-
-        /// <summary>
-        /// litTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotal;
-
-        /// <summary>
-        /// rptUsers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptUsers;
+        protected global::System.Web.UI.WebControls.Repeater rptCategories;
 
         /// <summary>
         /// pnlEmptyState control.
@@ -132,21 +96,66 @@ namespace AttireZone_Web_App.Admin.ManageUser
         protected global::System.Web.UI.WebControls.Panel pnlEmptyState;
 
         /// <summary>
-        /// hfDeleteUserId control.
+        /// litShownFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfDeleteUserId;
+        protected global::System.Web.UI.WebControls.Literal litShownFrom;
 
         /// <summary>
-        /// btnDeleteUserConfirmed control.
+        /// litShownTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDeleteUserConfirmed;
+        protected global::System.Web.UI.WebControls.Literal litShownTo;
+
+        /// <summary>
+        /// litShownTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litShownTotal;
+
+        /// <summary>
+        /// pnlSnackbar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlSnackbar;
+
+        /// <summary>
+        /// litSnackbarMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSnackbarMessage;
+
+        /// <summary>
+        /// hfDeleteCategoryId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfDeleteCategoryId;
+
+        /// <summary>
+        /// btnDeleteCategoryConfirmed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDeleteCategoryConfirmed;
     }
 }

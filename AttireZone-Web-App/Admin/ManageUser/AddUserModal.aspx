@@ -294,14 +294,14 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.AddUserModal" %>
                 <div class="relative group">
                   <label
                     class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 transition-colors group-focus-within:text-secondary"
-                    >Temporary Password</label
+                    >Password</label
                   >
                   <input
                     id="txtPassword"
                     runat="server"
                     class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-2 px-0 focus:ring-0 focus:border-secondary text-on-surface placeholder:text-on-surface-variant/30 transition-all"
                     maxlength="200"
-                    placeholder="Minimum 6 characters"
+                    placeholder="Min 6 characters (optional when editing)"
                     type="password"
                   />
                 </div>

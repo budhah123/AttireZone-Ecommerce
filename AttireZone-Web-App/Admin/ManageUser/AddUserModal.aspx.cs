@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
@@ -20,6 +19,11 @@ namespace AttireZone_Web_App.Admin.ManageUser
                 RedirectToAdminLogin();
                 return;
             }
+
+            if (!IsPostBack && TryGetEditUserId(out var editUserId))
+            {
+                LoadUserForEdit(editUserId);
+            }
         }
 
         protected void btnAddUser_ServerClick(object sender, EventArgs e)
@@ -36,6 +40,8 @@ namespace AttireZone_Web_App.Admin.ManageUser
             var email = (txtEmail.Value ?? string.Empty).Trim();
             var password = txtPassword.Value ?? string.Empty;
             var role = NormalizeRole(ddlRole.Value);
+            var isEditMode = TryGetEditUserId(out var editUserId);
+            var repository = new UserRepository();
 
             if (string.IsNullOrWhiteSpace(fullName))
             {
@@ -49,13 +55,25 @@ namespace AttireZone_Web_App.Admin.ManageUser
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(password) || password.Length < 6)
+            if (!isEditMode && (string.IsNullOrWhiteSpace(password) || password.Length < 6))
             {
-                ShowError("Temporary password must be at least 6 characters.");
+                ShowError("Password must be at least 6 characters.");
                 return;
             }
 
-            if (UserService.UserExists(email))
+            if (isEditMode && !string.IsNullOrWhiteSpace(password) && password.Length < 6)
+            {
+                ShowError("New password must be at least 6 characters.");
+                return;
+            }
+
+            if (isEditMode && repository.EmailExistsForAnotherUser(editUserId, email))
+            {
+                ShowError("A user with this email already exists.");
+                return;
+            }
+
+            if (!isEditMode && UserService.UserExists(email))
             {
                 ShowError("A user with this email already exists.");
                 return;
@@ -63,6 +81,34 @@ namespace AttireZone_Web_App.Admin.ManageUser
 
             try
             {
+                if (isEditMode)
+                {
+                    var userToUpdate = repository.GetById(editUserId);
+                    if (userToUpdate == null)
+                    {
+                        ShowError("The user you are trying to edit no longer exists.");
+                        return;
+                    }
+
+                    userToUpdate.FullName = fullName;
+                    userToUpdate.Email = email;
+                    userToUpdate.Role = role;
+
+                    var updated = repository.UpdateUserByAdmin(
+                        userToUpdate,
+                        string.IsNullOrWhiteSpace(password) ? null : password);
+
+                    if (!updated)
+                    {
+                        ShowError("User could not be updated. Please try again.");
+                        return;
+                    }
+
+                    Response.Redirect("~/Admin/ManageUser/ManageUser.aspx?updated=1", false);
+                    Context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+
                 const string sql = @"
 INSERT INTO dbo.Users (FullName, Email, Password, CreatedDate, LastModifiedDate, Role)
 VALUES (@FullName, @Email, @Password, @CreatedDate, @LastModifiedDate, @Role)";
@@ -142,6 +188,45 @@ VALUES (@FullName, @Email, @Password, @CreatedDate, @LastModifiedDate, @Role)";
             pnlMessage.CssClass = "mb-6 border border-error/40 bg-error-container/30 px-4 py-3 text-xs uppercase tracking-widest text-error";
             litMessage.Text = HttpUtility.HtmlEncode(message ?? string.Empty);
 
+        }
+
+        private bool TryGetEditUserId(out int userId)
+        {
+            userId = 0;
+            return int.TryParse(Request.QueryString["id"], out userId) && userId > 0;
+        }
+
+        private void LoadUserForEdit(int userId)
+        {
+            User user;
+            try
+            {
+                var repository = new UserRepository();
+                user = repository.GetById(userId);
+            }
+            catch
+            {
+                ShowError("Unable to load user details for editing.");
+                return;
+            }
+
+            if (user == null)
+            {
+                ShowError("User not found for editing.");
+                return;
+            }
+
+            txtFullName.Value = user.FullName ?? string.Empty;
+            txtEmail.Value = user.Email ?? string.Empty;
+
+            var roleItem = ddlRole.Items.FindByValue(NormalizeRole(user.Role));
+            if (roleItem != null)
+            {
+                ddlRole.Value = roleItem.Value;
+            }
+
+            litFormHeading.Text = "Edit User";
+            btnAddUser.InnerText = "Update User";
         }
     }
 }
