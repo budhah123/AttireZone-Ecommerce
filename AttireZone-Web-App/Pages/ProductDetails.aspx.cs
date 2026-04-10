@@ -53,6 +53,37 @@ namespace AttireZone_Web_App.Pages
             }
         }
 
+        protected void btnAddToWishlist_Click(object sender, EventArgs e)
+        {
+            if (!TryReadLoggedInUserId(out var userId))
+            {
+                RedirectToLoginWithReturnUrl();
+                return;
+            }
+
+            if (!TryReadProductId(out var productId))
+            {
+                ShowSnackbar("Unable to add this item to wishlist.", "error");
+                return;
+            }
+
+            try
+            {
+                var added = WishlistService.AddToWishlist(userId, productId);
+                if (!added)
+                {
+                    ShowSnackbar("Item is already in your wishlist.", "info");
+                    return;
+                }
+
+                ShowSnackbar("Item added to wishlist!", "success");
+            }
+            catch
+            {
+                ShowSnackbar("Unable to add this item to wishlist.", "error");
+            }
+        }
+
         private void BindProductDetails()
         {
             if (!TryReadProductId(out var productId))

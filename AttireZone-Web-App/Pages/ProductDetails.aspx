@@ -186,9 +186,10 @@
 
                             <div class="pt-4 flex flex-col gap-4">
                                 <asp:Button ID="btnAddToCart" runat="server" Text="Add to Shopping Bag" CssClass="w-full py-5 bg-gradient-to-tr from-secondary to-secondary-container text-on-secondary font-bold uppercase tracking-[0.2em] text-xs transition-transform active:scale-[0.98]" OnClick="btnAddToCart_Click" />
-                                <button class="w-full py-5 border border-outline-variant text-on-surface font-bold uppercase tracking-[0.2em] text-xs hover:bg-on-surface/5 transition-colors" type="button">
+                                <asp:LinkButton ID="btnAddToWishlist" runat="server" CausesValidation="false" UseSubmitBehavior="false" CssClass="w-full py-5 border border-outline-variant text-on-surface font-bold uppercase tracking-[0.2em] text-xs hover:bg-on-surface/5 transition-colors inline-flex items-center justify-center gap-2" OnClick="btnAddToWishlist_Click">
+                                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">favorite</span>
                                     Wishlist
-                                </button>
+                                </asp:LinkButton>
                             </div>
 
                             <div class="pt-8 border-t border-outline-variant/20 space-y-4">
