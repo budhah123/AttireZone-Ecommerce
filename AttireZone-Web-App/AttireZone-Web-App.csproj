@@ -113,12 +113,14 @@
     <Content Include="Assets\CSS\authentication.css" />
     <Content Include="App_Data\Categories_Setup.sql" />
     <Content Include="App_Data\Database_Setup.sql" />
+    <Content Include="App_Data\Feedback_Setup.sql" />
     <Content Include="App_Data\Payments_Setup.sql" />
     <Content Include="App_Data\Products_IsPopular_Migration.sql" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\tailwind-config.css" />
     <Content Include="Customer\Cart.aspx" />
     <Content Include="Customer\Checkout.aspx" />
+    <Content Include="Customer\Feedback.aspx" />
     <Content Include="Customer\OrderHistory.aspx" />
     <Content Include="Customer\Profile.aspx" />
     <Content Include="Default.aspx" />
@@ -259,6 +261,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BusinessLogic\CartService.cs" />
     <Compile Include="BusinessLogic\CategoryService.cs" />
+    <Compile Include="BusinessLogic\FeedbackService.cs" />
     <Compile Include="BusinessLogic\OrderItemsService.cs" />
     <Compile Include="BusinessLogic\OrdersService.cs" />
     <Compile Include="BusinessLogic\ProductService.cs" />
@@ -283,6 +286,13 @@
     </Compile>
     <Compile Include="Customer\Checkout.aspx.designer.cs">
       <DependentUpon>Checkout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Feedback.aspx.cs">
+      <DependentUpon>Feedback.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Feedback.aspx.designer.cs">
+      <DependentUpon>Feedback.aspx</DependentUpon>
     </Compile>
     <Compile Include="Customer\OrderHistory.aspx.cs">
       <DependentUpon>OrderHistory.aspx</DependentUpon>
@@ -379,6 +389,7 @@
     </Compile>
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\OrderItems.cs" />
     <Compile Include="Models\Orders.cs" />
     <Compile Include="Models\Product.cs" />

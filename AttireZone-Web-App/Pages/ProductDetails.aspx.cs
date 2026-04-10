@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -19,6 +20,7 @@ namespace AttireZone_Web_App.Pages
             if (!IsPostBack)
             {
                 BindProductDetails();
+                TryShowFeedbackSubmissionMessage();
             }
         }
 
@@ -118,8 +120,178 @@ namespace AttireZone_Web_App.Pages
                             product.IsPopular;
             phLimitedBadge.Visible = isLimited;
 
+            lnkWriteReview.NavigateUrl = BuildFeedbackUrl(product.Id);
+            BindProductFeedback(product.Id);
+
             phProductNotFound.Visible = false;
             phProductContent.Visible = true;
+        }
+
+        private void TryShowFeedbackSubmissionMessage()
+        {
+            var reviewStatus = Request.QueryString["review"];
+            if (!string.Equals(reviewStatus, "submitted", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            ShowSnackbar("Thank you for sharing your feedback.", "success");
+        }
+
+        private void BindProductFeedback(int productId)
+        {
+            var feedbackEntries = LoadProductFeedback(productId);
+            var feedbackCards = feedbackEntries
+                .Select(MapFeedbackCard)
+                .ToList();
+
+            rptProductFeedback.DataSource = feedbackCards;
+            rptProductFeedback.DataBind();
+
+            var feedbackCount = feedbackCards.Count;
+            var averageRating = feedbackCount > 0
+                ? feedbackCards.Average(card => card.Rating)
+                : 0d;
+
+            litFeedbackSummary.Text = HttpUtility.HtmlEncode(BuildFeedbackSummary(averageRating, feedbackCount));
+            phNoFeedback.Visible = feedbackCount == 0;
+            rptProductFeedback.Visible = feedbackCount > 0;
+        }
+
+        private static List<Models.Feedback> LoadProductFeedback(int productId)
+        {
+            if (productId <= 0)
+            {
+                return new List<Models.Feedback>();
+            }
+
+            try
+            {
+                return FeedbackService.GetFeedbackByProductId(productId, 6) ?? new List<Models.Feedback>();
+            }
+            catch
+            {
+                return new List<Models.Feedback>();
+            }
+        }
+
+        private static FeedbackCardVm MapFeedbackCard(Models.Feedback feedback)
+        {
+            var safeRating = feedback == null ? 0 : feedback.Rating;
+            if (safeRating < 1)
+            {
+                safeRating = 1;
+            }
+
+            if (safeRating > 5)
+            {
+                safeRating = 5;
+            }
+
+            return new FeedbackCardVm
+            {
+                Rating = safeRating,
+                Comment = NormalizeFeedbackComment(feedback == null ? null : feedback.Comment),
+                ReviewerName = NormalizeReviewerName(feedback == null ? null : feedback.UserFullName),
+                CreatedAtLabel = FormatFeedbackDate(feedback == null ? DateTime.MinValue : feedback.CreatedAt)
+            };
+        }
+
+        private static string BuildFeedbackSummary(double averageRating, int feedbackCount)
+        {
+            if (feedbackCount <= 0)
+            {
+                return "No reviews available";
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0:0.0} Average Rating based on {1} verified review{2}.",
+                averageRating,
+                feedbackCount,
+                feedbackCount == 1 ? string.Empty : "s");
+        }
+
+        private static string NormalizeFeedbackComment(string comment)
+        {
+            if (string.IsNullOrWhiteSpace(comment))
+            {
+                return "No written comment was provided.";
+            }
+
+            var normalized = comment.Trim();
+            if (normalized.Length > 320)
+            {
+                normalized = normalized.Substring(0, 320).TrimEnd() + "...";
+            }
+
+            return normalized;
+        }
+
+        private static string NormalizeReviewerName(string reviewerName)
+        {
+            if (string.IsNullOrWhiteSpace(reviewerName))
+            {
+                return "Verified Customer";
+            }
+
+            return reviewerName.Trim();
+        }
+
+        private static string FormatFeedbackDate(DateTime createdAt)
+        {
+            if (createdAt == DateTime.MinValue)
+            {
+                return "Recently";
+            }
+
+            return createdAt.ToString("MMM yyyy", CultureInfo.InvariantCulture).ToUpperInvariant();
+        }
+
+        private string BuildFeedbackUrl(int productId)
+        {
+            var baseUrl = ResolveUrl("~/Customer/Feedback.aspx");
+            if (productId <= 0)
+            {
+                return baseUrl;
+            }
+
+            return string.Concat(
+                baseUrl,
+                "?productId=",
+                productId.ToString(CultureInfo.InvariantCulture));
+        }
+
+        protected string BuildStarMarkup(object ratingValue)
+        {
+            if (!int.TryParse(Convert.ToString(ratingValue, CultureInfo.InvariantCulture), NumberStyles.Integer, CultureInfo.InvariantCulture, out var rating))
+            {
+                rating = 0;
+            }
+
+            if (rating < 0)
+            {
+                rating = 0;
+            }
+
+            if (rating > 5)
+            {
+                rating = 5;
+            }
+
+            var stars = new StringBuilder(capacity: 320);
+            for (var index = 0; index < 5; index++)
+            {
+                if (index < rating)
+                {
+                    stars.Append("<span class=\"material-symbols-outlined text-sm\" style=\"font-variation-settings: 'FILL' 1;\">star</span>");
+                    continue;
+                }
+
+                stars.Append("<span class=\"material-symbols-outlined text-sm text-on-surface-variant/50\">star</span>");
+            }
+
+            return stars.ToString();
         }
 
         private Tuple<string, string> GetGalleryImages(int currentProductId, string fallbackImage)
@@ -285,6 +457,17 @@ namespace AttireZone_Web_App.Pages
             phProductContent.Visible = false;
             phProductNotFound.Visible = true;
 
+        }
+
+        private sealed class FeedbackCardVm
+        {
+            public int Rating { get; set; }
+
+            public string Comment { get; set; }
+
+            public string ReviewerName { get; set; }
+
+            public string CreatedAtLabel { get; set; }
         }
 
     }
