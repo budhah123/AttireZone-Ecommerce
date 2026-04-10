@@ -112,7 +112,7 @@
     <Content Include="Assets\CSS\auth-register.css" />
     <Content Include="Assets\CSS\authentication.css" />
     <Content Include="App_Data\Categories_Setup.sql" />
-    <Content Include="App_Data\Database_Setup.sql" />
+git     <Content Include="App_Data\Database_Setup.sql" />
     <Content Include="App_Data\Feedback_Setup.sql" />
     <Content Include="App_Data\Payments_Setup.sql" />
     <Content Include="App_Data\Products_IsPopular_Migration.sql" />
