@@ -161,7 +161,7 @@ CodeBehind="Profile.aspx.cs" Inherits="AttireZone_Web_App.Customer.Profile" %>
         <div class="space-y-1">
           <a
             class="flex justify-between items-center p-6 bg-surface-container-low hover:bg-surface-container-high transition-colors group"
-            href="#"
+            href="<%= ResolveUrl("~/Customer/Wishlist.aspx") %>"
           >
             <span class="text-sm font-semibold uppercase tracking-widest"
               >Saved Items</span
