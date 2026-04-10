@@ -73,6 +73,37 @@ namespace AttireZone_Web_App.Admin.ManageProduct
             LoadProducts();
         }
 
+        protected void btnDeleteProductConfirmed_Click(object sender, EventArgs e)
+        {
+            if (!HasAdminAccess())
+            {
+                RedirectToAdminLogin();
+                return;
+            }
+
+            if (!int.TryParse(hfDeleteProductId.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var productId) || productId <= 0)
+            {
+                ShowActionMessage("Invalid product selection.", true);
+                LoadProducts();
+                return;
+            }
+
+            bool deleted;
+            try
+            {
+                deleted = ProductService.DeleteProduct(productId);
+            }
+            catch
+            {
+                deleted = false;
+            }
+
+            Response.Redirect(deleted
+                ? "~/Admin/ManageProduct/ManageProducts.aspx?deleted=1"
+                : "~/Admin/ManageProduct/ManageProducts.aspx?deleted=0", false);
+            Context.ApplicationInstance.CompleteRequest();
+        }
+
         protected void rptProducts_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e == null)

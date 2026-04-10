@@ -106,6 +106,8 @@
     <Content Include="Admin\ManageUser\ManageUser.aspx" />
     <Content Include="Admin\ManageProduct\AddProductModal.aspx" />
     <Content Include="Admin\ManageProduct\ManageProducts.aspx" />
+    <Content Include="Admin\ManageCategories\AddCategoryModal.aspx" />
+    <Content Include="Admin\ManageCategories\ManageCategory.aspx" />
     <Content Include="Admin\ProcessOrders\ProcessOrders.aspx" />
     <Content Include="Assets\CSS\auth-register.css" />
     <Content Include="Assets\CSS\authentication.css" />
@@ -224,6 +226,20 @@
     </Compile>
     <Compile Include="Admin\ManageProduct\ManageProducts.aspx.designer.cs">
       <DependentUpon>ManageProducts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageCategories\AddCategoryModal.aspx.cs">
+      <DependentUpon>AddCategoryModal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageCategories\AddCategoryModal.aspx.designer.cs">
+      <DependentUpon>AddCategoryModal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageCategories\ManageCategory.aspx.cs">
+      <DependentUpon>ManageCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageCategories\ManageCategory.aspx.designer.cs">
+      <DependentUpon>ManageCategory.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ProcessOrders\ProcessOrders.aspx.cs">
       <DependentUpon>ProcessOrders.aspx</DependentUpon>

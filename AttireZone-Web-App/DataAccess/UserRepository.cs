@@ -159,6 +159,74 @@ ORDER BY CreatedDate DESC;";
                 });
         }
 
+        public bool UpdateUserByAdmin(User user, string newPassword = null)
+        {
+            if (user == null || user.UserId <= 0)
+            {
+                return false;
+            }
+
+            var shouldUpdatePassword = !string.IsNullOrWhiteSpace(newPassword);
+            if (shouldUpdatePassword)
+            {
+                const string sqlWithPassword = @"
+UPDATE Users
+SET
+    FullName = @FullName,
+    Email = @Email,
+    Role = @Role,
+    Password = @Password,
+    LastModifiedDate = GETDATE()
+WHERE UserId = @UserId;";
+
+                var parametersWithPassword = new[]
+                {
+                    new SqlParameter("@FullName", SqlDbType.NVarChar, 100) { Value = user.FullName ?? string.Empty },
+                    new SqlParameter("@Email", SqlDbType.NVarChar, 150) { Value = user.Email ?? string.Empty },
+                    new SqlParameter("@Role", SqlDbType.NVarChar, 20) { Value = user.Role ?? "Customer" },
+                    new SqlParameter("@Password", SqlDbType.NVarChar, 256) { Value = HashPassword(newPassword) },
+                    new SqlParameter("@UserId", SqlDbType.Int) { Value = user.UserId }
+                };
+
+                return DBHelper.ExecuteNonQuery(sqlWithPassword, parametersWithPassword) > 0;
+            }
+
+            const string sqlWithoutPassword = @"
+UPDATE Users
+SET
+    FullName = @FullName,
+    Email = @Email,
+    Role = @Role,
+    LastModifiedDate = GETDATE()
+WHERE UserId = @UserId;";
+
+            var parameters = new[]
+            {
+                new SqlParameter("@FullName", SqlDbType.NVarChar, 100) { Value = user.FullName ?? string.Empty },
+                new SqlParameter("@Email", SqlDbType.NVarChar, 150) { Value = user.Email ?? string.Empty },
+                new SqlParameter("@Role", SqlDbType.NVarChar, 20) { Value = user.Role ?? "Customer" },
+                new SqlParameter("@UserId", SqlDbType.Int) { Value = user.UserId }
+            };
+
+            return DBHelper.ExecuteNonQuery(sqlWithoutPassword, parameters) > 0;
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            if (userId <= 0)
+            {
+                return false;
+            }
+
+            const string sql = "DELETE FROM Users WHERE UserId = @UserId";
+            var rowsAffected = DBHelper.ExecuteNonQuery(sql, new[]
+            {
+                new SqlParameter("@UserId", SqlDbType.Int) { Value = userId }
+            });
+
+            return rowsAffected > 0;
+        }
+
         private User MapRow(DataRow row)
         {
             var role = row.Table.Columns.Contains("Role") && row["Role"] != DBNull.Value

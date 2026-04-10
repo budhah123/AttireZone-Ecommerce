@@ -162,6 +162,18 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
               >
             </a>
             <a
+              href="/Admin/ManageCategories/ManageCategory.aspx"
+              class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
+            >
+              <span class="font-bold uppercase tracking-widest text-sm"
+                >Manage Categories</span
+              >
+              <span
+                class="material-symbols-outlined group-hover:translate-x-2 transition-transform"
+                >arrow_forward</span
+              >
+            </a>
+            <a
               href="/Admin/ManageUser/ManageUser.aspx"
               class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
