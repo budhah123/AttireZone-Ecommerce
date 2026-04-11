@@ -265,6 +265,7 @@
     <Compile Include="BusinessLogic\CategoryService.cs" />
     <Compile Include="BusinessLogic\FeedbackService.cs" />
     <Compile Include="BusinessLogic\OrderItemsService.cs" />
+    <Compile Include="BusinessLogic\OrderEmailNotificationService.cs" />
     <Compile Include="BusinessLogic\OrdersService.cs" />
     <Compile Include="BusinessLogic\ProductService.cs" />
     <Compile Include="BusinessLogic\UserService.cs" />

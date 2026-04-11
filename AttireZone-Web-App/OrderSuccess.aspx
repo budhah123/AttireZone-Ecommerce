@@ -12,6 +12,12 @@
                 <p>Payment Method: <span class="text-on-background"><asp:Literal ID="litPaymentMethod" runat="server"></asp:Literal></span></p>
             </div>
 
+            <asp:PlaceHolder ID="phEmailNotice" runat="server" Visible="false">
+                <div class="bg-[#fff7ed] border border-[#fed7aa] px-4 py-3 text-xs tracking-[0.05em] uppercase text-[#9a3412]">
+                    <asp:Literal ID="litEmailNotice" runat="server"></asp:Literal>
+                </div>
+            </asp:PlaceHolder>
+
             <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                 <a href="<%= ResolveUrl("~/Customer/OrderHistory.aspx") %>" class="bg-secondary text-on-secondary px-8 py-3 text-xs font-bold uppercase tracking-[0.14em]">View Orders</a>
                 <a href="<%= ResolveUrl("~/Pages/Product.aspx") %>" class="border border-outline-variant/40 text-on-background px-8 py-3 text-xs font-bold uppercase tracking-[0.14em]">Continue Shopping</a>
