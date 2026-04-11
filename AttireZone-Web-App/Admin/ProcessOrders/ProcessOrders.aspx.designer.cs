@@ -39,6 +39,11 @@ namespace AttireZone_Web_App.Admin.ProcessOrders
         protected global::System.Web.UI.WebControls.LinkButton btnFilterShipped;
 
         /// <summary>
+        /// btnFilterCancelled control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnFilterCancelled;
+
+        /// <summary>
         /// btnFilterDelivered control.
         /// </summary>
         protected global::System.Web.UI.WebControls.LinkButton btnFilterDelivered;

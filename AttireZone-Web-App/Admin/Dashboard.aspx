@@ -197,18 +197,6 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
                 >arrow_forward</span
               >
             </a>
-            <button
-              type="button"
-              class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
-            >
-              <span class="font-bold uppercase tracking-widest text-sm"
-                >Inventory Log</span
-              >
-              <span
-                class="material-symbols-outlined group-hover:translate-x-2 transition-transform"
-                >arrow_forward</span
-              >
-            </button>
           </div>
         </section>
 
