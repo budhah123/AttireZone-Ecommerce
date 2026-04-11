@@ -218,13 +218,146 @@ WHERE UserId = @UserId;";
                 return false;
             }
 
-            const string sql = "DELETE FROM Users WHERE UserId = @UserId";
-            var rowsAffected = DBHelper.ExecuteNonQuery(sql, new[]
+            using (var connection = DBHelper.GetConnection())
             {
-                new SqlParameter("@UserId", SqlDbType.Int) { Value = userId }
-            });
+                connection.Open();
 
-            return rowsAffected > 0;
+                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    try
+                    {
+                        DeleteRowsByUserId(connection, transaction, "CustomerWishlists", userId);
+                        DeleteRowsByUserId(connection, transaction, "Feedback", userId);
+                        DeleteRowsByUserId(connection, transaction, "Cart", userId);
+
+                        DeleteOrderRelatedRows(connection, transaction, userId);
+
+                        var deletedUsers = ExecuteDeleteByUserId(
+                            connection,
+                            transaction,
+                            "DELETE FROM [dbo].[Users] WHERE [UserId] = @UserId;",
+                            userId);
+
+                        transaction.Commit();
+                        return deletedUsers > 0;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private static void DeleteRowsByUserId(SqlConnection connection, SqlTransaction transaction, string tableName, int userId)
+        {
+            if (!TableExists(connection, transaction, tableName) || !ColumnExists(connection, transaction, tableName, "UserId"))
+            {
+                return;
+            }
+
+            var sql = string.Format("DELETE FROM [dbo].[{0}] WHERE [UserId] = @UserId;", tableName);
+            ExecuteDeleteByUserId(connection, transaction, sql, userId);
+        }
+
+        private static void DeleteOrderRelatedRows(SqlConnection connection, SqlTransaction transaction, int userId)
+        {
+            if (!TableExists(connection, transaction, "Orders") || !ColumnExists(connection, transaction, "Orders", "UserId"))
+            {
+                return;
+            }
+
+            var orderPrimaryKeyColumn = GetOrderPrimaryKeyColumn(connection, transaction);
+            if (string.IsNullOrWhiteSpace(orderPrimaryKeyColumn))
+            {
+                return;
+            }
+
+            if (TableExists(connection, transaction, "Payments") && ColumnExists(connection, transaction, "Payments", "OrderId"))
+            {
+                var paymentDeleteSql = @"
+DELETE [p]
+FROM [dbo].[Payments] [p]
+INNER JOIN [dbo].[Orders] [o] ON [p].[OrderId] = [o]." + "[" + orderPrimaryKeyColumn + @"]
+WHERE [o].[UserId] = @UserId;";
+
+                ExecuteDeleteByUserId(connection, transaction, paymentDeleteSql, userId);
+            }
+
+            if (TableExists(connection, transaction, "OrderItems") && ColumnExists(connection, transaction, "OrderItems", "OrderId"))
+            {
+                var orderItemDeleteSql = @"
+DELETE [oi]
+FROM [dbo].[OrderItems] [oi]
+INNER JOIN [dbo].[Orders] [o] ON [oi].[OrderId] = [o]." + "[" + orderPrimaryKeyColumn + @"]
+WHERE [o].[UserId] = @UserId;";
+
+                ExecuteDeleteByUserId(connection, transaction, orderItemDeleteSql, userId);
+            }
+
+            ExecuteDeleteByUserId(connection, transaction, "DELETE FROM [dbo].[Orders] WHERE [UserId] = @UserId;", userId);
+        }
+
+        private static string GetOrderPrimaryKeyColumn(SqlConnection connection, SqlTransaction transaction)
+        {
+            if (ColumnExists(connection, transaction, "Orders", "Id"))
+            {
+                return "Id";
+            }
+
+            if (ColumnExists(connection, transaction, "Orders", "OrderId"))
+            {
+                return "OrderId";
+            }
+
+            return string.Empty;
+        }
+
+        private static int ExecuteDeleteByUserId(SqlConnection connection, SqlTransaction transaction, string sql, int userId)
+        {
+            using (var command = new SqlCommand(sql, connection, transaction))
+            {
+                command.CommandType = CommandType.Text;
+                command.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+                return command.ExecuteNonQuery();
+            }
+        }
+
+        private static bool TableExists(SqlConnection connection, SqlTransaction transaction, string tableName)
+        {
+            const string sql = @"
+SELECT COUNT(1)
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'dbo'
+  AND TABLE_NAME = @TableName;";
+
+            using (var command = new SqlCommand(sql, connection, transaction))
+            {
+                command.CommandType = CommandType.Text;
+                command.Parameters.Add("@TableName", SqlDbType.NVarChar, 128).Value = tableName;
+                var result = command.ExecuteScalar();
+                return Convert.ToInt32(result ?? 0) > 0;
+            }
+        }
+
+        private static bool ColumnExists(SqlConnection connection, SqlTransaction transaction, string tableName, string columnName)
+        {
+            const string sql = @"
+SELECT COUNT(1)
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA = 'dbo'
+  AND TABLE_NAME = @TableName
+  AND COLUMN_NAME = @ColumnName;";
+
+            using (var command = new SqlCommand(sql, connection, transaction))
+            {
+                command.CommandType = CommandType.Text;
+                command.Parameters.Add("@TableName", SqlDbType.NVarChar, 128).Value = tableName;
+                command.Parameters.Add("@ColumnName", SqlDbType.NVarChar, 128).Value = columnName;
+                var result = command.ExecuteScalar();
+                return Convert.ToInt32(result ?? 0) > 0;
+            }
         }
 
         private User MapRow(DataRow row)

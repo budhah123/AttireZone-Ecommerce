@@ -97,6 +97,22 @@ namespace AttireZone_Web_App
                 PaymentDbHelper.UpdatePaymentStatus(payment.TransactionUuid, "Completed", gatewayTxId, lookupResult.RawResponse);
                 PaymentDbHelper.UpdateOrderPaymentStatus(payment.OrderId, "Paid");
 
+                var emailResult = OrderEmailNotificationService.SendOrderConfirmationEmail(
+                    payment.OrderId,
+                    payment.Amount,
+                    "Khalti",
+                    "Successful",
+                    gatewayTxId);
+                if (!emailResult.IsSuccess)
+                {
+                    Debug.WriteLine("[OrderEmail] Khalti orderId=" + payment.OrderId + " send failed. " + emailResult.ErrorMessage);
+                    Session["PaymentEmailWarning"] = BuildEmailWarningMessage(emailResult.ErrorMessage);
+                }
+                else
+                {
+                    Session["PaymentEmailWarning"] = null;
+                }
+
                 TryClearCart();
                 ClearPaymentSession();
 
@@ -109,6 +125,18 @@ namespace AttireZone_Web_App
                 payment,
                 tidx,
                 lookupResult.RawResponse);
+        }
+
+        private string BuildEmailWarningMessage(string emailError)
+        {
+            const string genericMessage = "Payment was successful, but we could not send your confirmation email right now.";
+
+            if (Context == null || !Context.IsDebuggingEnabled || string.IsNullOrWhiteSpace(emailError))
+            {
+                return genericMessage;
+            }
+
+            return genericMessage + " Reason: " + emailError.Trim();
         }
 
         private PaymentDbHelper.PaymentRecord ResolvePaymentRecord(string purchaseOrderIdRaw)

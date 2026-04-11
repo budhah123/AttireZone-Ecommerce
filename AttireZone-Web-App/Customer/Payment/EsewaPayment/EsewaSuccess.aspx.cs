@@ -92,6 +92,10 @@ namespace AttireZone_Web_App
 
             if (isCallbackComplete && isStatusApiComplete && amountMatches)
             {
+                var resolvedTransactionId = string.IsNullOrWhiteSpace(transactionCode)
+                    ? statusCheckResult.ReferenceId
+                    : transactionCode;
+
                 var mergedResponse = new JObject
                 {
                     ["callback"] = callbackJson,
@@ -101,15 +105,31 @@ namespace AttireZone_Web_App
                 PaymentDbHelper.UpdatePaymentStatus(
                     transactionUuid,
                     "Completed",
-                    string.IsNullOrWhiteSpace(transactionCode) ? statusCheckResult.ReferenceId : transactionCode,
+                    resolvedTransactionId,
                     mergedResponse.ToString(Formatting.None));
                 PaymentDbHelper.UpdateOrderPaymentStatus(paymentRecord.OrderId, "Paid");
+
+                var emailResult = OrderEmailNotificationService.SendOrderConfirmationEmail(
+                    paymentRecord.OrderId,
+                    paymentRecord.Amount,
+                    "eSewa",
+                    "Successful",
+                    resolvedTransactionId);
+                if (!emailResult.IsSuccess)
+                {
+                    Debug.WriteLine("[OrderEmail] eSewa orderId=" + paymentRecord.OrderId + " send failed. " + emailResult.ErrorMessage);
+                    Session["PaymentEmailWarning"] = BuildEmailWarningMessage(emailResult.ErrorMessage);
+                }
+                else
+                {
+                    Session["PaymentEmailWarning"] = null;
+                }
 
                 TryClearCart();
                 ClearPaymentSession();
 
                 Debug.WriteLine("[eSewa] Payment completed tx=" + transactionUuid);
-                RedirectToSuccess(paymentRecord.OrderId, "eSewa", string.IsNullOrWhiteSpace(transactionCode) ? statusCheckResult.ReferenceId : transactionCode);
+                RedirectToSuccess(paymentRecord.OrderId, "eSewa", resolvedTransactionId);
                 return;
             }
 
@@ -121,6 +141,18 @@ namespace AttireZone_Web_App
                 amountMatches);
 
             FailFlow(failureReason, transactionUuid, transactionCode, callbackJson, paymentRecord.OrderId, statusCheckResult.RawJson);
+        }
+
+        private string BuildEmailWarningMessage(string emailError)
+        {
+            const string genericMessage = "Payment was successful, but we could not send your confirmation email right now.";
+
+            if (Context == null || !Context.IsDebuggingEnabled || string.IsNullOrWhiteSpace(emailError))
+            {
+                return genericMessage;
+            }
+
+            return genericMessage + " Reason: " + emailError.Trim();
         }
 
         private static Dictionary<string, string> BuildSignatureDictionary(JObject callbackJson)

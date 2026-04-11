@@ -12,6 +12,7 @@ namespace AttireZone_Web_App
             if (!IsPostBack)
             {
                 BindSuccessData();
+                BindEmailNotice();
                 TryClearCart();
                 ClearPaymentSession();
             }
@@ -24,6 +25,20 @@ namespace AttireZone_Web_App
 
             litTransactionId.Text = string.IsNullOrWhiteSpace(transactionId) ? "N/A" : transactionId.Trim();
             litPaymentMethod.Text = string.IsNullOrWhiteSpace(paymentMethod) ? "N/A" : paymentMethod.Trim();
+        }
+
+        private void BindEmailNotice()
+        {
+            var warning = Convert.ToString(Session["PaymentEmailWarning"], CultureInfo.InvariantCulture);
+            if (string.IsNullOrWhiteSpace(warning))
+            {
+                phEmailNotice.Visible = false;
+                litEmailNotice.Text = string.Empty;
+                return;
+            }
+
+            phEmailNotice.Visible = true;
+            litEmailNotice.Text = Server.HtmlEncode(warning.Trim());
         }
 
         private void TryClearCart()
@@ -57,6 +72,7 @@ namespace AttireZone_Web_App
             Session["Payment.OrderLabel"] = null;
             Session["Payment.Pidx"] = null;
             Session["PaymentError"] = null;
+            Session["PaymentEmailWarning"] = null;
         }
     }
 }

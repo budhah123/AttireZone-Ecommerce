@@ -14,5 +14,9 @@ namespace AttireZone_Web_App
         protected global::System.Web.UI.WebControls.Literal litTransactionId;
 
         protected global::System.Web.UI.WebControls.Literal litPaymentMethod;
+
+        protected global::System.Web.UI.WebControls.PlaceHolder phEmailNotice;
+
+        protected global::System.Web.UI.WebControls.Literal litEmailNotice;
     }
 }
