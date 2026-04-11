@@ -171,17 +171,6 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
         </a>
         <a
           class="flex items-center gap-4 px-4 py-3 text-[#c4c6cf] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 translate-x-1 transition-transform font-['Inter'] text-sm font-medium uppercase tracking-[0.1em]"
-          href="#"
-        >
-          <span
-            class="material-symbols-outlined text-[20px]"
-            data-icon="history_edu"
-            >history_edu</span
-          >
-          Inventory Logs
-        </a>
-        <a
-          class="flex items-center gap-4 px-4 py-3 text-[#c4c6cf] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 translate-x-1 transition-transform font-['Inter'] text-sm font-medium uppercase tracking-[0.1em]"
           href="/Admin/ManageUser/ManageUser.aspx"
         >
           <span class="material-symbols-outlined text-[20px]" data-icon="group"

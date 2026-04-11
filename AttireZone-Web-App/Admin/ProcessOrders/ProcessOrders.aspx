@@ -158,17 +158,6 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
         </a>
         <a
           class="flex items-center px-6 py-4 text-[#c4c6cf] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 font-['Inter'] text-sm font-medium uppercase tracking-[0.1em] group"
-          href="#"
-        >
-          <span
-            class="material-symbols-outlined mr-4 group-hover:translate-x-1 transition-transform"
-            data-icon="history_edu"
-            >history_edu</span
-          >
-          Inventory Logs
-        </a>
-        <a
-          class="flex items-center px-6 py-4 text-[#c4c6cf] hover:bg-[#1f1f1f] hover:text-[#e9c349] transition-all duration-200 font-['Inter'] text-sm font-medium uppercase tracking-[0.1em] group"
           href="/Admin/ManageUser/ManageUser.aspx"
         >
           <span
@@ -236,10 +225,19 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               ID="btnFilterShipped"
               runat="server"
               OnCommand="btnFilter_Command"
-              CommandArgument="shipped"
+              CommandArgument="out-for-delivery"
               CausesValidation="false"
               CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
-              >Shipped</asp:LinkButton
+              >Out for Delivery</asp:LinkButton
+            >
+            <asp:LinkButton
+              ID="btnFilterCancelled"
+              runat="server"
+              OnCommand="btnFilter_Command"
+              CommandArgument="cancel"
+              CausesValidation="false"
+              CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
+              >Cancel</asp:LinkButton
             >
             <asp:LinkButton
               ID="btnFilterDelivered"
@@ -415,13 +413,13 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
                             CssClass="bg-surface-container-low border border-outline-variant/20 text-on-surface-variant text-xs py-1 px-2 uppercase tracking-wide min-w-[110px]"
                           >
                             <asp:ListItem Value="Pending">Pending</asp:ListItem>
-                            <asp:ListItem Value="Shipped">Shipped</asp:ListItem>
+                            <asp:ListItem Value="Out for Delivery"
+                              >Out for Delivery</asp:ListItem
+                            >
                             <asp:ListItem Value="Delivered"
                               >Delivered</asp:ListItem
                             >
-                            <asp:ListItem Value="Cancelled"
-                              >Cancelled</asp:ListItem
-                            >
+                            <asp:ListItem Value="Cancel">Cancel</asp:ListItem>
                           </asp:DropDownList>
                           <asp:HiddenField
                             ID="hfCurrentStatus"

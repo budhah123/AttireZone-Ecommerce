@@ -34,9 +34,8 @@ namespace AttireZone_Web_App.Admin.ProcessOrders
                 SetCurrentFilter(NormalizeFilter(Request.QueryString["status"]));
                 SetCurrentPage(1);
                 SetSelectedOrderId(null);
+                BindProcessOrders();
             }
-
-            BindProcessOrders();
         }
 
         protected void btnFilter_Command(object sender, CommandEventArgs e)
@@ -262,7 +261,7 @@ namespace AttireZone_Web_App.Admin.ProcessOrders
         {
             var source = allOrders ?? Array.Empty<OrderRowVm>();
 
-            var openOrders = source.Count(item => !string.Equals(item.StatusGroup, "delivered", StringComparison.OrdinalIgnoreCase) && !string.Equals(item.StatusGroup, "cancelled", StringComparison.OrdinalIgnoreCase));
+            var openOrders = source.Count(item => !string.Equals(item.StatusGroup, "delivered", StringComparison.OrdinalIgnoreCase) && !string.Equals(item.StatusGroup, "cancel", StringComparison.OrdinalIgnoreCase));
             var pendingShipment = source.Count(item => string.Equals(item.StatusGroup, "pending", StringComparison.OrdinalIgnoreCase));
             var processingDelay = source.Count(item => string.Equals(item.StatusGroup, "pending", StringComparison.OrdinalIgnoreCase) && item.PlacedDate.HasValue && item.PlacedDate.Value < DateTime.Now.AddDays(-2));
             var revenue24h = source.Where(item => item.PlacedDate.HasValue && item.PlacedDate.Value >= DateTime.Now.AddHours(-24)).Sum(item => item.TotalAmount);
@@ -518,7 +517,8 @@ namespace AttireZone_Web_App.Admin.ProcessOrders
 
             btnFilterAll.CssClass = filter == "all" ? activeCss : inactiveCss;
             btnFilterPending.CssClass = filter == "pending" ? activeCss : inactiveCss;
-            btnFilterShipped.CssClass = filter == "shipped" ? activeCss : inactiveCss;
+            btnFilterShipped.CssClass = filter == "out-for-delivery" ? activeCss : inactiveCss;
+            btnFilterCancelled.CssClass = filter == "cancel" ? activeCss : inactiveCss;
             btnFilterDelivered.CssClass = filter == "delivered" ? activeCss : inactiveCss;
         }
 
@@ -691,7 +691,17 @@ WHERE TABLE_SCHEMA = 'dbo'
             }
 
             var normalized = value.Trim().ToLowerInvariant();
-            if (normalized == "pending" || normalized == "shipped" || normalized == "delivered")
+            if (normalized == "shipped" || normalized == "in-transit" || normalized == "in transit" || normalized == "out_for_delivery" || normalized == "out for delivery")
+            {
+                return "out-for-delivery";
+            }
+
+            if (normalized == "cancelled" || normalized == "canceled")
+            {
+                return "cancel";
+            }
+
+            if (normalized == "pending" || normalized == "out-for-delivery" || normalized == "delivered" || normalized == "cancel")
             {
                 return normalized;
             }
@@ -709,19 +719,19 @@ WHERE TABLE_SCHEMA = 'dbo'
             var normalized = rawStatus.Trim();
             var lowered = normalized.ToLowerInvariant();
 
+            if (lowered.Contains("cancel") || lowered.Contains("fail"))
+            {
+                return "Cancel";
+            }
+
+            if (lowered.Contains("out for delivery") || lowered.Contains("out-for-delivery") || lowered.Contains("in transit") || lowered.Contains("in-transit") || lowered.Contains("ship") || lowered.Contains("transit") || lowered.Contains("dispatch"))
+            {
+                return "Out for Delivery";
+            }
+
             if (lowered.Contains("deliver") || lowered.Contains("complete") || lowered.Contains("receive"))
             {
                 return "Delivered";
-            }
-
-            if (lowered.Contains("ship") || lowered.Contains("transit"))
-            {
-                return "Shipped";
-            }
-
-            if (lowered.Contains("cancel") || lowered.Contains("fail"))
-            {
-                return "Cancelled";
             }
 
             if (lowered.Contains("pending") || lowered.Contains("process") || lowered.Contains("confirm"))
@@ -737,9 +747,9 @@ WHERE TABLE_SCHEMA = 'dbo'
             var normalized = NormalizeStatusLabel(rawStatus);
 
             if (string.Equals(normalized, "Pending", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(normalized, "Shipped", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(normalized, "Out for Delivery", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(normalized, "Delivered", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(normalized, "Cancelled", StringComparison.OrdinalIgnoreCase))
+                string.Equals(normalized, "Cancel", StringComparison.OrdinalIgnoreCase))
             {
                 return normalized;
             }
@@ -766,9 +776,9 @@ WHERE TABLE_SCHEMA = 'dbo'
                 return "pending";
             }
 
-            if (string.Equals(normalized, "Shipped", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(normalized, "Out for Delivery", StringComparison.OrdinalIgnoreCase))
             {
-                return "shipped";
+                return "out-for-delivery";
             }
 
             if (string.Equals(normalized, "Delivered", StringComparison.OrdinalIgnoreCase))
@@ -776,9 +786,9 @@ WHERE TABLE_SCHEMA = 'dbo'
                 return "delivered";
             }
 
-            if (string.Equals(normalized, "Cancelled", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(normalized, "Cancel", StringComparison.OrdinalIgnoreCase))
             {
-                return "cancelled";
+                return "cancel";
             }
 
             return "pending";
@@ -793,17 +803,17 @@ WHERE TABLE_SCHEMA = 'dbo'
                 return "inline-flex items-center px-2 py-0.5 text-[10px] font-label uppercase tracking-widest bg-on-primary-container/20 text-primary";
             }
 
-            if (string.Equals(normalized, "Shipped", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(normalized, "Out for Delivery", StringComparison.OrdinalIgnoreCase))
             {
                 return "inline-flex items-center px-2 py-0.5 text-[10px] font-label uppercase tracking-widest bg-secondary-container/20 text-secondary";
             }
 
-            if (string.Equals(normalized, "Cancelled", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(normalized, "Cancel", StringComparison.OrdinalIgnoreCase))
             {
                 return "inline-flex items-center px-2 py-0.5 text-[10px] font-label uppercase tracking-widest bg-error-container/20 text-error";
             }
 
-            return "inline-flex items-center px-2 py-0.5 text-[10px] font-label uppercase tracking-widest bg-error-container/20 text-error";
+            return "inline-flex items-center px-2 py-0.5 text-[10px] font-label uppercase tracking-widest bg-surface-container-high text-on-surface-variant";
         }
 
         private static string BuildOrderNumber(int orderId)
