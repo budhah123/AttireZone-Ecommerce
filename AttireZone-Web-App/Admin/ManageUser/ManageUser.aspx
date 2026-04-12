@@ -50,6 +50,15 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
     .az-manage-user .az-confirm-panel {
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
     }
+
+    .az-manage-user {
+      overflow-x: hidden;
+    }
+
+    .az-manage-user .az-break-anywhere {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
   </style>
 </asp:Content>
 
@@ -62,9 +71,9 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
     class="az-manage-user bg-background text-on-background selection:bg-secondary selection:text-on-secondary"
   >
     <nav
-      class="fixed top-0 w-full z-50 bg-[#001f3f]/80 dark:bg-[#0e0e0e]/80 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.08)] flex justify-between items-center px-6 h-16"
+      class="fixed top-0 w-full z-50 bg-[#001f3f]/80 dark:bg-[#0e0e0e]/80 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.08)] flex justify-between items-center px-4 sm:px-6 h-16"
     >
-      <div class="flex items-center gap-8">
+      <div class="flex items-center gap-4 sm:gap-8">
         <span
           class="text-xl font-bold tracking-tighter text-[#e2e2e2] uppercase font-['Inter']"
           >AttireZone</span
@@ -108,7 +117,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
     </nav>
 
     <aside
-      class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#131313] dark:bg-[#131313] flex flex-col pt-20 pb-6 px-0 border-r border-outline-variant/10"
+      class="hidden lg:flex fixed left-0 top-0 h-screen w-64 z-40 bg-[#131313] dark:bg-[#131313] flex-col pt-20 pb-6 px-0 border-r border-outline-variant/10"
     >
       <div class="px-6 mb-8">
         <h2 class="text-lg font-semibold text-[#e2e2e2] font-['Inter']">
@@ -193,7 +202,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
     </aside>
 
     <main
-      class="ml-64 pt-24 pb-12 px-8 min-h-screen bg-surface-dim hide-scrollbar"
+      class="ml-0 lg:ml-64 pt-20 lg:pt-24 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 min-h-screen bg-surface-dim hide-scrollbar"
     >
       <header
         class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
@@ -204,7 +213,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
             >Security &amp; Permissions</span
           >
           <h1
-            class="text-4xl font-headline font-bold text-on-background mt-2 tracking-tight"
+            class="text-3xl sm:text-4xl font-headline font-bold text-on-background mt-2 tracking-tight"
           >
             System Access Control
           </h1>
@@ -213,10 +222,10 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
             manage user status across the AttireZone ecosystem.
           </p>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex w-full sm:w-auto items-center gap-4">
           <a
             href="/Admin/ManageUser/AddUserModal.aspx"
-            class="bg-secondary text-on-secondary px-8 py-3 font-label text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-2"
+            class="w-full sm:w-auto justify-center bg-secondary text-on-secondary px-8 py-3 font-label text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-2"
           >
             <span
               class="material-symbols-outlined text-sm"
@@ -238,7 +247,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
       </asp:Panel>
 
       <div
-        class="grid grid-cols-1 md:grid-cols-4 gap-px bg-outline-variant/10 mb-12"
+        class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-px bg-transparent sm:bg-outline-variant/10 mb-10 sm:mb-12"
       >
         <div class="bg-surface-container p-6">
           <p
@@ -285,8 +294,10 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div class="flex items-center gap-6">
+      <div
+        class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6"
+      >
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
           <div class="relative group">
             <asp:DropDownList
               ID="ddlRoleFilter"
@@ -338,117 +349,119 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
       </div>
 
       <div class="bg-surface-container overflow-hidden">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="border-b border-outline-variant/10">
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
-              >
-                UserId
-              </th>
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
-              >
-                FullName
-              </th>
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
-              >
-                Email
-              </th>
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
-              >
-                CreatedDate
-              </th>
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
-              >
-                LastModifiedDate
-              </th>
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
-              >
-                Role
-              </th>
-              <th
-                class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right"
-              >
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-outline-variant/5">
-            <asp:Repeater
-              ID="rptUsers"
-              runat="server"
-              OnItemCommand="rptUsers_ItemCommand"
-            >
-              <ItemTemplate>
-                <tr
-                  class="hover:bg-surface-container-high transition-colors group"
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-outline-variant/10">
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
                 >
-                  <td class="px-6 py-5 text-xs text-on-surface">
-                    <%#: Eval("UserId") %>
-                  </td>
-                  <td class="px-6 py-5 text-sm font-semibold text-on-surface">
-                    <%#: Eval("FullName") %>
-                  </td>
-                  <td class="px-6 py-5 text-xs text-on-surface-variant">
-                    <%#: Eval("Email") %>
-                  </td>
-                  <td class="px-6 py-5 text-xs text-on-surface-variant">
-                    <%#: Eval("CreatedDateDisplay") %>
-                  </td>
-                  <td class="px-6 py-5 text-xs text-on-surface-variant">
-                    <%#: Eval("LastModifiedDateDisplay") %>
-                  </td>
+                  UserId
+                </th>
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  FullName
+                </th>
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Email
+                </th>
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  CreatedDate
+                </th>
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  LastModifiedDate
+                </th>
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Role
+                </th>
+                <th
+                  class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right"
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/5">
+              <asp:Repeater
+                ID="rptUsers"
+                runat="server"
+                OnItemCommand="rptUsers_ItemCommand"
+              >
+                <ItemTemplate>
+                  <tr
+                    class="hover:bg-surface-container-high transition-colors group"
+                  >
+                    <td class="px-6 py-5 text-xs text-on-surface">
+                      <%#: Eval("UserId") %>
+                    </td>
+                    <td class="px-6 py-5 text-sm font-semibold text-on-surface">
+                      <%#: Eval("FullName") %>
+                    </td>
+                    <td class="px-6 py-5 text-xs text-on-surface-variant">
+                      <%#: Eval("Email") %>
+                    </td>
+                    <td class="px-6 py-5 text-xs text-on-surface-variant">
+                      <%#: Eval("CreatedDateDisplay") %>
+                    </td>
+                    <td class="px-6 py-5 text-xs text-on-surface-variant">
+                      <%#: Eval("LastModifiedDateDisplay") %>
+                    </td>
                   <td class="px-6 py-5">
                     <span class='<%#: Eval("RoleBadgeCssClass") %>'
                       ><%#: Eval("Role") %></span
                     >
                   </td>
-                  <td class="px-6 py-5 text-right">
-                    <div
-                      class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <asp:LinkButton
-                        ID="btnEditUser"
-                        runat="server"
-                        CommandName="EditUser"
-                        CommandArgument='<%#: Eval("UserId") %>'
-                        CausesValidation="false"
-                        CssClass="text-on-surface-variant hover:text-secondary"
+                    <td class="px-6 py-5 text-right">
+                      <div
+                        class="flex items-center justify-end gap-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
                       >
-                        <span
-                          class="material-symbols-outlined text-lg"
-                          data-icon="edit"
-                          >edit</span
+                        <asp:LinkButton
+                          ID="btnEditUser"
+                          runat="server"
+                          CommandName="EditUser"
+                          CommandArgument='<%#: Eval("UserId") %>'
+                          CausesValidation="false"
+                          CssClass="text-on-surface-variant hover:text-secondary"
                         >
-                      </asp:LinkButton>
-                      <asp:LinkButton
-                        ID="btnDeleteUser"
-                        runat="server"
-                        CommandName="DeleteUser"
-                        CommandArgument='<%#: Eval("UserId") %>'
-                        CausesValidation="false"
-                        data-user-id='<%#: Eval("UserId") %>'
-                        OnClientClick="return showDeleteUserDialog(this.getAttribute('data-user-id'));"
-                        CssClass="text-on-surface-variant hover:text-error"
-                      >
-                        <span
-                          class="material-symbols-outlined text-lg"
-                          data-icon="delete"
-                          >delete</span
+                          <span
+                            class="material-symbols-outlined text-lg"
+                            data-icon="edit"
+                            >edit</span
+                          >
+                        </asp:LinkButton>
+                        <asp:LinkButton
+                          ID="btnDeleteUser"
+                          runat="server"
+                          CommandName="DeleteUser"
+                          CommandArgument='<%#: Eval("UserId") %>'
+                          CausesValidation="false"
+                          data-user-id='<%#: Eval("UserId") %>'
+                          OnClientClick="return showDeleteUserDialog(this.getAttribute('data-user-id'));"
+                          CssClass="text-on-surface-variant hover:text-error"
                         >
-                      </asp:LinkButton>
-                    </div>
-                  </td>
-                </tr>
-              </ItemTemplate>
-            </asp:Repeater>
-          </tbody>
-        </table>
+                          <span
+                            class="material-symbols-outlined text-lg"
+                            data-icon="delete"
+                            >delete</span
+                          >
+                        </asp:LinkButton>
+                      </div>
+                    </td>
+                  </tr>
+                </ItemTemplate>
+              </asp:Repeater>
+            </tbody>
+          </table>
+        </div>
 
         <asp:Panel
           ID="pnlEmptyState"
@@ -460,7 +473,7 @@ Inherits="AttireZone_Web_App.Admin.ManageUser.ManageUser" %>
         </asp:Panel>
 
         <div
-          class="px-6 py-6 border-t border-outline-variant/10 flex items-center justify-between"
+          class="px-4 sm:px-6 py-4 sm:py-6 border-t border-outline-variant/10 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-0 justify-between"
         >
           <button
             type="button"

@@ -53,6 +53,15 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
     .az-manage-products .az-confirm-panel {
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
     }
+
+    .az-manage-products {
+      overflow-x: hidden;
+    }
+
+    .az-manage-products .az-break-anywhere {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
   </style>
 </asp:Content>
 
@@ -66,9 +75,9 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
   >
     <!-- TopNavBar Shell -->
     <nav
-      class="fixed top-0 w-full z-50 bg-[#001f3f]/80 dark:bg-[#0e0e0e]/80 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.08)] flex justify-between items-center px-6 h-16"
+      class="fixed top-0 w-full z-50 bg-[#001f3f]/80 dark:bg-[#0e0e0e]/80 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.08)] flex justify-between items-center px-4 sm:px-6 h-16"
     >
-      <div class="flex items-center gap-8">
+      <div class="flex items-center gap-4 sm:gap-8">
         <span
           class="text-xl font-bold tracking-tighter text-[#e2e2e2] uppercase font-['Inter']"
           >AttireZone</span
@@ -113,7 +122,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
 
     <!-- SideNavBar Shell -->
     <aside
-      class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#131313] dark:bg-[#131313] flex flex-col pt-20 pb-6 px-4"
+      class="hidden lg:flex fixed left-0 top-0 h-screen w-64 z-40 bg-[#131313] dark:bg-[#131313] flex-col pt-20 pb-6 px-4"
     >
       <div class="mb-10 px-4">
         <h2 class="text-lg font-semibold text-[#e2e2e2]">Admin Console</h2>
@@ -195,9 +204,9 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
 
     <!-- Main Content Canvas -->
     <main
-      class="ml-64 pt-16 h-screen overflow-y-auto no-scrollbar bg-surface-dim"
+      class="ml-0 lg:ml-64 pt-20 lg:pt-16 min-h-screen lg:h-screen overflow-y-auto no-scrollbar bg-surface-dim"
     >
-      <div class="p-8 max-w-7xl mx-auto">
+      <div class="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <!-- Page Header -->
         <header
           class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
@@ -208,7 +217,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
               >Catalogue Management</span
             >
             <h1
-              class="text-4xl font-headline font-bold text-on-surface tracking-tight"
+              class="text-3xl sm:text-4xl font-headline font-bold text-on-surface tracking-tight"
             >
               Manage Products
             </h1>
@@ -233,7 +242,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
             </div>
             <a
               href="/Admin/ManageProduct/AddProductModal.aspx"
-              class="bg-secondary text-on-secondary px-8 py-2.5 font-bold uppercase text-xs tracking-widest flex items-center gap-2 hover:bg-secondary-container transition-colors shadow-lg shadow-secondary/5"
+              class="w-full sm:w-auto justify-center bg-secondary text-on-secondary px-8 py-2.5 font-bold uppercase text-xs tracking-widest flex items-center gap-2 hover:bg-secondary-container transition-colors shadow-lg shadow-secondary/5"
             >
               <span
                 class="material-symbols-outlined text-sm"
@@ -256,8 +265,12 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
         </asp:Panel>
 
         <!-- Stats Overview (Asymmetric Bento Lite) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div class="bg-surface-container p-6 border-l border-secondary/40">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-12"
+        >
+          <div
+            class="bg-surface-container p-5 sm:p-6 border-l border-secondary/40"
+          >
             <p
               class="text-on-surface-variant text-xs uppercase tracking-widest mb-1"
             >
@@ -268,7 +281,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
             </p>
           </div>
           <div
-            class="bg-surface-container p-6 border-l border-outline-variant/20"
+            class="bg-surface-container p-5 sm:p-6 border-l border-outline-variant/20"
           >
             <p
               class="text-on-surface-variant text-xs uppercase tracking-widest mb-1"
@@ -280,7 +293,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
             </p>
           </div>
           <div
-            class="bg-surface-container p-6 border-l border-outline-variant/20"
+            class="bg-surface-container p-5 sm:p-6 border-l border-outline-variant/20"
           >
             <p
               class="text-on-surface-variant text-xs uppercase tracking-widest mb-1"
@@ -292,7 +305,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
             </p>
           </div>
           <div
-            class="bg-surface-container p-6 border-l border-outline-variant/20"
+            class="bg-surface-container p-5 sm:p-6 border-l border-outline-variant/20"
           >
             <p
               class="text-on-surface-variant text-xs uppercase tracking-widest mb-1"
@@ -378,7 +391,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                       </td>
                       <td class="px-6 py-5 text-right">
                         <div
-                          class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity"
+                          class="flex items-center justify-end gap-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
                         >
                           <asp:LinkButton
                             ID="btnEditProduct"
@@ -420,7 +433,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
 
           <!-- Pagination Footer -->
           <div
-            class="px-6 py-6 border-t border-outline-variant/10 flex items-center justify-between"
+            class="px-4 sm:px-6 py-4 sm:py-6 border-t border-outline-variant/10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0 justify-between"
           >
             <p class="text-on-surface-variant text-xs font-label">
               Showing
@@ -432,7 +445,9 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
               <asp:Literal ID="litShownTotal" runat="server" />
               products
             </p>
-            <div class="flex items-center gap-2">
+            <div
+              class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end"
+            >
               <button
                 type="button"
                 class="p-2 text-on-surface-variant hover:text-secondary disabled:opacity-30"
@@ -442,7 +457,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
                   >chevron_left</span
                 >
               </button>
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1 overflow-x-auto">
                 <span
                   class="px-3 py-1 bg-secondary text-on-secondary text-xs font-bold"
                   >1</span
@@ -481,7 +496,7 @@ Inherits="AttireZone_Web_App.Admin.ManageProduct.ManageProducts" %>
     </main>
 
     <!-- Contextual FAB (Only for specific view) -->
-    <div class="fixed bottom-8 right-8 z-50">
+    <div class="hidden sm:block fixed bottom-8 right-8 z-50">
       <button
         type="button"
         class="h-14 w-14 rounded-full bg-secondary-container text-on-secondary shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"

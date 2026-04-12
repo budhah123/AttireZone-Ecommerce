@@ -42,6 +42,15 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+    .az-process-orders {
+      overflow-x: hidden;
+    }
+
+    .az-process-orders .az-break-anywhere {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
   </style>
 </asp:Content>
 
@@ -57,7 +66,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
       class="fixed top-0 w-full z-50 bg-[#001f3f]/80 dark:bg-[#0e0e0e]/80 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.08)]"
     >
       <div class="flex justify-between items-center px-6 h-16 w-full">
-        <div class="flex items-center gap-8">
+        <div class="flex items-center gap-4 sm:gap-8">
           <span
             class="text-xl font-bold tracking-tighter text-[#e2e2e2] uppercase font-['Inter']"
             >AttireZone</span
@@ -98,7 +107,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
     </nav>
 
     <aside
-      class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#131313] dark:bg-[#131313] flex flex-col pt-20 pb-6 px-0 border-r border-outline-variant/10"
+      class="hidden lg:flex fixed left-0 top-0 h-screen w-64 z-40 bg-[#131313] dark:bg-[#131313] flex-col pt-20 pb-6 px-0 border-r border-outline-variant/10"
     >
       <div class="px-6 mb-10">
         <h2 class="text-lg font-semibold text-[#e2e2e2] font-['Inter']">
@@ -185,8 +194,8 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
       </div>
     </aside>
 
-    <main class="ml-64 pt-24 min-h-screen bg-surface-dim">
-      <div class="max-w-7xl mx-auto px-8 pb-12">
+    <main class="ml-0 lg:ml-64 pt-20 lg:pt-24 min-h-screen bg-surface-dim">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-12">
         <div
           class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6"
         >
@@ -196,20 +205,22 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               >Order Fulfilment</span
             >
             <h1
-              class="text-4xl font-headline font-semibold text-on-surface tracking-tight"
+              class="text-3xl sm:text-4xl font-headline font-semibold text-on-surface tracking-tight"
             >
               Process Orders
             </h1>
           </div>
 
-          <div class="flex bg-surface-container-lowest p-1">
+          <div
+            class="flex flex-wrap sm:flex-nowrap gap-1 bg-surface-container-lowest p-1 w-full md:w-auto"
+          >
             <asp:LinkButton
               ID="btnFilterAll"
               runat="server"
               OnCommand="btnFilter_Command"
               CommandArgument="all"
               CausesValidation="false"
-              CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
+              CssClass="px-4 sm:px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
               >All</asp:LinkButton
             >
             <asp:LinkButton
@@ -218,7 +229,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               OnCommand="btnFilter_Command"
               CommandArgument="pending"
               CausesValidation="false"
-              CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
+              CssClass="px-4 sm:px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
               >Pending</asp:LinkButton
             >
             <asp:LinkButton
@@ -227,7 +238,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               OnCommand="btnFilter_Command"
               CommandArgument="out-for-delivery"
               CausesValidation="false"
-              CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
+              CssClass="px-4 sm:px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
               >Out for Delivery</asp:LinkButton
             >
             <asp:LinkButton
@@ -236,7 +247,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               OnCommand="btnFilter_Command"
               CommandArgument="cancel"
               CausesValidation="false"
-              CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
+              CssClass="px-4 sm:px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
               >Cancel</asp:LinkButton
             >
             <asp:LinkButton
@@ -245,17 +256,17 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               OnCommand="btnFilter_Command"
               CommandArgument="delivered"
               CausesValidation="false"
-              CssClass="px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
+              CssClass="px-4 sm:px-6 py-2 text-xs font-label uppercase tracking-widest transition-colors"
               >Delivered</asp:LinkButton
             >
           </div>
         </div>
 
         <div
-          class="grid grid-cols-1 md:grid-cols-4 gap-0 border border-outline-variant/10 mb-12"
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-10 sm:mb-12"
         >
           <div
-            class="bg-surface-container p-6 border-r border-outline-variant/10"
+            class="bg-surface-container p-5 sm:p-6 border border-outline-variant/10"
           >
             <p
               class="text-on-surface-variant text-[10px] uppercase tracking-widest mb-1"
@@ -267,7 +278,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
             </p>
           </div>
           <div
-            class="bg-surface-container p-6 border-r border-outline-variant/10"
+            class="bg-surface-container p-5 sm:p-6 border border-outline-variant/10"
           >
             <p
               class="text-on-surface-variant text-[10px] uppercase tracking-widest mb-1"
@@ -279,7 +290,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
             </p>
           </div>
           <div
-            class="bg-surface-container p-6 border-r border-outline-variant/10"
+            class="bg-surface-container p-5 sm:p-6 border border-outline-variant/10"
           >
             <p
               class="text-on-surface-variant text-[10px] uppercase tracking-widest mb-1"
@@ -290,7 +301,9 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
               <asp:Literal ID="litProcessingDelay" runat="server" />
             </p>
           </div>
-          <div class="bg-surface-container p-6">
+          <div
+            class="bg-surface-container p-5 sm:p-6 border border-outline-variant/10"
+          >
             <p
               class="text-on-surface-variant text-[10px] uppercase tracking-widest mb-1"
             >
@@ -585,7 +598,7 @@ Inherits="AttireZone_Web_App.Admin.ProcessOrders.ProcessOrders" %>
         </asp:Panel>
 
         <div
-          class="mt-8 flex items-center justify-between border-t border-outline-variant/10 pt-6"
+          class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-0 justify-between border-t border-outline-variant/10 pt-6"
         >
           <p
             class="text-xs text-on-surface-variant font-label uppercase tracking-widest"

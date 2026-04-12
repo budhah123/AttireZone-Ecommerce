@@ -15,6 +15,15 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
       padding-right: 0 !important;
       margin: 0 !important;
     }
+
+    .az-dashboard {
+      overflow-x: hidden;
+    }
+
+    .az-dashboard .az-break-anywhere {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
   </style>
 </asp:Content>
 
@@ -23,25 +32,29 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
   ContentPlaceHolderID="MainContent"
   runat="server"
 >
-  <main class="max-w-[1920px] mx-auto px-5 sm:px-6 py-8 md:py-12">
+  <main
+    class="az-dashboard max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10"
+  >
     <!-- Header Section -->
-    <header class="mb-10">
+    <header class="mb-8 sm:mb-10">
       <h1
-        class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-3 uppercase"
+        class="text-2xl sm:text-3xl lg:text-5xl font-extrabold tracking-tighter mb-3 uppercase"
       >
         Executive Dashboard
       </h1>
-      <p class="text-on-surface-variant font-medium tracking-tight">
+      <p
+        class="text-on-surface-variant text-sm sm:text-base font-medium tracking-tight"
+      >
         System overview and commercial performance metrics.
       </p>
     </header>
 
     <!-- Bento Grid Stats -->
     <div
-      class="grid grid-cols-1 md:grid-cols-4 gap-0 mb-14 border border-outline-variant/20"
+      class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-10 sm:mb-14"
     >
       <div
-        class="p-6 border-r border-b md:border-b-0 border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
+        class="p-5 sm:p-6 border border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
       >
         <div class="flex justify-between items-start mb-8">
           <span class="material-symbols-outlined text-secondary text-2xl"
@@ -63,7 +76,7 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
       </div>
 
       <div
-        class="p-6 border-r border-b md:border-b-0 border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
+        class="p-5 sm:p-6 border border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
       >
         <div class="flex justify-between items-start mb-8">
           <span class="material-symbols-outlined text-secondary text-2xl"
@@ -85,7 +98,7 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
       </div>
 
       <div
-        class="p-6 border-r border-b md:border-b-0 border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
+        class="p-5 sm:p-6 border border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
       >
         <div class="flex justify-between items-start mb-8">
           <span class="material-symbols-outlined text-secondary text-2xl"
@@ -107,7 +120,7 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
       </div>
 
       <div
-        class="p-6 bg-surface-container-low transition-colors hover:bg-surface-container"
+        class="p-5 sm:p-6 border border-outline-variant/20 bg-surface-container-low transition-colors hover:bg-surface-container"
       >
         <div class="flex justify-between items-start mb-8">
           <span class="material-symbols-outlined text-secondary text-2xl"
@@ -130,30 +143,32 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
     </div>
 
     <!-- Quick Actions & Recent Activity -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
       <!-- Management Controls -->
       <div class="lg:col-span-4 space-y-8">
         <section>
           <h2
-            class="text-xl font-bold uppercase tracking-widest mb-6 border-l-4 border-secondary pl-3"
+            class="text-lg sm:text-xl font-bold uppercase tracking-widest mb-5 sm:mb-6 border-l-4 border-secondary pl-3"
           >
             Management
           </h2>
           <div class="space-y-3">
             <div
-              class="w-full flex justify-between items-center p-4 border border-secondary/40 bg-secondary text-on-secondary"
+              class="w-full flex justify-between items-center p-3 sm:p-4 border border-secondary/40 bg-secondary text-on-secondary"
               aria-current="page"
             >
-              <span class="font-bold uppercase tracking-widest text-sm"
+              <span
+                class="font-bold uppercase tracking-widest text-[11px] sm:text-sm"
                 >Dashboard</span
               >
               <span class="material-symbols-outlined">dashboard</span>
             </div>
             <a
               href="/Admin/ManageProduct/ManageProducts.aspx"
-              class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
+              class="w-full flex justify-between items-center p-3 sm:p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
-              <span class="font-bold uppercase tracking-widest text-sm"
+              <span
+                class="font-bold uppercase tracking-widest text-[11px] sm:text-sm"
                 >Manage Products</span
               >
               <span
@@ -163,9 +178,10 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
             </a>
             <a
               href="/Admin/ManageCategories/ManageCategory.aspx"
-              class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
+              class="w-full flex justify-between items-center p-3 sm:p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
-              <span class="font-bold uppercase tracking-widest text-sm"
+              <span
+                class="font-bold uppercase tracking-widest text-[11px] sm:text-sm"
                 >Manage Categories</span
               >
               <span
@@ -175,9 +191,10 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
             </a>
             <a
               href="/Admin/ManageUser/ManageUser.aspx"
-              class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
+              class="w-full flex justify-between items-center p-3 sm:p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
-              <span class="font-bold uppercase tracking-widest text-sm"
+              <span
+                class="font-bold uppercase tracking-widest text-[11px] sm:text-sm"
                 >Manage Users</span
               >
               <span
@@ -187,9 +204,10 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
             </a>
             <a
               href="/Admin/ProcessOrders/ProcessOrders.aspx"
-              class="w-full flex justify-between items-center p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
+              class="w-full flex justify-between items-center p-3 sm:p-4 border border-outline-variant/20 bg-surface-container-low hover:bg-secondary hover:text-on-secondary group transition-all"
             >
-              <span class="font-bold uppercase tracking-widest text-sm"
+              <span
+                class="font-bold uppercase tracking-widest text-[11px] sm:text-sm"
                 >Process Orders</span
               >
               <span
@@ -200,7 +218,7 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
           </div>
         </section>
 
-        <section class="bg-primary-container p-6">
+        <section class="bg-primary-container p-5 sm:p-6">
           <h3
             class="text-secondary font-bold uppercase tracking-widest text-xs mb-3"
           >
@@ -215,11 +233,15 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
 
       <!-- Visual Content & List -->
       <div class="lg:col-span-8">
-        <h2 class="text-xl font-bold uppercase tracking-widest mb-6">
+        <h2
+          class="text-lg sm:text-xl font-bold uppercase tracking-widest mb-5 sm:mb-6"
+        >
           Recent Revenue Streams
         </h2>
         <div class="bg-surface-container p-1 overflow-hidden">
-          <div class="relative h-[320px] md:h-[360px] w-full mb-6 group">
+          <div
+            class="relative h-[240px] sm:h-[320px] md:h-[360px] w-full mb-5 sm:mb-6 group"
+          >
             <img
               alt="Luxury Retail Interior"
               data-alt="Modern high-end fashion boutique interior with minimal racks and moody spotlights on dark surfaces"
@@ -227,28 +249,30 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTRKOAl5m0-SGm66ASg4_54XN0iOUIeAyBrwQ4xBlXAn8IWL0RgL5oifUv3udKMKrSgi-uuiJ4EwDq_wPlSrADVCCQjjMIP0abGXheSdUUArsdp_qntJ1TiH6MZ7SZXwR8uzmMlkQcmtN7MyqyP1L8n10qOVUHtA8j4S4LZGyoXPCkBghQZcPInzPi0kRnrE44bzJWp9Ks_V_2qeigzTS5t-BpcDxFO88QE29vXDGvxZO1l-0hrpGTYKsKohLoY-9nDFgM59pg2D0"
             />
             <div
-              class="absolute inset-0 flex flex-col justify-end p-8 md:p-10 bg-gradient-to-t from-surface-container-lowest via-transparent"
+              class="absolute inset-0 flex flex-col justify-end p-5 sm:p-8 md:p-10 bg-gradient-to-t from-surface-container-lowest via-transparent"
             >
               <p
-                class="text-secondary font-bold uppercase tracking-widest text-xs mb-2"
+                class="text-secondary font-bold uppercase tracking-widest text-[10px] sm:text-xs mb-2"
               >
                 Quarterly Projection
               </p>
               <h4
-                class="text-2xl md:text-3xl font-extrabold tracking-tighter uppercase"
+                class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tighter uppercase az-break-anywhere"
               >
                 +18% expected growth in Q4 apparel
               </h4>
             </div>
           </div>
 
-          <div class="p-6 space-y-4">
+          <div class="p-4 sm:p-6 space-y-4">
             <asp:Repeater ID="rptRecentOrders" runat="server">
               <ItemTemplate>
                 <div
-                  class="flex items-center justify-between pb-4 border-b border-outline-variant/10 last:border-b-0 last:pb-0"
+                  class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-outline-variant/10 last:border-b-0 last:pb-0"
                 >
-                  <div class="flex items-center gap-4">
+                  <div
+                    class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0"
+                  >
                     <div
                       class="w-10 h-10 bg-surface-container-highest flex items-center justify-center"
                     >
@@ -256,16 +280,21 @@ CodeBehind="Dashboard.aspx.cs" Inherits="AttireZone_Web_App.Admin.Dashboard" %>
                         >check_circle</span
                       >
                     </div>
-                    <div>
-                      <p class="font-bold uppercase text-xs tracking-widest">
+                    <div class="min-w-0">
+                      <p
+                        class="font-bold uppercase text-[11px] sm:text-xs tracking-widest az-break-anywhere"
+                      >
                         Order #<%#: Eval("OrderNumber") %>
                       </p>
-                      <p class="text-on-surface-variant text-sm">
+                      <p
+                        class="text-on-surface-variant text-xs sm:text-sm az-break-anywhere"
+                      >
                         <%#: Eval("Description") %>
                       </p>
                     </div>
                   </div>
-                  <span class="font-bold tracking-tighter text-base md:text-lg"
+                  <span
+                    class="font-bold tracking-tighter text-sm sm:text-base md:text-lg self-end sm:self-auto"
                     ><%#: Eval("AmountFormatted") %></span
                   >
                 </div>
